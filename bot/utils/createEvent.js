@@ -123,7 +123,7 @@ module.exports = {
     return data;
   },
   // what will happen?
-  // user does >pray and 10% chance to create a roboEvent in 10 mins
+  // user does /pray and 10% chance to create a roboEvent in 10 mins
   // do i want this mutable?
   // maybe make any event mutable based on channel and 10 minute timeslot?
   roboEventInFuture: async (

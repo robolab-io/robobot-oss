@@ -84,7 +84,7 @@ module.exports = {
 			'Oh... uh... you found that Pepe doing something... private. Good job-- we\'ll clean up from here.',
 			'That Pepe was feeding his dog! But that dog was a felon with 13 prior racist carjackings, so GREAT JOB!',
 			'That Pepe was just about to commit Arson on a CHILDREN\'S ORPHAN LIBRARY! You saved the day.',
-			'That Pepe was just about to type `>link MechaKeysUsername`! Thank you for stopping that from happening.',
+			'That Pepe was just about to type `/link MechaKeysUsername`! Thank you for stopping that from happening.',
 			'That Pepe was just about to discover 16K resolution! Damn!',
 		],
 		10800: [

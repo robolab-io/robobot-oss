@@ -188,7 +188,7 @@ module.exports = {
 			`,
       		color: '2f3136',
       		icon: 'https://mechakeys.robolab.io/discord/media/daily/daily_keycap_1.gif',
-      		footer: 'Also try the >pray command! Secret stuff...',
+      		footer: 'Also try the /pray command! Secret stuff...',
       	},
       	{
       		title: 'Your daily reward is ready!',
@@ -197,7 +197,7 @@ module.exports = {
 			`,
       		color: '2f3136',
       		icon: 'https://mechakeys.robolab.io/discord/media/daily/daily_keycap_1.gif',
-      		footer: 'Have you checked the >store in the server?',
+      		footer: 'Have you checked the /store in the server?',
       	},
       	{
       		title: 'Your daily reward is ready!',
@@ -269,7 +269,7 @@ module.exports = {
 			`,
       		color: '2f3136',
       		icon: 'https://mechakeys.robolab.io/discord/media/daily/daily_keycap_1.gif',
-      		footer: 'Just make sure to >pray to me once in a while...',
+      		footer: 'Just make sure to /pray to me once in a while...',
       	},
       ],
 		};
@@ -401,7 +401,7 @@ module.exports = {
 	},
 
 	/* fully dynamic config based events */
-	// TODO: make these randomly triggered by >pray @Robo-bot and >fight @Robo-bot along with instant events
+	// TODO: make these randomly triggered by /pray @Robo-bot and /fight @Robo-bot along with instant events
 	roboEvent: async (client, params) => {
 		const { channelID, eventType, delay } = params;
 		const guildID = params.guildID || '462274708499595264'; // default to robolab.io

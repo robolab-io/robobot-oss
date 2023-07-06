@@ -154,7 +154,7 @@ module.exports = {
       } else {
         lock[interaction.user.id] = false;
         return interaction.channel.send(
-          "You can't claim a daily reward without linking your account first! Please go to <#761613069679591456>, then try `>daily`"
+          "You can't claim a daily reward without linking your account first! Please go to <#1114449640348205057>, then try `/daily`"
         );
       }
     }

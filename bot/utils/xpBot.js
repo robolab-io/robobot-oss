@@ -144,7 +144,7 @@ const xpCommands = {
       .find((x) => currentXP.data.discordXP >= x.xp) || {
       xp: 10,
       level: 0,
-      rewards: [">rank", ">profile", "minigame rewards!"],
+      rewards: ["/rank", "/profile", "minigame rewards!"],
       keycaps: 25,
       thumbnail:
         "https://mechakeys.robolab.io/discord/media/xpbot/levelup1.gif",

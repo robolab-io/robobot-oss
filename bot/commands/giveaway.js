@@ -160,7 +160,7 @@ module.exports = {
       amount: `${winners * amountPerWinner}`,
     });
     if (deductKeycapRes && deductKeycapRes.success) {
-      // return msg.channel.send(`You bought ${query.toLowerCase()} for \`${store_prices['bodyguards']} keycaps\`! Remember, if you >fight, you lose them and will have to re-buy!`)
+      // return msg.channel.send(`You bought ${query.toLowerCase()} for \`${store_prices['bodyguards']} keycaps\`! Remember, if you /fight, you lose them and will have to re-buy!`)
     } else {
       return interaction.editReply(
         `<a:red_siren:812813923522183208> You don't have \`${

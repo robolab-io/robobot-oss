@@ -105,7 +105,7 @@ module.exports = {
 		{ power: 60, message: 'u fuckin smacked dat shit dawg' },
 		{ power: 60, message: 'You were doing something else and hit it' },
 		{ power: 60, message: 'You were repairing a car and HIT THAT TUMBLEWEED with a wrench!' },
-		{ power: 60, message: 'You were about to >fight @doko when the t-weed came close to you, you >fight\'t that tumbleweed INSTEAD!' },
+		{ power: 60, message: 'You were about to /fight @doko when the t-weed came close to you, you /fight\'t that tumbleweed INSTEAD!' },
 		{ power: 120, message: 'YOOO 💦💦💦 U HIT 💥 DAT TUMBO 🌿 WEEDO 😂😂 MADD HARD (🍆DIS HARD🍆) MADE ME 💯 SWEATI 💯🥵🥵🥵 U THIC 🍑 U PROUD ✊ U MARINE 🎖️ DAM BOI 💦💦💦 DAT TUMBL 🥵 MMF 💯💯💯' },
 		{ power: 60, message: 'As you were voting for Jo Jorgenson, you hit the tumbleweed with... honestly I don\t know who Jo Jorgenson is lmao' },
 		{ power: 60, message: 'As you were voting for Donald Trump, the tumbleweed fell towards you and you hit it with your AR-15.' },

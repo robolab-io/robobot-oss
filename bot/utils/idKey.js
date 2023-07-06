@@ -56,7 +56,7 @@ const idKey1 = {
 	mechAnnounce: '730441323890343978',
 	mechaUpdates: '730446085780144210',
 	mechaIssues: '733182722872311908',
-	linkHereChannel: '761613069679591456',
+	linkHereChannel: '1114449640348205057',
 	ticketCategory: '770388306117525564',
 	userTotal: '755894732030476369',
 

@@ -519,7 +519,7 @@ client.on("interactionCreate", async (interaction) => {
           interaction.member.roles.add("811255216128786503");
 
           successfulPurchaseEmbedTitle = "You bought Bodyguards!";
-          successfulPurchaseEmbedDescription = `<@${interaction.user.id}> You bought Bodyguards for \`${store_prices["bodyguards"]} keycaps\`! Remember, if you >fight, you lose them and will have to re-buy!`;
+          successfulPurchaseEmbedDescription = `<@${interaction.user.id}> You bought Bodyguards for \`${store_prices["bodyguards"]} keycaps\`! Remember, if you /fight, you lose them and will have to re-buy!`;
 
           let successfulPurchaseEmbed = new EmbedBuilder()
             .setTitle(`${successfulPurchaseEmbedTitle}`)
