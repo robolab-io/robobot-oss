@@ -23,6 +23,6 @@
     "eslint": "^8.42.0"
   },
   "optionalDependencies": {
-    "private-utils": "git@github.com:robolab-io/robobot-utils.git#Review"
+    "private-utils": "git+ssh://github.com/robolab-io/robobot-utils.git#semver:^0.1.0"
   }
 }

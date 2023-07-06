@@ -621,4 +621,5 @@ client.on("interactionCreate", async (interaction) => {
   }
 });
 
+console.log('ProdCheck', TOKEN)
 client.login(TOKEN);
