@@ -1,6 +1,3 @@
-require("dotenv-flow").config();
-const creds = require("./creds.json");
-
 /** *   IMPORTS   ***/
 const {
   Client,
@@ -22,11 +19,7 @@ const fs = require("fs");
 const axios = require("axios");
 
 const env = process.env.env || "staging"; // production or staging
-const TOKEN =
-  env === "production" ? process.env.PROD_TOKEN : process.env.STAGING_TOKEN;
-
-// eslint-disable-next-line no-unused-vars
-const { devAPI, discordAPI, static, internal } = require("robo-bot-utils");
+const { devAPI, discordAPI, static, TOKEN, isDev } = require("robo-bot-utils");
 
 /** *   CORE   ***/
 const client = new Client({
@@ -90,7 +83,7 @@ client.on("ready", async () => {
 const idKey = require("./bot/utils/idKey");
 var currentGames = {};
 
-var state = { client, idKey, env, currentGames, TOKEN, ...methods };
+var state = { client, idKey, env, isDev, currentGames, ...methods };
 
 const messageXP = require("./bot/passive/messageXP");
 const handleRoboEvent = require("./bot/passive/handleRoboEvent");
@@ -628,4 +621,4 @@ client.on("interactionCreate", async (interaction) => {
   }
 });
 
-client.login(creds.token || TOKEN);
+client.login(TOKEN);
