@@ -69,7 +69,7 @@ module.exports = {
     let deduct_pencil = await discordAPI.decrementField(interaction.user.id, {
       field: "glowingPencilCount",
     });
-    deduct_pencil = deduct_pencil.data;
+
     if (!deduct_pencil.success) {
       return interaction.reply(
         `<a:red_siren:812813923522183208> <@${interaction.user.id}>, something went wrong when using the glowing pencil!`

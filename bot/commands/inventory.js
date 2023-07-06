@@ -29,14 +29,14 @@ module.exports = {
       return interaction.reply({ embeds: [notEnoughXPEmbed], ephemeral: true });
     }
 
-    let discordUserData = await discordAPI.getUser(interaction.user.id);
-    console.log(discordUserData);
-    if (!discordUserData || !discordUserData.success) {
+    let discordUser = await discordAPI.getUser(interaction.user.id);
+    console.log(discordUser);
+    if (!discordUser || !discordUser.success) {
       return interaction.editReply({
         content: `Sorry, <@${interaction.user.id}>, something broked when we tried to get your inventory. Maybe you have nothing?`,
       });
     }
-    discordUserData = discordUserData.data;
+    discordUserData = discordUser.data;
 
     let description = "";
 

@@ -67,11 +67,11 @@ module.exports = {
     if (win) {
       pyroBar.fillDatBoost(interaction.client, 70, "462274708499595266", 5);
 
-      let deduct_pencil = await discordAPI.decrementField(interaction.user.id, {
+      let deduct_boost = await discordAPI.decrementField(interaction.user.id, {
         field: "boostDeviceCount",
       });
-      deduct_pencil = deduct_pencil.data;
-      if (!deduct_pencil.success) {
+
+      if (!deduct_boost.success) {
         return interaction.editReply(
           `<a:red_siren:812813923522183208> <@${interaction.user.id}>, something went wrong when using the Boost Device!`
         );
@@ -96,11 +96,11 @@ module.exports = {
       return interaction.editReply({ embeds: [emb] });
       // return interaction.editReply({ content: 'a' })
     } else {
-      let deduct_pencil = await discordAPI.decrementField(interaction.user.id, {
+      let deduct_boost = await discordAPI.decrementField(interaction.user.id, {
         field: "boostDeviceCount",
       });
-      deduct_pencil = deduct_pencil.data;
-      if (!deduct_pencil.success) {
+
+      if (!deduct_boost.success) {
         return interaction.editReply(
           `<a:red_siren:812813923522183208> <@${interaction.user.id}>, something went wrong when using the Boost Device!`
         );

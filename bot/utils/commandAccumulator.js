@@ -267,8 +267,10 @@ module.exports = async (interaction, type, readonly, isInteraction) => {
   // for command type, check last_${type}_time AND count
   // Do this math to see how much they SHOULD have based on command accumulate rate
   const userCommandInfo = await discordAPI.getCmdInfo(id, type);
-  const last_type_time = userCommandInfo.data.data[`${type}_last_time`] || 0;
-  let type_amount = userCommandInfo.data.data[`${type}_amount`] || 0;
+  console.log('userCommandInfo:', userCommandInfo)
+  const last_type_time = userCommandInfo.data?.[`${type}_last_time`] ?? 0;
+  let type_amount = userCommandInfo.data?.[`${type}_amount`] ?? 0;
+  console.log('last_type_time / type_amount:', last_type_time, type_amount)
   const accumulated_raw =
     (Date.now() - last_type_time) /
     (role_map[highestRole][type].rate * 3600000); // how many they've generated since last use

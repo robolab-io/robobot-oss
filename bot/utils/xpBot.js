@@ -29,7 +29,9 @@ const xpCommands = {
       return;
     }
 
-    const giveRes = await devAPI.giveXP(id, { amount: `${amt || 1}` });
+    console.log('giveRes 1:', id, { amount: amt || 1 })
+    const giveRes = await devAPI.giveXP(id, { amount: amt || 1 });
+    console.log('giveRes 2:', giveRes)
     if (giveRes && giveRes.success) {
       const currentXP = giveRes.data.xp.Attributes.discordXP;
       const previousXP = currentXP - amt;

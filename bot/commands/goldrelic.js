@@ -48,9 +48,8 @@ module.exports = {
         `<@${interaction.user.id}>, error grabbing your discord data.`
       );
     }
-    author_discord_object = author_discord_object.data;
 
-    if (!author_discord_object.goldRelicCount) {
+    if (!author_discord_object.data.goldRelicCount) {
       return interaction.editReply({ embeds: [errEmb] });
     }
 

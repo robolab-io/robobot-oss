@@ -87,7 +87,7 @@ var state = { client, idKey, env, isDev, currentGames, ...methods };
 
 const messageXP = require("./bot/passive/messageXP");
 const handleRoboEvent = require("./bot/passive/handleRoboEvent");
-const matchCmd = /^>[^s][a-zA-Z]+/;
+const matchCmd = /^>[a-zA-Z]+/;
 // const { getCache } = require('./bot/utils/getCache')
 
 client.on("messageCreate", async (msg) => {
@@ -317,7 +317,7 @@ client.on("interactionCreate", async (interaction) => {
 // });
 
 client.on("interactionCreate", async (interaction) => {
-  if (!interaction.isStringSelectMenu()) return;
+  if (!interaction.isStringSelectMenu()) return
 
   const store_prices = {
     pokeball: 10,
@@ -364,13 +364,12 @@ client.on("interactionCreate", async (interaction) => {
         );
         if (
           deductKeycapRes &&
-          deductKeycapRes.data &&
-          deductKeycapRes.data.success
+          deductKeycapRes.success
         ) {
           let add_ball = await discordAPI.incrementField(interaction.user.id, {
             field: "pokeballCount",
           });
-          add_ball = add_ball.data;
+
           if (!add_ball.success) {
             return interaction.reply(
               `<@${interaction.user.id}>, something went wrong when buying a pokeball!`
@@ -400,14 +399,13 @@ client.on("interactionCreate", async (interaction) => {
         );
         if (
           deductKeycapRes &&
-          deductKeycapRes.data &&
-          deductKeycapRes.data.success
+          deductKeycapRes.success
         ) {
           let add_glowingpencil = await discordAPI.incrementField(
             interaction.user.id,
             { field: "glowingPencilCount" }
           );
-          add_glowingpencil = add_glowingpencil.data;
+
           if (!add_glowingpencil.success) {
             return interaction.reply(
               `<@${interaction.user.id}>, something went wrong when buying a glowing pencil!`
@@ -435,16 +433,16 @@ client.on("interactionCreate", async (interaction) => {
           interaction.user.id,
           { amount: `${store_prices["boost device"]}` }
         );
+        console.log(deductKeycapRes)
         if (
           deductKeycapRes &&
-          deductKeycapRes.data &&
-          deductKeycapRes.data.success
+          deductKeycapRes.success
         ) {
           let add_boostDevice = await discordAPI.incrementField(
             interaction.user.id,
             { field: "boostDeviceCount" }
           );
-          add_boostDevice = add_boostDevice.data;
+          
           if (!add_boostDevice.success) {
             return interaction.reply(
               `<@${interaction.user.id}>, something went wrong when buying a boost device!`
@@ -474,14 +472,13 @@ client.on("interactionCreate", async (interaction) => {
         );
         if (
           deductKeycapRes &&
-          deductKeycapRes.data &&
-          deductKeycapRes.data.success
+          deductKeycapRes.success
         ) {
           let add_goldRelic = await discordAPI.incrementField(
             interaction.user.id,
             { field: "goldRelicCount" }
           );
-          add_goldRelic = add_goldRelic.data;
+
           if (!add_goldRelic.success) {
             return interaction.reply(
               `<@${interaction.user.id}>, something went wrong when buying a gold relic!`
@@ -517,8 +514,7 @@ client.on("interactionCreate", async (interaction) => {
         );
         if (
           deductKeycapRes &&
-          deductKeycapRes.data &&
-          deductKeycapRes.data.success
+          deductKeycapRes.success
         ) {
           interaction.member.roles.add("811255216128786503");
 
@@ -551,8 +547,7 @@ client.on("interactionCreate", async (interaction) => {
         );
         if (
           deductKeycapRes &&
-          deductKeycapRes.data &&
-          deductKeycapRes.data.success
+          deductKeycapRes.success
         ) {
           interaction.member.roles.add("865711992785731614");
 
@@ -585,8 +580,7 @@ client.on("interactionCreate", async (interaction) => {
         );
         if (
           deductKeycapRes &&
-          deductKeycapRes.data &&
-          deductKeycapRes.data.success
+          deductKeycapRes.success
         ) {
           interaction.member.roles.add("939774831220633600");
 

@@ -124,7 +124,6 @@ module.exports = {
         `<@${interaction.user.id}>, error grabbing your discord data.`
       );
     }
-    author_discord_object = author_discord_object.data;
 
     let winners = interaction.options.getInteger("winners");
     let amountPerWinner = interaction.options.getInteger("amount");

@@ -45,9 +45,9 @@ module.exports = {
 
     let query;
     const discordIdData = await devAPI.getUserByDiscordID(user);
-    query = discordIdData.data.data.username;
+    query = discordIdData.data.username;
 
-    if (!discordIdData || !discordIdData.data.success) {
+    if (!discordIdData || !discordIdData.success) {
       let doesntExistEmbed = new EmbedBuilder()
         .setColor("2f3136")
         .setDescription(
@@ -61,7 +61,7 @@ module.exports = {
     let rankEmbed = new EmbedBuilder()
       .setDescription(
         `**${query}** (<@${user}>) is rank #${
-          mechakeysRankData.data.data.rank
+          mechakeysRankData.data.rank
         } with **${
           mechakeysRankData &&
           mechakeysRankData.data &&

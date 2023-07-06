@@ -130,7 +130,7 @@ const generateDailyAfterMessage = () => {
 module.exports = {
   data: new SlashCommandBuilder()
     .setName("d")
-    .setDescription("Claim a daily reward every day - aliast of /daily"),
+    .setDescription("Claim a daily reward every day - alias of /daily"),
 
   async execute(interaction) {
     await interaction.deferReply();
@@ -176,7 +176,7 @@ module.exports = {
         `<a:red_siren:812813923522183208> Oops, <@${interaction.user.id}>! Something went wrong when claiming your daily reward.`
       );
     }
-    const valid_claim = valid_claimRes.data;
+    const valid_claim = valid_claimRes;
     if (!valid_claim.success) {
       lock[interaction.user.id] = false;
       const bot_early_response = await interaction.editReply(
