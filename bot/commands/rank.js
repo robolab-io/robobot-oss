@@ -5,6 +5,7 @@ const xpBot = require("../utils/xpBot");
 const xpRequirement = { xp: 10 };
 
 module.exports = {
+  alias: ['r'],
   data: new SlashCommandBuilder()
     .setName("rank")
     .setDescription("View someone's MechaKeys rank on the weekly leaderboard")

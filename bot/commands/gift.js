@@ -4,6 +4,7 @@ const { EmbedBuilder } = require("discord.js");
 const { devAPI } = require("robo-bot-utils");
 
 module.exports = {
+  alias: ['give'],
   data: new SlashCommandBuilder()
     .setName("gift")
     .setDescription("Developer-only - Gift keycaps to a user")

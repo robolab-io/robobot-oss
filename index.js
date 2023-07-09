@@ -128,8 +128,11 @@ const commandFiles = fs
   .filter((file) => file.endsWith(".js"));
 
 for (const file of commandFiles) {
-  const command = require(`./bot/commands/${file}`);
-  client.commands.set(command.data.name, command);
+  const command = require(`./bot/commands/${file}`)
+  client.commands.set(command.data.name, command)
+  for (let a of command?.alias ?? []) {
+    client.commands.set(a, command)
+  }
 }
 
 /** *   SLASH INTERACTIONS   ***/

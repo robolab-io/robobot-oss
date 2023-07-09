@@ -5,6 +5,7 @@ const xpBot = require("../utils/xpBot");
 const xpRequirement = { xp: 10 };
 
 module.exports = {
+  alias: ['kc'],
   data: new SlashCommandBuilder()
     .setName("keycaps")
     .setDescription("View someone's keycap balance")

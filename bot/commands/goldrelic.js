@@ -6,6 +6,7 @@ const xpRequirement = { xp: 2000, level: 10 };
 const { discordAPI } = require("robo-bot-utils");
 
 module.exports = {
+  alias: ['superpray'],
   data: new SlashCommandBuilder()
     .setName("goldrelic")
     .setDescription(

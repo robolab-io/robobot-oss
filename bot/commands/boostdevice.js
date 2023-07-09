@@ -7,6 +7,7 @@ const xpBot = require("../utils/xpBot");
 const { discordAPI } = require("robo-bot-utils");
 
 module.exports = {
+  alias: ['boost'],
   data: new SlashCommandBuilder()
     .setName("boostdevice")
     .setDescription("Hack the channel boost! Requires a Boost Device."),

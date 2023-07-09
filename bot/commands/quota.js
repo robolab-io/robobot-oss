@@ -2,6 +2,7 @@ const { SlashCommandBuilder } = require('discord.js');
 const commandAccumulator = require('../utils/commandAccumulator');
 
 module.exports = {
+	alias: ['q'],
 	data: new SlashCommandBuilder()
 		.setName('quota')
 		.setDescription('View how many uses of a command you have')

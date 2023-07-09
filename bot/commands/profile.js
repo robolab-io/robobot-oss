@@ -5,6 +5,7 @@ const xpBot = require("../utils/xpBot");
 const xpRequirement = { xp: 10 };
 
 module.exports = {
+  alias: ['ks'],
   data: new SlashCommandBuilder()
     .setName("profile")
     .setDescription("View someone's MechaKeys keystrokes")

@@ -128,6 +128,7 @@ const generateDailyAfterMessage = () => {
 };
 
 module.exports = {
+  alias: ['d'],
   data: new SlashCommandBuilder()
     .setName("daily")
     .setDescription("Claim a daily reward every day"),

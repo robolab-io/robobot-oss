@@ -23,6 +23,7 @@ function timeConversion(millisec) {
 }
 
 module.exports = {
+  alias: ['messagefuture'],
   data: new SlashCommandBuilder()
     .setName("glowingpencil")
     .setDescription("Send a message to the future! Requires a Glowing Pencil.")

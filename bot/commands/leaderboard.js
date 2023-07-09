@@ -6,6 +6,7 @@ const xpBot = require("./../utils/xpBot");
 const { devAPI } = require("robo-bot-utils");
 
 module.exports = {
+  alias: ['l'],
   data: new SlashCommandBuilder()
     .setName("leaderboard")
     .setDescription("View the MechaKeys weekly leaderboard"),

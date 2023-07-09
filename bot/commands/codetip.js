@@ -4,6 +4,7 @@ const { EmbedBuilder } = require('discord.js');
 const codeTips = require('../static/codeTips');
 
 module.exports = {
+	alias: ['ct'],
 	data: new SlashCommandBuilder()
 		.setName('codetip')
 		.setDescription('Get a code tip!'),

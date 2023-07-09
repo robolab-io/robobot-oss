@@ -40,6 +40,7 @@ function getRandomInt(min, max) {
 }
 
 module.exports = {
+  alias: ['p'],
   data: new SlashCommandBuilder()
     .setName("pray")
     .setDescription("Pray to Robo-bot for something special!"),

@@ -2,6 +2,7 @@ const { SlashCommandBuilder } = require('discord.js');
 const pyroBar = require('../utils/pyroBar');
 
 module.exports = {
+	alias: ['checkboost'],
 	data: new SlashCommandBuilder()
 		.setName('channelboost')
 		.setDescription('Check the channel\'s current XP boost'),

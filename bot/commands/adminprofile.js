@@ -20,6 +20,7 @@ function timeConversion(millisec) {
 }
 
 module.exports = {
+  alias: ['ap'],
   data: new SlashCommandBuilder()
     .setName("adminprofile")
     .setDescription("Developer-only - View detailed data about a user")

@@ -551,7 +551,7 @@ module.exports = {
         `<:minikeycap:811257663194660876>**${evO.increaseAmt}**`
       );
       let currentJackpot = await discordAPI.addToJackpot(evO.increaseAmt);
-      textBuilder += `\n**Current Jackpot**:<:minikeycap:811257663194660876>${currentJackpot.data.data} keycaps!`;
+      textBuilder += `\n**Current Jackpot**:<:minikeycap:811257663194660876>${currentJackpot.data} keycaps!`;
       const emb = new EmbedBuilder()
         .setTitle("A blessing from Robo-bot!")
         .setDescription(textBuilder)
