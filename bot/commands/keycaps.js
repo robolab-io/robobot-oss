@@ -6,6 +6,13 @@ const xpRequirement = { xp: 10 };
 
 module.exports = {
   alias: ['kc'],
+  interface: [
+    {
+      name: 'user',
+      valid: v => v===undefined, // || v is user ID || v is user mention
+      preprocess: v => v // if mention, make id
+    }
+  ],
   data: new SlashCommandBuilder()
     .setName("keycaps")
     .setDescription("View someone's keycap balance")

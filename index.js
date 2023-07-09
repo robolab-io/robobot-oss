@@ -90,46 +90,27 @@ const handleRoboEvent = require("./bot/passive/handleRoboEvent");
 const matchCmd = /^>([a-zA-Z]+)/;
 // const { getCache } = require('./bot/utils/getCache')
 
-let dailyCMD = require('./bot/commands/daily')
-let prayCMD = require('./bot/commands/pray')
-
-let compatWrap = async (cmd, msg) => {
-  // author/user patch
-  msg.user = msg.author
-
-  // Reply patch
-  let reply = null
-  msg.deferReply = (content)=>reply={}
-  msg.editReply = (content)=>reply=content
-
-  // Execute
-  await cmd.execute(msg)
-  if (reply) msg.reply(reply)
-}
-
 client.on("messageCreate", async (msg) => {
   if (msg.author.bot) return;
-
-  let match = msg.content.toLowerCase().match(matchCmd)
-  if (match && msg.channel.id === "462274708499595266") {
-    let [_, cmdName] = match
-    if ( ['daily', 'd'].includes(cmdName) ) {
-      compatWrap(dailyCMD, msg)
-    } else 
-    if ( ['pray', 'p'].includes(cmdName) ) {
-      compatWrap(prayCMD, msg)
-    }
-  }
 
   state = {
     /* Init Obj */
     ...state,
     /* overwrite */
-    // cache,
-    // ...cache,
     mentions: msg.mentions,
     channelID: msg.channel.id,
   };
+
+  let match = msg.content.match(matchCmd)
+  if (match && msg.channel.id === "462274708499595266") {
+    let [_, cmdName] = match
+    cmdName = cmdName.toLowerCase()
+
+    let fn = prefixCMDs?.[cmdKey]
+    if (!fn) return // given cmd not found
+
+    fn(msg, state)
+  }
 
   await messageXP(msg, state);
 
@@ -143,6 +124,61 @@ client.on("guildMemberAdd", async (member) => {
   welcome(member);
 });
 
+let prefixCMDs = {}
+
+let parseInputs = ()=>{}
+let validateInputs = ()=>{}
+let preprocessInputs = ()=>{}
+let SynthInter = ()=>{
+  // https://discord.com/developers/docs/interactions/receiving-and-responding
+  // https://discord.com/developers/docs/resources/channel#message-object
+  // https://discordjs.guide/keyv/#command-handler
+}
+
+let patchInputGetters = (msg, inputs) => {
+  msg.options = msg?.options ?? {}
+
+  msg.options.get = key => ({value: inputs[key]})
+
+  let otherGets = key => inputs[key]
+  msg.options.getUser = otherGets
+  msg.options.getMember = otherGets
+  msg.options.getRole = otherGets
+  msg.options.getChannel = otherGets
+  msg.options.getMentionable = otherGets
+  msg.options.getAttachment = otherGets
+  msg.options.getString = otherGets
+  msg.options.getInteger = otherGets
+  msg.options.getBoolean = otherGets
+  msg.options.getNumber = otherGets
+}
+
+let compatWrap = async (cmd, msg) => {
+  // author/user patch
+  msg.user = msg.author
+
+  // Reply patch
+  let reply = null
+  msg.deferReply = (content)=>reply={}
+  msg.editReply = (content)=>reply=content
+
+  // Parse Inputs
+  let inputs = parseInputs(msg) // {key: value}
+  let [isValid, err] = validateInputs(command.interface, inputs)
+  if (!isValid) reply = err
+
+  // Execute (if valid args)
+  if (isValid) {
+    inputs = preprocessInputs(inputs)
+    patchInputGetters(msg, inputs)
+  
+    await cmd.execute(msg)
+  }
+  
+  // Response
+  if (reply) msg.reply(reply)
+}
+
 /** *   COMMANDS   ***/
 client.commands = new Collection();
 const commandFiles = fs
@@ -152,8 +188,20 @@ const commandFiles = fs
 for (const file of commandFiles) {
   const command = require(`./bot/commands/${file}`)
   client.commands.set(command.data.name, command)
+
+  if (command.interface) {
+    prefixCMDs[command.data.name] = (msg, otherData)=> {
+      
+
+      compatWrap(command, msg)
+      // idk how to validate whether the caller has sufficient perms 
+      // given the slash command settings in discord server settings 
+    }
+  }
+
   for (let a of command?.alias ?? []) {
     client.commands.set(a, command)
+    prefixCMDs[a] = prefixCMDs[command.data.name]
   }
 }
 
