@@ -254,11 +254,16 @@ module.exports = {
 
     interaction.editReply({ embeds: [emb] });
 
-    setTimeout(() => {
-      interaction.channel.send(
-        `<@${interaction.user.id}>: ${generateDailyAfterMessage()}`
-      );
-    }, 10000);
+    if ( userXP < 500 ) { // 500xp == level 5. 
+      // could add random chance too || (Math.random() > 0.5)
+      // could get xp from static/xpLevels.js
+      setTimeout(() => {
+        interaction.channel.send(
+          `<@${interaction.user.id}>: ${generateDailyAfterMessage()}`
+        );
+      }, 10000);
+    }
+    
     if (jackpot.winnings) {
       await keycapAPI.awardKeycaps(
         interaction.guild,
