@@ -87,16 +87,38 @@ var state = { client, idKey, env, isDev, currentGames, ...methods };
 
 const messageXP = require("./bot/passive/messageXP");
 const handleRoboEvent = require("./bot/passive/handleRoboEvent");
-const matchCmd = /^>[a-zA-Z]+/;
+const matchCmd = /^>([a-zA-Z]+)/;
 // const { getCache } = require('./bot/utils/getCache')
+
+let dailyCMD = require('./bot/commands/daily')
+let prayCMD = require('./bot/commands/pray')
+
+let compatWrap = async (cmd, msg) => {
+  // author/user patch
+  msg.user = msg.author
+
+  // Reply patch
+  let reply = null
+  msg.deferReply = (content)=>reply={}
+  msg.editReply = (content)=>reply=content
+
+  // Execute
+  await cmd.execute(msg)
+  if (reply) msg.reply(reply)
+}
 
 client.on("messageCreate", async (msg) => {
   if (msg.author.bot) return;
 
-  if (matchCmd.test(msg.content) && msg.channel.id === "462274708499595266") {
-    msg.reply(
-      "### Robo-bot is now using slash commands!\n 💡 Looking for >d? Use </daily:1114447862995095678>"
-    );
+  let match = msg.content.toLowerCase().match(matchCmd)
+  if (match && msg.channel.id === "462274708499595266") {
+    let [_, cmdName] = match
+    if ( ['daily', 'd'].includes(cmdName) ) {
+      compatWrap(dailyCMD, msg)
+    } else 
+    if ( ['pray', 'p'].includes(cmdName) ) {
+      compatWrap(prayCMD, msg)
+    }
   }
 
   state = {
