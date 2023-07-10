@@ -6,6 +6,7 @@ const axios = require('axios');
 const xpBot = require('./../utils/xpBot');
 
 module.exports = {
+	alias: ['lvl', 'level'],
 	data: new SlashCommandBuilder()
 		.setName('xp')
 		.setDescription('View someone\'s Discord XP and level')
