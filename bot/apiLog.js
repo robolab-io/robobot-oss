@@ -2,22 +2,21 @@ const port = process.env.PORT || 3000;
 const { EmbedBuilder } = require('discord.js');
 
 const eventMapper = require('./utils/events');
+// let { client } = require('./client') 
 
-module.exports = (app, client) => {
-	return {
-		init() {
-			app.listen(port, () => {
-				client.robo_events = {};
-				console.log(`Robo-bot listening at http://localhost:${port}`);
-			});
-		},
-		logs() {
-			app.get('/log', genericLog(client));
-			app.get('/linked', linkLog(client));
-			app.post('/event', handleEvent(client));
-		},
-	};
-};
+module.exports = (app, client) => ({
+	init() {
+		app.listen(port, () => {
+			client.robo_events = {};
+			console.log(`Robo-bot listening at http://localhost:${port}`);
+		});
+	},
+	logs() {
+		app.get('/log', genericLog(client));
+		app.get('/linked', linkLog(client));
+		app.post('/event', handleEvent(client));
+	}
+})
 
 const handleEvent = client => async (req, res) => {
 
@@ -40,22 +39,15 @@ const linkLog = client => (req, res) => {
 	}
 	const userID = req.query.id || false;
 	const silent = !!req.query.silent;
-	// const channel = 755217215959334933
-	// const me = 384862194246090760
-	// client.getUser
+	
 	const guild = client.guilds.cache.get('462274708499595264');
 	const user = guild.members.cache.get(userID);
 	if (!silent) {
-		// let lastChannel = user && user.lastMessage && user.lastMessage.channel ? user.lastMessage.channel : false
-		// if (!lastChannel) {
-		//   lastChannel = guild.channels.cache.get('761613069679591456') // get link-channel if there is no last channel
-		// }
 		let lastChannel = guild.channels.cache.get('462274708499595266');
 		let apiLogChannel = guild.channels.cache.get('771724978264604682');
 
 		const embed = new EmbedBuilder()
 			.setTitle('Account Linked!')
-		// .setThumbnail('https://mechakeys.robolab.io/discord/media/xpbot/levelup1.gif')
 			.setColor('#2f3136')
 			.setDescription(`<@${user.id}>, your account has been successfully linked! Send your first message to level up!`);
 

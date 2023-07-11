@@ -10,6 +10,8 @@ module.exports = {
 	async execute(interaction) {
 		await interaction.deferReply();
 
-		await interaction.editReply(`${pyroBar.getLilBarThingLol(interaction.client, '462274708499595266', 6)}\n**Channel Boost:** ${pyroBar.getMultiplier(interaction.client, '462274708499595266')}x XP`);
+		await interaction.editReply(
+			`${pyroBar.getLilBarThingLol(interaction.client, '462274708499595266', 6)}\n**Channel Boost:** ${pyroBar.getMultiplier(interaction.client, '462274708499595266')}x XP`
+		);
 	},
 };

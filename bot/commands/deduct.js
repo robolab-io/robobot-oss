@@ -1,8 +1,8 @@
 /* eslint-disable no-mixed-spaces-and-tabs */
-const { SlashCommandBuilder } = require("discord.js");
-const { EmbedBuilder } = require("discord.js");
+const { SlashCommandBuilder } = require("discord.js")
+const { EmbedBuilder } = require("discord.js")
 
-const { devAPI } = require("robo-bot-utils");
+const { devAPI } = require("robo-bot-utils")
 
 module.exports = {
   data: new SlashCommandBuilder()
@@ -22,17 +22,17 @@ module.exports = {
     ),
 
   async execute(interaction) {
-    await interaction.deferReply();
+    await interaction.deferReply()
 
-    const member = interaction.options.getUser("user");
-    const mention = `<@!${member.id}>`;
-    const keycapAmount = interaction.options.getInteger("amount");
+    const member = interaction.options.getUser("user")
+    const mention = `<@!${member.id}>`
+    const keycapAmount = interaction.options.getInteger("amount")
 
-    await devAPI.deductKeycaps(member.id, { amount: keycapAmount });
+    await devAPI.deductKeycaps(member.id, { amount: keycapAmount })
     let awardEmb = new EmbedBuilder()
       .setDescription(`Removed **${keycapAmount} keycaps** from ${mention}.`)
-      .setColor("2f3136");
+      .setColor("2f3136")
 
-    interaction.editReply({ embeds: [awardEmb] });
+    interaction.editReply({ embeds: [awardEmb] })
   },
 };

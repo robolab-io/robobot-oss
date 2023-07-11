@@ -95,7 +95,6 @@ module.exports = {
         );
 
       return interaction.editReply({ embeds: [emb] });
-      // return interaction.editReply({ content: 'a' })
     } else {
       let deduct_boost = await discordAPI.decrementField(interaction.user.id, {
         field: "boostDeviceCount",
@@ -118,7 +117,6 @@ module.exports = {
         );
 
       return interaction.editReply({ embeds: [emb] });
-      // return interaction.editReply({ content: 'b' })
     }
   },
 };

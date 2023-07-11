@@ -1,7 +1,5 @@
-//
-
 const { SlashCommandBuilder } = require('discord.js');
-const { EmbedBuilder, Message } = require('discord.js');
+const { EmbedBuilder } = require('discord.js');
 const axios = require('axios');
 const xpBot = require('./../utils/xpBot');
 

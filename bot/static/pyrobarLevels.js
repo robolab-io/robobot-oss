@@ -87,6 +87,4 @@ module.exports = [
 		modifier: 4.2,
 		thumbnail: 'https://mechakeys.robolab.io/discord/media/xpbot/levelup1.gif',
 	},
-
-
 ];

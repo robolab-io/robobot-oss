@@ -99,8 +99,6 @@ module.exports = {
       } else {
         return `**${cat}**\n┈┈┈┈┈\n${cat_strings.join("\n")}\n`;
       }
-      // Tumble Bounce
-      // const example = '(X)**Hardest Hit**- Power: 400 || by <@userID>, 14 Days Ago';
     });
 
     let emb = new EmbedBuilder()

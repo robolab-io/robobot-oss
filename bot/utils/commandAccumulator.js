@@ -1,7 +1,7 @@
 const { EmbedBuilder } = require("discord.js");
 const { discordAPI } = require("robo-bot-utils");
-// const general_channels = ['462274708499595266', '774016760630345808', '798528392328380446', '805439850793795594', '807566615352442911']
-// const staff_cmds = ['777343346732433408', '751665008869376010']
+
+
 const role_map = {
   // Admin
   "730440161619607554": {
@@ -239,12 +239,7 @@ module.exports = async (interaction, type, readonly, isInteraction) => {
     }
   }
   const id = isInteraction ? interaction.user.id : interaction.author.id;
-  // if (isInteraction) {
-
-  // }
-  // else {
-  // 	interaction.channel.send({ content: `is not interaction, ID is: ${id}` });
-  // }
+  
   const authorUser = interaction.guild.members.cache.get(id);
   const highestRole = Object.keys(role_map).find((x) =>
     authorUser.roles.cache.get(x)
@@ -314,7 +309,6 @@ module.exports = async (interaction, type, readonly, isInteraction) => {
       );
       return false;
     }
-    // msg.channel.send(`You're recharging that! Try again in \`${ timeConversion( ((1 - accumulated_raw) * role_map[highestRole][type].rate)  * 60 * 60 * 1000)}\`.`)
   }
   if (readonly) {
     let quotaEmbed = new EmbedBuilder()

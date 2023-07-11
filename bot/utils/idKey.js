@@ -1,17 +1,10 @@
 // Not exhaustive, just some major ones
-// can we not hardcode anything anymore :smiling_face_with_tear:
-
 // server 1: 462274708499595264
-// server 2: 778350772811333642
 
 const users = {
-	// Users
 	HALU: '216317706591272971',
 	ROBO: '384862194246090760',
 	HYPERION: '924621655345627196',
-	//   FIREBASE: '740495415769563157', Removed because he can't be trusted with this power
-	DUCK: '524786524164849674',
-	HYPERS_DADDY: '829910402200240198',
 };
 
 const idKey1 = {
@@ -22,17 +15,11 @@ const idKey1 = {
 	Admin: '774366277329485844',
 	Robo: '732591347877281952',
 	Mod: '763876223364628480',
-	SuperMod: '805318373034426438',
-	Emotes: '672943315112689724',
-	Champs: '692220690782224414',
 	Booster: '675783015238074369',
 	Donator: '745750711584948316',
-	Streak: '747268165943296130',
 	Linked: '766073171135692830',
 	Dead: '774064350540464139',
 	Ghost: '777572793638191165',
-	Shame: '760206228734345257',
-	Blacklist: '781735749497520139',
 
 	// Public Channels
 	spam: '704168146541609042',
@@ -65,39 +52,9 @@ const idKey1 = {
 	admin: '738845637562597387',
 	apiLog: '771724978264604682',
 	mod: '755217215959334933',
-};
-
-// SERVER 2.0
-const idKey2 = {
-	everyone: '778350772811333642',
-	...users,
-
-	// Roles
-	Admin: '778350772827717648',
-	Robo: '778350772827717649',
-	Dev: '778350772827717647',
-	Mod: '778350772827717645',
-	Support: '778350772827717644',
-	Champs: '778350772827717642',
-	Donator: '778350772827717643',
-	Linked: '778350772811333651',
-	Dead: '778350772827717650',
-	Ghost: '778350772827717651',
-	Shame: '778350772819591182',
-
-	// Channels
-	ticketCategory: '778350773196029960',
-	apiLog: '778350773196029957',
-	graveyard: '778350773528428590',
-	userTotal: '778350773360525352',
-	linkHereChannel: '778350773360525358',
-
-	// Staff Private
-	botDev: '778350773196029952',
-};
+}
 
 module.exports = {
 	'462274708499595264': idKey1,
-	'778350772811333642': idKey2,
-	users,
-};
+	users
+}

@@ -96,21 +96,7 @@ module.exports = {
         hours
       );
     }
-    //   let msgFutureFlavor = [
-    // 	  `with a few strokes of the glowing pencil, you carefully write your message and send it ${timeConversion(hours * 60 * 60 * 1000)} to the future.`,
-    // 	  `you draw some weird furry art with your future message and send it ${timeConversion(hours * 60 * 60 * 1000)} to the future..`,
-    // 	  `a carrier pigeon swiftly carries your message away ${timeConversion(hours * 60 * 60 * 1000)} in the future!`,
-    // 	  `some burger grease drips from your mouth onto the message... let\'s hope whoever receives it in ${timeConversion(hours * 60 * 60 * 1000)} enjoys food!`,
-    // 	  `the shopkeeper visited you and took your message ${timeConversion(hours * 60 * 60 * 1000)} to the future!`,
-    // 	  `you send your message ${timeConversion(hours * 60 * 60 * 1000)} to the future, but still have a scarily omnipresent feeling of loneliness and despair.`,
-    // 	  `Robo-bot enjoys the message you wrote ${timeConversion(hours * 60 * 60 * 1000)} in the future! He hopes everyone else will like it as much as he did.`,
-    // 	  `halu stole the message from your hands and promised to bring it ${timeConversion(hours * 60 * 60 * 1000)} in the future!`,
-    // 	  `in ${timeConversion(hours * 60 * 60 * 1000)} from now, the entire chat will be SHOCKED at what you said!`,
-    // 	  `imagine being so scared of your MOM that you send this message ${timeConversion(hours * 60 * 60 * 1000)} in the future! How embarrassing.`,
-    // 	  `your message magically flies away and your glowing pencil disappears into thin air! It should fly back down in ${timeConversion(hours * 60 * 60 * 1000)}.`,
-    // 	  `"Watch this!", your message says, as it backflips ${timeConversion(hours * 60 * 60 * 1000)} into the future.`
-    //   ]
-    //   let flavor = msgFutureFlavor[Math.floor(Math.random() * msgFutureFlavor.length)]
+
     return interaction.editReply({
       content: `<@${
         interaction.user.id

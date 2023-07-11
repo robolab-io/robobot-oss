@@ -102,7 +102,7 @@ module.exports = {
         Date.now() + getRandomInt(120000, 86400000),
         6
       );
-      //   console.log(`Sending roboEvent to ${new Date(futureTime)}`)
+
       createEvent.roboEventInFuture(
         interaction.guild.id,
         interaction.channel.id,

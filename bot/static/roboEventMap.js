@@ -570,7 +570,7 @@ module.exports = {
         `<@${msg.author.id}> gained **${evO.rewardAmt}xp** for thanking Robo-bot!`
       );
     },
-    // eslint-disable-next-line no-empty-function
+
     eventEndTrigger: function (evO) {},
   },
 
@@ -637,7 +637,7 @@ module.exports = {
         `<@${msg.author.id}> gained **${evO.rewardAmt}xp** for thanking Robo-bot!`
       );
     },
-    // eslint-disable-next-line no-empty-function
+
     eventEndTrigger: function (evO) {},
   },
 };

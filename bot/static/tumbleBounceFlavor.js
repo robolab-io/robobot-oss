@@ -168,7 +168,6 @@ module.exports = {
 		{ power: 755, message: 'You leap to hit the tumbleweed and feel your body being moved UPWARDS by a masculine, robotic force. You look what\'s pushing you, AND IT\'S ROBO-BOT HIMSELF (me, lol), AND I USE YOUR FEEBLE ARMS TO PFUCKASAI PAAAUNCHHH THAT TUMBLEWEED INTO GODDAMN SPACE!' },
 		{ power: 751, message: 'UNLIMITED POWER! YOU NEARLY DESTROYED THAT TUMBLEWEED WITH YOUR POWER, BUT INSTEAD YOU SUPERCHARGED IT, CAUSING IT TO TRAVEL AT FUCKIN LIGHTSPEED!!!' },
 		{ power: 750, message: 'OH GOD! MAKE IT STOP! YOU\'VE HIT IT SO HARD IT FLEW **PAST** THE CURRENT JACKPOT! WHY!!! WHY!!! WHY CAN\'T YOU GO BACK TO READING BOOKS OR SOMETHING, STOP HITTING ME GOD, PLEASE' },
-		// { power: 750, message: 'Nothing, we’ve already lost. YouTube, the media giant, does not give a fuck about you. You do not exist to them as anything but a supple cow with utters to milk. I wish there were competitors to YouTube, as I’m sure we would have already fled the platform, but Google and YouTube are just too effective at fucking us over.'}
 	],
 	powerGifs: {
 		0: ['LightHit_1.gif'],

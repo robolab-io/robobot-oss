@@ -1,15 +1,15 @@
 const axios = require("axios");
-const headers = { "Content-Type": "application/json" };
+
 const { EmbedBuilder } = require("discord.js");
 const xpBot = require("../utils/xpBot");
 const pyroBar = require("../utils/pyroBar");
 const wait = require("../utils/wait");
 const keycapAPI = require("../utils/keycapAPI");
 const isBooster = require("../utils/isBooster");
-const { xp } = require("../commands/xp");
-const env = process.env.env || "staging"; // production or staging
-const { discordAPI } = require("robo-bot-utils");
-const { static } = require("robo-bot-utils");
+
+const { static, isDev } = require("robo-bot-utils")
+const env = isDev ? 'staging' : 'production'
+
 function timeConversion(millisec) {
   let seconds = Math.round(millisec / 1000);
   let minutes = Math.round(millisec / (1000 * 60));
@@ -341,7 +341,7 @@ module.exports = {
     const { data } = await axios.post(
       `${static.endpoints.discord}/?action=checkRecord`,
       body,
-      headers
+      { "Content-Type": "application/json" }
     );
 
     if (data.data.recordBroken) {
@@ -378,23 +378,5 @@ module.exports = {
       // give awards
     }
     return data;
-  },
-
-  // getRecords: async (key, field) => {
-  //   const body = {
-  //     endpoint: callback_endpoint,
-  //     endpointBody: {
-  //       guildID: guildID,
-  //       userID: userID,
-  //       channelID: channelID,
-  //       action: 'messageFromThePast',
-  //       message
-  //     },
-  //     time: Date.now() + (hours * 1000 * 60 * 60),
-  //     owner: 'robo-bot'
-  //   }
-
-  //   const { data } = await axios.post(event_endpoint, body, headers)
-  //   return data
-  // }
+  }
 };

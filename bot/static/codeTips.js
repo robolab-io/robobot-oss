@@ -71,7 +71,6 @@ module.exports = [
 		tip: 'Headaches May Be Caused by Genius Brain too Big for Skull',
 		auth: ROBO,
 		ref: 'https://discord.com/channels/462274708499595264/738845637562597387/763977533883547658',
-		// http://geniusclub.wowgreatcontent.com/2018/10/09/frequent-headaches-may-be-symptom-of-genius-brain-too-big-for-skull-2/
 	},
 	{
 		tip: 'furry isn\'t a phase, you just learn to push it down deeper',

@@ -4,16 +4,10 @@ const createEvent = require("../utils/createEvent");
 const pyroBar = require(".././utils/pyroBar");
 
 const { devAPI, discordAPI } = require("robo-bot-utils");
-// const commandLimiter = require('./../utils/commandLimiter')
-// const hasBannedWord = require('../utils/hasBannedWord')
 const commandAccumulator = require("../utils/commandAccumulator");
 const parseDuration = require("parse-duration");
 const { EmbedBuilder } = require("discord.js");
-const wait = require("../utils/wait");
-function detect_url(text) {
-  var urlRegex = /(https?:\/\/[^\s]+)/g;
-  return text.match(urlRegex);
-}
+
 function timeConversion(millisec) {
   let seconds = Math.round(millisec / 1000);
   let minutes = Math.round(millisec / (1000 * 60));

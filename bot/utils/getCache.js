@@ -16,9 +16,4 @@ module.exports.getCache = (msg, client) => {
 module.exports.initCache = async (client) => {
 	await client.guilds.cache.forEach(g => g.members.fetch());
 	await client.guilds.cache.forEach(g => g.roles.fetch());
-	/* client.guilds.cache
-	client.users.cache
-	guild.channels.cache
-	guild.roles.cache
-	guild.emojis.cache */
 };

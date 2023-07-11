@@ -19,9 +19,6 @@
     "parse-duration": "^1.0.3",
     "robo-bot-utils": "file:robo-bot-utils"
   },
-  "devDependencies": {
-    "eslint": "^8.42.0"
-  },
   "optionalDependencies": {
     "private-utils": "git+ssh://github.com/robolab-io/robobot-utils.git#semver:^0.1.0"
   }

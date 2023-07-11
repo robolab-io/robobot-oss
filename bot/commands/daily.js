@@ -38,13 +38,9 @@ function weightedRandom(min, max) {
 }
 
 const jackpot_descriptor_map = {
-  // eslint-disable-next-line no-inline-comments
   200: "small", // 0-200
-  // eslint-disable-next-line no-inline-comments
   1000: "medium", // 101-500
-  // eslint-disable-next-line no-inline-comments
   5000: "large", // 501-2000
-  // eslint-disable-next-line no-inline-comments
   10000: "huge", // 2001->Infinity
 };
 
@@ -177,18 +173,15 @@ module.exports = {
         `<a:red_siren:812813923522183208> Oops, <@${interaction.user.id}>! Something went wrong when claiming your daily reward.`
       );
     }
-    const valid_claim = valid_claimRes;
+    const valid_claim = valid_claimRes
     if (!valid_claim.success) {
-      lock[interaction.user.id] = false;
+      lock[interaction.user.id] = false
       const bot_early_response = await interaction.editReply(
         `<a:red_siren:812813923522183208> Oops, <@${interaction.user.id}>! ${
           valid_claim.message || "Something broked!"
         }`
-      );
-      //   setTimeout(() => {
-      //     bot_early_response.delete();
-      //   }, 3500);
-      return;
+      )
+      return
     }
 
     const jackpot = {

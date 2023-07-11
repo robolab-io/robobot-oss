@@ -1,8 +1,8 @@
 const {
   ContextMenuCommandBuilder,
   ApplicationCommandType,
+  EmbedBuilder
 } = require("discord.js");
-const { EmbedBuilder } = require("discord.js");
 const { devAPI } = require("robo-bot-utils");
 const xpBot = require("../utils/xpBot");
 const xpRequirement = { xp: 10 };

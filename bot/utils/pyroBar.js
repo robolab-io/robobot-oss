@@ -1,18 +1,19 @@
-const env = process.env.env || 'staging'; // production or staging
+const { isDev } = require("robo-bot-utils")
+const env = isDev ? 'staging' : 'production'
 
 const min_xp = 0;
 const max_xp = 200;
 
 function getPercentProgress(prev_xp, curr_xp, next_xp) {
-	const percent_progress = Math.min(99.9, Math.floor(((curr_xp - prev_xp) / (next_xp - prev_xp)) * 100));
-	return percent_progress;
+	const percent_progress = Math.min(99.9, Math.floor(((curr_xp - prev_xp) / (next_xp - prev_xp)) * 100))
+	return percent_progress
 }
 
 function generateBarString(prev_xp, curr_xp, next_xp, number_of_slots = 5) {
 	// TODO: tech debt with Math.min(99.9), idk how to fix the 100% issue
-	const percent_progress = getPercentProgress(prev_xp, curr_xp, next_xp);
+	const percent_progress = getPercentProgress(prev_xp, curr_xp, next_xp)
 
-	let percent_string = '';
+	let percent_string = ''
 
 	const orb_map = {
 		0: '<:Orbdeadchat:882629585513115700>',

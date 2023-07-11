@@ -4,20 +4,9 @@ const { devAPI } = require("robo-bot-utils");
 const xpBot = require("../utils/xpBot");
 const xpRequirement = { xp: 10 };
 
-module.exports = {
-  alias: ['kc'],
-  data: new SlashCommandBuilder()
-    .setName("keycaps")
-    .setDescription("View someone's keycap balance")
-    .addUserOption((option) =>
-      option
-        .setName("user")
-        .setDescription("The person you want to view")
-        .setRequired(false)
-    ),
-
-  async execute(interaction) {
-    await interaction.deferReply();
+let fn = (options={ephemeral:false}) => {
+  return async (interaction) => {
+    await interaction.deferReply({ephemeral: options.ephemeral});
 
     const currentXP = await xpBot.getXP(interaction.user.id);
 
@@ -78,5 +67,20 @@ module.exports = {
       .setColor("2f3136");
 
     await interaction.editReply({ embeds: [profileEmbed] });
-  },
+  }
+}
+
+module.exports = {
+  alias: ['kc'],
+  data: new SlashCommandBuilder()
+    .setName("keycaps")
+    .setDescription("View someone's keycap balance")
+    .addUserOption((option) =>
+      option
+        .setName("user")
+        .setDescription("The person you want to view")
+        .setRequired(false)
+    ),
+  execute: fn(),
+  fn
 };

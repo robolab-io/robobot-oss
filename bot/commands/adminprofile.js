@@ -87,11 +87,6 @@ module.exports = {
       )
       .setFooter({ text: "Data is from" })
       .setTimestamp();
-    // if (!data || !data.success) {
-    //     console.log(data)
-    //     emb.setDescription(data.message || 'There was an error.')
-    //     return msg.channel.send(emb || 'There was an error.');
-    // }
 
     return interaction.editReply({ embeds: [profileEmbed] });
   },

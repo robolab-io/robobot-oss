@@ -1,22 +1,19 @@
-// require("dotenv-flow").config()
-const env = process.env.env || "staging"; // production or staging
-const { devAPI } = require("robo-bot-utils");
+const { devAPI, isDev } = require("robo-bot-utils")
 
-const { EmbedBuilder } = require("discord.js");
-const levels = require("../static/xpLevels");
-const isBooster = require("./isBooster");
-const pyroBar = require("../utils/pyroBar");
+const { EmbedBuilder } = require("discord.js")
+const levels = require("../static/xpLevels")
+const isBooster = require("./isBooster")
+const pyroBar = require("../utils/pyroBar")
 
 // NOTE: non-inclusive of min value
 function between(x, min, max) {
-  return x > min && x <= max;
+  return x > min && x <= max
 }
 
 const xpCommands = {
   giveXP: async (user, XPamount, channel, client) => {
-    if (env === "staging") {
-      return;
-    }
+    if (isDev) return
+
     const id = user.id || user;
     const guild = client.guilds.cache.get(channel.guild.id);
     const userObj = guild.members.cache.get(id);
