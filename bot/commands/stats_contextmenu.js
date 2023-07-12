@@ -3,7 +3,6 @@ const {
   ApplicationCommandType,
 } = require("discord.js");
 const { EmbedBuilder } = require("discord.js");
-const axios = require("axios");
 const xpBot = require("../utils/xpBot");
 const xpRequirement = { xp: 10 };
 

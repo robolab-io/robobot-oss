@@ -1,5 +1,7 @@
 const { EmbedBuilder, ActionRowBuilder, ButtonBuilder, ButtonStyle } = require("discord.js");
+const axios = require("axios");
 const { static } = require("robo-bot-utils");
+const { isLinked_username } = require('../utils/isLinked')
 
 function onlyAlphanumeric(str) {
   return str.replace(/[^a-zA-Z0-9]/g, "");
@@ -9,9 +11,7 @@ module.exports = (client) => {
   client.on("interactionCreate", async (interaction) => {
     if (!interaction.isModalSubmit()) return;
 
-    const mechakeysUsernameInputValue = interaction.fields.getTextInputValue(
-      "mechakeysUsernameInput"
-    );
+    const mechakeysUsernameInputValue = interaction.fields.getTextInputValue( "mechakeysUsernameInput" );
     const cleanedValue = onlyAlphanumeric(mechakeysUsernameInputValue);
 
     const userID = interaction.user.id;
@@ -62,7 +62,7 @@ module.exports = (client) => {
         `# Last step: check your email! \n<@${userID}>, **check your email and click the link inside** to finish linking your MechaKeys account.`
       );
 
-    let userAlreadyLinkedCheck = await isLinked(cleanedValue);
+    let userAlreadyLinkedCheck = await isLinked_username(cleanedValue);
 
     let alreadyLinked = new EmbedBuilder()
       .setColor("ff0000")
