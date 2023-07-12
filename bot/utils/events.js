@@ -407,6 +407,7 @@ module.exports = {
 		const guildID = params.guildID || '462274708499595264'; // default to robolab.io
 		const guild = client.guilds.cache.get(guildID);
 		const channel = guild.channels.cache.get(channelID || '462274708499595266');
+		console.log('EVENT LOG:', eventType, channelID, channel)
 		const eventMappingOverrides = params.eventMappingOverrides || {}; // override specifics here, such as max claimers, or anything in roboEventObject
 		let roboEventObject = {
 			guild, channel, client,

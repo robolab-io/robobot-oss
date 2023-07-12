@@ -110,7 +110,7 @@ let fn = async (interaction, obj) => {
     let amount;
     if (obj?.role) {
       // If role purchased, add to user
-      interaction.member.roles.add("811255216128786503");
+      interaction.member.roles.add(obj.role);
     } 
     else { // or if(obj?.amountKey){}
       // If quantity purchased, send increment to db
