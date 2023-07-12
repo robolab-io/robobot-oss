@@ -25,6 +25,7 @@ let compatWrap = async (cmd, msg) => {
 /**  Per-Message Effects  **/
 const messageXP = require("./bot/passive/messageXP")
 const handleRoboEvent = require("./bot/passive/handleRoboEvent")
+const gameHandler = require('./bot/games/gameHandler')
 const { ch_bots, ch_general, dev_bot } = require('./bot/ids')
 client.on("messageCreate", async (msg) => {
   if (msg.author.bot) return
@@ -43,11 +44,12 @@ client.on("messageCreate", async (msg) => {
 
   /**  Passives  **/
   await messageXP(msg)
+  await gameHandler(msg)
+
   if (client.robo_events[msg.channel.id]) {
     handleRoboEvent(client, msg)
   }
 });
-
 
 
 /**  Per-Join Effects  **/
