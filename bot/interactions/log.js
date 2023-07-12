@@ -1,3 +1,4 @@
+const { log_interactions } = require('../ids')
 
 module.exports = (client) => {
   client.on("interactionCreate", async (interaction) => {
@@ -14,7 +15,7 @@ module.exports = (client) => {
     try {
       await command.execute(interaction);
       client.channels.cache
-        .get("945055759824207962")
+        .get(log_interactions)
         .send(
           `# Interaction executed\n**[Author]**: ${interaction.user.username} \`(${interaction.user.id})\` executed interaction \`${interaction.commandName}\` \n**[Channel]**: ${interaction.channel} \`(${interaction.channel.id})\` \n**[Interaction ID]**: \`${interaction.id}\``
         );
@@ -27,7 +28,7 @@ module.exports = (client) => {
         "*********************************************************************************************************************"
       );
       client.channels.cache
-        .get("945055759824207962")
+        .get(log_interactions)
         .send(
           `# Error while executing interaction\n**[Author]**: ${interaction.user.username} \`(${interaction.user.id})\` executed interaction \`${interaction.commandName}\` \n**[Channel]**: ${interaction.channel} \`(${interaction.channel.id})\` \n**[Interaction ID]**: \`${interaction.id}\`\n\n`
         );

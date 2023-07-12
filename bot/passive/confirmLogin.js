@@ -1,4 +1,5 @@
 const { EmbedBuilder } = require('discord.js');
+const { SERVER_ID, dev_bot } = require('../ids')
 
 module.exports = async (client) => {
 	const onlineEmb = new EmbedBuilder()
@@ -8,9 +9,9 @@ module.exports = async (client) => {
 		.setColor('2f3136')
 
 	try {
-		const botDev = client.channels.cache.get('751665008869376010')
+		const botDev = client.channels.cache.get(dev_bot)
 		botDev.send({ embeds: [onlineEmb] })
-		const guild = client.guilds.cache.get('462274708499595264')
+		const guild = client.guilds.cache.get(SERVER_ID)
 	}
 	catch (e) {
 		console.log(e)

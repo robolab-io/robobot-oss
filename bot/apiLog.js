@@ -2,6 +2,8 @@ const port = process.env.PORT || 3000;
 const { EmbedBuilder } = require('discord.js');
 
 const eventMapper = require('./utils/events');
+const { SERVER_ID, Role_Linked, ch_general, log_api } = require('./ids')
+
 // let { client } = require('./client') 
 
 module.exports = (app, client) => ({
@@ -40,11 +42,11 @@ const linkLog = client => (req, res) => {
 	const userID = req.query.id || false;
 	const silent = !!req.query.silent;
 	
-	const guild = client.guilds.cache.get('462274708499595264');
+	const guild = client.guilds.cache.get(SERVER_ID);
 	const user = guild.members.cache.get(userID);
 	if (!silent) {
-		let lastChannel = guild.channels.cache.get('462274708499595266');
-		let apiLogChannel = guild.channels.cache.get('771724978264604682');
+		let lastChannel = guild.channels.cache.get(ch_general);
+		let apiLogChannel = guild.channels.cache.get(log_api);
 
 		const embed = new EmbedBuilder()
 			.setTitle('Account Linked!')
@@ -61,7 +63,7 @@ const linkLog = client => (req, res) => {
 		apiLogChannel.send({ embeds: [apiLogEmbed] });
 	}
 
-	let role = guild.roles.cache.get('766073171135692830');
+	let role = guild.roles.cache.get(Role_Linked);
 	user.roles.add(role);
 	res.send('User notified on discord!');
 };
@@ -76,8 +78,8 @@ const genericLog = client => (req, res) => {
 	const reason = req.query.reason || 'unknown';
 	const username = req.query.user;
 	const amount = req.query.amount;
-	const guild = client.guilds.cache.get('462274708499595264');
-	const channel = guild.channels.cache.get('771724978264604682');
+	const guild = client.guilds.cache.get(SERVER_ID);
+	const channel = guild.channels.cache.get(log_api);
 	const embed = new EmbedBuilder()
 		.setTitle('User awarded Keycaps!')
 		.setThumbnail('https://mechakeys.robolab.io/discord/media/tip/tip4.gif')

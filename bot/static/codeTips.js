@@ -1,4 +1,7 @@
-const { ROBO, HYPERION, HALU, FIREBASE, DUCK, ...K } = require('../utils/idKey');
+const { ROBO, HYPERION, HALU } = require('../ids')
+
+let FIREBASE = '740495415769563157'
+let DUCK = '524786524164849674'
 
 module.exports = [
 	{

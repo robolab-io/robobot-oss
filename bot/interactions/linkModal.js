@@ -1,8 +1,9 @@
 const { EmbedBuilder, ActionRowBuilder, ButtonBuilder, ButtonStyle } = require("discord.js");
 const axios = require("axios");
 const { static } = require("robo-bot-utils");
-const { isLinked_username } = require('../utils/isLinked')
+const { SERVER_ID, log_api } = require('../ids')
 
+const { isLinked_username } = require('../utils/isLinked')
 function onlyAlphanumeric(str) {
   return str.replace(/[^a-zA-Z0-9]/g, "");
 }
@@ -21,8 +22,8 @@ module.exports = (client) => {
       `[linking] ${userID} (discord username ${discordUsername}) linked to mechakeys user ${cleanedValue}`
     );
 
-    const guild = interaction.client.guilds.cache.get("462274708499595264");
-    const apiLogChannel = guild.channels.cache.get("771724978264604682");
+    const guild = interaction.client.guilds.cache.get(SERVER_ID);
+    const apiLogChannel = guild.channels.cache.get(log_api);
 
     const embed = new EmbedBuilder()
       .setTitle("User attempted to link account")

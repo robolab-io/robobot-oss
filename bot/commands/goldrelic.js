@@ -3,7 +3,9 @@ const { EmbedBuilder } = require("discord.js");
 const events = require("../utils/events");
 const xpBot = require("./../utils/xpBot");
 const xpRequirement = { xp: 2000, level: 10 };
+
 const { discordAPI } = require("robo-bot-utils");
+const { ch_general } = require('../ids')
 
 module.exports = {
   alias: ['superpray'],
@@ -103,7 +105,7 @@ module.exports = {
       };
       events.roboEvent(interaction.client, {
         guildID: interaction.guild.id,
-        channelID: "462274708499595266",
+        channelID: ch_general,
         rewardType: `${rewardTypes[randomReward]}`,
         eventType: `${eventTypes[randomEvent]}`,
         eventMappingOverrides,

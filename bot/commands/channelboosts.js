@@ -1,4 +1,5 @@
 const { SlashCommandBuilder } = require('discord.js');
+const { ch_general } = require('../ids')
 const pyroBar = require('../utils/pyroBar');
 
 module.exports = {
@@ -11,7 +12,7 @@ module.exports = {
 		await interaction.deferReply();
 
 		await interaction.editReply(
-			`${pyroBar.getLilBarThingLol(interaction.client, '462274708499595266', 6)}\n**Channel Boost:** ${pyroBar.getMultiplier(interaction.client, '462274708499595266')}x XP`
+			`${pyroBar.getLilBarThingLol(interaction.client, ch_general, 6)}\n**Channel Boost:** ${pyroBar.getMultiplier(interaction.client, ch_general)}x XP`
 		);
 	},
 };

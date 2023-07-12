@@ -1,7 +1,10 @@
 const { EmbedBuilder } = require("discord.js");
 const wait = require("../utils/wait");
 const pyroBar = require("../utils/pyroBar");
+
 const { discordAPI } = require("robo-bot-utils");
+const { ch_general } = require('../ids')
+
 const records = require("../utils/records");
 
 const unidentified_falling_object = [
@@ -611,12 +614,12 @@ module.exports = {
       pyroBar.fillDatBoost(
         evO.client,
         evO.increaseAmt,
-        "462274708499595266",
+        ch_general,
         30
       );
       textBuilder += `\n**Current Boost**: ${pyroBar.getLilBarThingLol(
         evO.client,
-        "462274708499595266",
+        ch_general,
         6
       )}`;
       const emb = new EmbedBuilder()

@@ -1,5 +1,6 @@
 const { isDev } = require("robo-bot-utils")
 const env = isDev ? 'staging' : 'production'
+const { SERVER_ID } = require('../ids')
 
 const min_xp = 0;
 const max_xp = 200;
@@ -167,10 +168,8 @@ module.exports = {
 	},
 
 	updateChannelBar(client, channel) {
-		const guild = client.guilds.cache.get('462274708499595264');
+		const guild = client.guilds.cache.get(SERVER_ID);
 		const channelObj = guild.channels.cache.get(channel);
-		// const channelObj = guild.channels.cache.get('883375968104894496')
-		// const channelObj = guild.channels.cache.get('751665008869376010')
 
 		const prev_xp = min_xp;
 		const user_xp = client.boosts ? client.boosts[channel] : 0;
@@ -201,9 +200,8 @@ module.exports = {
 			clientTimer--;
 		}, 1000 * 60 * 5.025); // 5 mins and a few secs
 
-		const guild = client.guilds.cache.get('462274708499595264');
+		const guild = client.guilds.cache.get(SERVER_ID);
 		const channelObj = guild.channels.cache.get(channel);
-		// const channelObj = guild.channels.cache.get('751665008869376010')
 
 		const prev_xp = min_xp;
 		const user_xp = client.boosts[channel];

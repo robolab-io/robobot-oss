@@ -5,6 +5,7 @@ const pyroBar = require("../utils/pyroBar");
 const xpBot = require("../utils/xpBot");
 
 const { discordAPI } = require("robo-bot-utils");
+const { ch_general } = require('../ids')
 
 module.exports = {
   alias: ['boost'],
@@ -66,7 +67,7 @@ module.exports = {
     const win = winObject.win;
 
     if (win) {
-      pyroBar.fillDatBoost(interaction.client, 70, "462274708499595266", 5);
+      pyroBar.fillDatBoost(interaction.client, 70, ch_general, 5);
 
       let deduct_boost = await discordAPI.decrementField(interaction.user.id, {
         field: "boostDeviceCount",
@@ -85,7 +86,7 @@ module.exports = {
             interaction.user.id
           }> carefully plugs their Boost Device into Robo-bot's exposed wirings... and **hacks the boost!** \n\n**${pyroBar.getLilBarThingLol(
             interaction.client,
-            "462274708499595266",
+            ch_general,
             5
           )}**`
         )

@@ -5,7 +5,9 @@ const {
 const { EmbedBuilder } = require("discord.js");
 const xpBot = require("./../utils/xpBot");
 const pyroBar = require("./../utils/pyroBar");
+
 const { devAPI } = require("robo-bot-utils");
+const { ch_general } = require('../ids')
 
 const commandAccumulator = require("../utils/commandAccumulator");
 const xpRequirement = { xp: 50 };
@@ -119,7 +121,7 @@ module.exports = {
       )
       .setColor("2f3136");
 
-    pyroBar.fillDatBoost(interaction.client, 1, "462274708499595266", 5);
+    pyroBar.fillDatBoost(interaction.client, 1, ch_general, 5);
 
     await interaction.editReply({ embeds: [emb] });
   },

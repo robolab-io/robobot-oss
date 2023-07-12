@@ -1,5 +1,6 @@
 const { SlashCommandBuilder } = require('discord.js');
 const { EmbedBuilder } = require('discord.js');
+const { cat_staff } = require('../ids')
 
 const codeTips = require('../static/codeTips');
 
@@ -13,7 +14,7 @@ module.exports = {
 		await interaction.deferReply();
 
 		const { tip, media, ref } = codeTips[Math.floor(Math.random() * codeTips.length)];
-		const isStaff = interaction.channel.parentId === '777796388649304064';
+		const isStaff = interaction.channel.parentId === cat_staff;
 
 		var embed = new EmbedBuilder({
 			title: 'CODE TIP!',

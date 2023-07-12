@@ -5,6 +5,7 @@ const pyroBar = require("./../utils/pyroBar");
 
 const commandAccumulator = require("../utils/commandAccumulator");
 const { devAPI } = require("robo-bot-utils");
+const { ch_general } = require('../ids')
 
 const xpRequirement = { xp: 50 };
 
@@ -98,7 +99,7 @@ module.exports = {
         .setColor("2f3136")
         .setDescription(
           `<a:red_siren:812813923522183208> <@${userID}> needs to link their account to be tipped!`
-        );
+        )
       return interaction.editReply({ embeds: [doesntExistEmbed] });
     }
 
@@ -123,7 +124,7 @@ module.exports = {
       )
       .setColor("2f3136");
 
-    pyroBar.fillDatBoost(interaction.client, 1, "462274708499595266", 5);
+    pyroBar.fillDatBoost(interaction.client, 1, ch_general, 5);
 
     await interaction.editReply({ embeds: [emb] });
   },

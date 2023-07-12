@@ -1,4 +1,8 @@
 const { devAPI, isDev } = require("robo-bot-utils")
+const { 
+  Role_Linked, ch_general, Item_bodyguards,
+  Level_3, Level_10, Level_15, Level_20, Level_30, Level_40
+} = require('../ids')
 
 const { EmbedBuilder } = require("discord.js")
 const levels = require("../static/xpLevels")
@@ -20,10 +24,6 @@ const xpCommands = {
     let amt = XPamount;
     if (isBooster(guild, id)) {
       amt = (amt || 1) * 2; // double XP for Booster
-    }
-    const blacklistRole = "781735749497520139";
-    if (userObj.roles.cache.find((r) => r.id === blacklistRole)) {
-      return;
     }
 
     console.log('giveRes 1:', id, { amount: amt || 1 })
@@ -77,52 +77,34 @@ const xpCommands = {
           amount: keycapReward,
           reason: "discordLevel",
         });
+
+        // NOTE: clean this...
         if (levelsPassed.find((x) => x.level >= 3)) {
-          userObj.roles.add(guild.roles.cache.get("777737594452181002")); // add level 3
-          userObj.roles.add(guild.roles.cache.get("766073171135692830")); // linked
+          userObj.roles.add(guild.roles.cache.get(Level_3)); // add level 3
+          userObj.roles.add(guild.roles.cache.get(Role_Linked)); // linked
         }
         if (levelsPassed.find((x) => x.level === 9)) {
-          userObj.roles.add(guild.roles.cache.get("811255216128786503")); // bodyguards
+          userObj.roles.add(guild.roles.cache.get(Item_bodyguards)); // bodyguards
         }
         if (levelsPassed.find((x) => x.level >= 10)) {
-          userObj.roles.add(guild.roles.cache.get("773216593173413938")); // level 10
-          userObj.roles.add(guild.roles.cache.get("766073171135692830")); // linked
-          userObj.roles.add(guild.roles.cache.get("777737594452181002")); // add level 3
+          userObj.roles.add(guild.roles.cache.get(Level_10)); // level 10
         }
         if (levelsPassed.find((x) => x.level >= 15)) {
-          userObj.roles.add(guild.roles.cache.get("774510419741245440")); // level 15
-          userObj.roles.add(guild.roles.cache.get("773216593173413938")); // level 10
-          userObj.roles.add(guild.roles.cache.get("777737594452181002")); // add level 3
-          userObj.roles.add(guild.roles.cache.get("766073171135692830")); // linked
+          userObj.roles.add(guild.roles.cache.get(Level_15)); // level 15
         }
         if (levelsPassed.find((x) => x.level >= 20)) {
-          userObj.roles.add(guild.roles.cache.get("773294691894034472")); // level 20
-          userObj.roles.add(guild.roles.cache.get("766073171135692830")); // linked
-          userObj.roles.add(guild.roles.cache.get("777737594452181002")); // add level 3
-          userObj.roles.add(guild.roles.cache.get("773216593173413938")); // level 10
-          userObj.roles.add(guild.roles.cache.get("774510419741245440")); // level 15
+          userObj.roles.add(guild.roles.cache.get(Level_20)); // level 20
         }
         if (levelsPassed.find((x) => x.level >= 30)) {
-          userObj.roles.add(guild.roles.cache.get("773294691894034472")); // level 20
-          userObj.roles.add(guild.roles.cache.get("766073171135692830")); // linked
-          userObj.roles.add(guild.roles.cache.get("777737594452181002")); // add level 3
-          userObj.roles.add(guild.roles.cache.get("773216593173413938")); // level 10
-          userObj.roles.add(guild.roles.cache.get("774510419741245440")); // level 15
-          userObj.roles.add(guild.roles.cache.get("809803444009172992")); // level 30
+          userObj.roles.add(guild.roles.cache.get(Level_30)); // level 30
         }
         if (levelsPassed.find((x) => x.level >= 40)) {
-          userObj.roles.add(guild.roles.cache.get("773294691894034472")); // level 20
-          userObj.roles.add(guild.roles.cache.get("766073171135692830")); // linked
-          userObj.roles.add(guild.roles.cache.get("777737594452181002")); // add level 3
-          userObj.roles.add(guild.roles.cache.get("773216593173413938")); // level 10
-          userObj.roles.add(guild.roles.cache.get("774510419741245440")); // level 15
-          userObj.roles.add(guild.roles.cache.get("809803444009172992")); // level 30
-          userObj.roles.add(guild.roles.cache.get("851550484888420382")); // level 40
+          userObj.roles.add(guild.roles.cache.get(Level_40)); // level 40
         }
         pyroBar.fillDatBoost(
           client,
           levelsPassed[levelsPassed.length - 1].level,
-          "462274708499595266",
+          ch_general,
           levelsPassed[levelsPassed.length - 1].level
         );
       }

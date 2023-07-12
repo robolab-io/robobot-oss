@@ -1,6 +1,8 @@
 const { SlashCommandBuilder } = require("discord.js");
-
 const { EmbedBuilder } = require("discord.js");
+
+const { Role_Linked, ch_general, ch_linkChannel, dev_feed } = require('../ids')
+
 const xpBot = require("../utils/xpBot");
 const pyroBar = require("../utils/pyroBar");
 const keycapAPI = require("../utils/keycapAPI");
@@ -94,7 +96,7 @@ const decide_flavor = (flavormap, x) => {
 };
 
 const lock = {};
-const general_channels = ["462274708499595266", "752348032145686599"];
+const general_channels = [ch_general, dev_feed];
 
 const generateDailyAfterMessage = () => {
   const dailyAfterMessage = [
@@ -145,13 +147,13 @@ module.exports = {
 
     const checkLinkedUser = guild.members.cache.get(interaction.user.id);
 
-    if (!checkLinkedUser.roles.cache.get("766073171135692830")) {
+    if (!checkLinkedUser.roles.cache.get(Role_Linked)) {
       if (await isLinked_discordID(interaction.user.id)) {
-        checkLinkedUser.roles.add("766073171135692830");
+        checkLinkedUser.roles.add(Role_Linked);
       } else {
         lock[interaction.user.id] = false;
         return interaction.channel.send(
-          "You can't claim a daily reward without linking your account first! Please go to <#1114449640348205057>, then try `/daily`"
+          `You can't claim a daily reward without linking your account first! Please go to <#${ch_linkChannel}>, then try \`/daily\``
         );
       }
     }
@@ -160,7 +162,7 @@ module.exports = {
       lock[interaction.user.id] = false;
       let notGeneralChannelEmb = new EmbedBuilder()
         .setDescription(
-          `<a:red_siren:812813923522183208> <@${interaction.user.id}>, you need to use daily in a public channel like <#462274708499595266>!`
+          `<a:red_siren:812813923522183208> <@${interaction.user.id}>, you need to use daily in a public channel like <#${ch_general}>!`
         )
         .setColor("2f3136");
       return await interaction.editReply({ embeds: [notGeneralChannelEmb] });
@@ -265,7 +267,7 @@ module.exports = {
         jackpot.winnings,
         "discordjackpot"
       );
-      pyroBar.fillDatBoost(interaction.client, 90, "462274708499595266", 480);
+      pyroBar.fillDatBoost(interaction.client, 90, ch_general, 480);
     }
     if (rewardToGive === "keycaps") {
       await keycapAPI.awardKeycaps(
@@ -282,7 +284,7 @@ module.exports = {
         interaction.client
       );
     }
-    pyroBar.fillDatBoost(interaction.client, 1, "462274708499595266", 10);
+    pyroBar.fillDatBoost(interaction.client, 1, ch_general, 10);
     lock[interaction.user.id] = false;
     await createEvent.directMessageUserInFuture(
       interaction.guild.id,

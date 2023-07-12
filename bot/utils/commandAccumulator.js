@@ -1,10 +1,10 @@
 const { EmbedBuilder } = require("discord.js");
 const { discordAPI } = require("robo-bot-utils");
+const { Staff_Admin_CMDS, Role_Donator, Staff_Helper, Role_Linked, Staff_Mod } = require('../ids')
 
 
 const role_map = {
-  // Admin
-  "730440161619607554": {
+  [Staff_Admin_CMDS] : {
     debug: {
       rate: 0.02,
       cap: 99,
@@ -42,8 +42,8 @@ const role_map = {
       cap: 99,
     },
   },
-  // Helper
-  "910623335069655101": {
+
+  [Staff_Mod]: {
     bombsquad: {
       rate: 2, // every 2 hours
       cap: 3,
@@ -77,8 +77,8 @@ const role_map = {
       cap: 2,
     },
   },
-  // Donators
-  "745750711584948316": {
+
+  [Role_Donator]: {
     bombsquad: {
       rate: 12, // every 12 hours
       cap: 2,
@@ -112,8 +112,8 @@ const role_map = {
       cap: 2,
     },
   },
-  // Moderator
-  "763876223364628480": {
+
+  [Staff_Helper]: {
     bombsquad: {
       rate: 24, // every 24 hours
       cap: 2,
@@ -148,8 +148,7 @@ const role_map = {
     },
   },
 
-  // Linked member
-  "766073171135692830": {
+  [Role_Linked]: {
     bombsquad: {
       rate: 99999999, // every 12 hours
       cap: 0,
@@ -181,8 +180,8 @@ const role_map = {
     suggest: {
       rate: 6,
       cap: 2,
-    },
-  },
+    }
+  }
 };
 
 const wait_flavor = (user, time) => {
@@ -219,11 +218,11 @@ module.exports = async (interaction, type, readonly, isInteraction) => {
     .setColor("2f3136")
     .setDescription(
       `<a:red_siren:812813923522183208> You need to supply a command to see your quota, dingus. Try these:\n\`${Object.keys(
-        role_map["763876223364628480"]
+        role_map[Staff_Helper]
       ).join(", ")}\``
     );
 
-  if (!Object.keys(role_map["763876223364628480"]).includes(type)) {
+  if (!Object.keys(role_map[Staff_Helper]).includes(type)) {
     if (readonly) {
       if (isInteraction) {
         interaction.editReply({ embeds: [commandNotFoundEmbed] });

@@ -1,6 +1,7 @@
 const { SlashCommandBuilder } = require('discord.js');
 const { EmbedBuilder } = require('discord.js');
 const xpBot = require('./../utils/xpBot');
+const { HALU } = require('../ids')
 
 module.exports = {
 	alias: ['lvl', 'level'],
@@ -78,8 +79,7 @@ module.exports = {
 			so_close_threshold = `*${xp_to_go} XP left!* <a:goldencaret:880826858885763112>`;
 		}
 
-		const number_of_slots =
-      userID === '216317706591272971' ? 1 : userID === '753095187714015232' ? 21 : 5;
+		const number_of_slots = userID === HALU ? 1 : 5;
 		const each_block_owns = 100 / number_of_slots;
 		const mini_bar_number = Math.floor(
 			((percent_progress % each_block_owns) / each_block_owns) * 10,

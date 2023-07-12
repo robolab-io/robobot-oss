@@ -1,51 +1,54 @@
-const { SlashCommandBuilder } = require("discord.js");
+const { SlashCommandBuilder } = require("discord.js")
+const { EmbedBuilder } = require("discord.js")
 
-const createEvent = require("../utils/createEvent");
-const pyroBar = require(".././utils/pyroBar");
+const createEvent = require("../utils/createEvent")
+const pyroBar = require(".././utils/pyroBar")
 
-const { devAPI, discordAPI } = require("robo-bot-utils");
-const commandAccumulator = require("../utils/commandAccumulator");
-const parseDuration = require("parse-duration");
-const { EmbedBuilder } = require("discord.js");
+const { devAPI, discordAPI } = require("robo-bot-utils")
+const { ch_general, ch_giveaways } = require('../ids')
+
+const commandAccumulator = require("../utils/commandAccumulator")
+const parseDuration = require("parse-duration")
+
 
 function timeConversion(millisec) {
-  let seconds = Math.round(millisec / 1000);
-  let minutes = Math.round(millisec / (1000 * 60));
-  let hours = Math.round(millisec / (1000 * 60 * 60));
-  let days = Math.round(millisec / (1000 * 60 * 60 * 24));
+  let seconds = Math.round(millisec / 1000)
+  let minutes = Math.round(millisec / (1000 * 60))
+  let hours = Math.round(millisec / (1000 * 60 * 60))
+  let days = Math.round(millisec / (1000 * 60 * 60 * 24))
 
   if (seconds < 60) {
-    return seconds + " seconds";
+    return seconds + " seconds"
   } else if (minutes < 60) {
-    return minutes + " minutes";
+    return minutes + " minutes"
   } else if (hours < 24) {
-    return hours + " hours";
+    return hours + " hours"
   } else {
-    return days + " days";
+    return days + " days"
   }
 }
 
 const limitViolation = function (winners, prize, duration, level) {
   if (winners > limits.max_winners || winners < limits.min_winners) {
-    return `**Winner count** is out of range.\n**Min:** ${limits.min_winners} **Max:** ${limits.max_winners}`;
+    return `**Winner count** is out of range.\n**Min:** ${limits.min_winners} **Max:** ${limits.max_winners}`
   }
   if (duration > limits.max_duration || duration < limits.min_duration) {
     return `**Duration** is out of range.\n**Min:** ${timeConversion(
       limits.min_duration
-    )} **Max:** ${timeConversion(limits.max_duration)}`;
+    )} **Max:** ${timeConversion(limits.max_duration)}`
   }
   if (level > limits.max_level || level < limits.min_level) {
-    return `**Level requirement** is out of range.\n**Min:** Level ${limits.min_level} **Max:** Level ${limits.max_level}`;
+    return `**Level requirement** is out of range.\n**Min:** Level ${limits.min_level} **Max:** Level ${limits.max_level}`
   }
   if (prize / winners < limits.min_prize_per_winner) {
-    return `Each winner must win **at least** ${limits.min_prize_per_winner} keycaps.`;
+    return `Each winner must win **at least** ${limits.min_prize_per_winner} keycaps.`
   }
   if (prize > limits.max_prize) {
-    return `**Prize total** is out of range.\n**Max:** ${limits.max_prize} keycaps`;
+    return `**Prize total** is out of range.\n**Max:** ${limits.max_prize} keycaps`
   }
   if (prize / limits.min_prize_per_hour < duration / 60 / 60 / 1000) {
     // prize_total/min_prize_per_hour < hours
-    return `You need at least ${limits.min_prize_per_hour} TOTAL keycaps per hour.`;
+    return `You need at least ${limits.min_prize_per_hour} TOTAL keycaps per hour.`
   }
   return false; // success!
 };
@@ -62,7 +65,7 @@ const limits = {
   max_level: 20,
   min_level: 0,
   min_prize_per_hour: 0, // 1200keycaps per day
-};
+}
 
 module.exports = {
   data: new SlashCommandBuilder()
@@ -110,22 +113,22 @@ module.exports = {
     ),
 
   async execute(interaction) {
-    await interaction.deferReply();
+    await interaction.deferReply()
 
-    let author_discord_object = await discordAPI.getUser(interaction.user.id);
+    let author_discord_object = await discordAPI.getUser(interaction.user.id)
     if (!author_discord_object || !author_discord_object.success) {
       return interaction.editReply(
         `<@${interaction.user.id}>, error grabbing your discord data.`
-      );
+      )
     }
 
-    let winners = interaction.options.getInteger("winners");
-    let amountPerWinner = interaction.options.getInteger("amount");
+    let winners = interaction.options.getInteger("winners")
+    let amountPerWinner = interaction.options.getInteger("amount")
     let lengthOfGiveaway = parseDuration(
       interaction.options.getString("length")
-    );
-    let levelRequirement = interaction.options.getInteger("levelrequirement");
-    const fullString = interaction.options.getString("message");
+    )
+    let levelRequirement = interaction.options.getInteger("levelrequirement")
+    const fullString = interaction.options.getString("message")
 
     const limitRes = limitViolation(
       winners,
@@ -139,7 +142,7 @@ module.exports = {
         .setTitle("Giveaway Builder")
         .setDescription(`${limitRes}`)
         .setColor("ff4754");
-      return interaction.editReply({ embeds: [limitEmb] });
+      return interaction.editReply({ embeds: [limitEmb] })
     }
 
     const out_of_uses = !(await commandAccumulator(
@@ -148,11 +151,11 @@ module.exports = {
       false,
       true
     ));
-    if (out_of_uses) return;
+    if (out_of_uses) return
 
     const deductKeycapRes = await devAPI.deductKeycaps(interaction.user.id, {
       amount: `${winners * amountPerWinner}`,
-    });
+    })
     if (deductKeycapRes && deductKeycapRes.success) {
       // return msg.channel.send(`You bought ${query.toLowerCase()} for \`${store_prices['bodyguards']} keycaps\`! Remember, if you /fight, you lose them and will have to re-buy!`)
     } else {
@@ -160,18 +163,16 @@ module.exports = {
         `<a:red_siren:812813923522183208> You don't have \`${
           winners * amountPerWinner
         } keycaps\` to start that giveaway!`
-      );
+      )
     }
 
-    const generalChannel =
-      interaction.guild.channels.cache.get("462274708499595266"); // general is 462274708499595266
+    const generalChannel = interaction.guild.channels.cache.get(ch_general)
     generalChannel.send(
-      `<:giftkeycap:811257704138932234> Psst, <@${interaction.user.id}> just started a giveaway in <#771448471625400351>!`
-    );
-    pyroBar.fillDatBoost(interaction.client, 20, "462274708499595266", 20);
+      `<:giftkeycap:811257704138932234> Psst, <@${interaction.user.id}> just started a giveaway in <#${ch_giveaways}>!`
+    )
+    pyroBar.fillDatBoost(interaction.client, 20, ch_general, 20)
 
-    const giveawayChannel =
-      interaction.guild.channels.cache.get("771448471625400351"); // giveaway: 771448471625400351
+    const giveawayChannel = interaction.guild.channels.cache.get(ch_giveaways)
 
     let emb = new EmbedBuilder()
       .setDescription(
@@ -196,14 +197,14 @@ module.exports = {
         "https://mechakeys.robolab.io/discord/media/records/record_multi.gif"
       )
       .setFooter({ text: "React to enter the giveaway!" })
-      .setColor("ff3da4");
+      .setColor("ff3da4")
 
-    const pinger = await giveawayChannel.send("A giveaway has started!");
-    pinger.delete();
-    const giveawayMsg = await giveawayChannel.send({ embeds: [emb] });
+    const pinger = await giveawayChannel.send("A giveaway has started!")
+    pinger.delete()
+    const giveawayMsg = await giveawayChannel.send({ embeds: [emb] })
 
     // giveawayMsg.react(':robo_ascend:842796636174549011')
-    giveawayMsg.react(":robo_ppHands:796922161847468043");
+    giveawayMsg.react(":robo_ppHands:796922161847468043")
 
     createEvent.giveaway(
       interaction.guild.id,
@@ -214,19 +215,19 @@ module.exports = {
       amountPerWinner,
       levelRequirement,
       giveawayMsg.id
-    );
+    )
 
     let msgFutureFlavor = [
       `Your ${timeConversion(
         lengthOfGiveaway
       )} giveaway of <:minikeycap:811257663194660876>${
         amountPerWinner * winners
-      } has been started in <#771448471625400351>.`,
+      } has been started in <#${ch_giveaways}>.`,
     ];
     let flavor =
       msgFutureFlavor[Math.floor(Math.random() * msgFutureFlavor.length)];
     return interaction.editReply({
       content: `<@${interaction.user.id}>, ${flavor}`,
-    });
-  },
-};
+    })
+  }
+}

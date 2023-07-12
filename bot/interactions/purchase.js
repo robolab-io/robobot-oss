@@ -1,5 +1,6 @@
 const { EmbedBuilder } = require("discord.js")
 const { devAPI, discordAPI } = require("robo-bot-utils")
+const { log_interactions, Item_bodyguards, Item_flyingfist, Item_fistofdoom } = require('../ids')
 
 const store_prices = {
   pokeball: 10,
@@ -73,7 +74,7 @@ let storeResData = {
   item_bodyguards: {
     store_name: 'bodyguards',
     quant_name: 'Bodyguards',
-    role: '811255216128786503',
+    role: Item_bodyguards,
     dupeReject: id =>  `<a:red_siren:812813923522183208> <@${id}> You already have bodyguards! Dumbass. Now fuck off`,
     successfulPurchaseEmbedDescription: (id, amount) => `<@${id}> You bought Bodyguards for \`${store_prices["bodyguards"]} keycaps\`! Remember, if you /fight, you lose them and will have to re-buy!`,
   },
@@ -81,7 +82,7 @@ let storeResData = {
   item_fistofdoom: {
     store_name: 'fist of doom',
     quant_name: 'a Fist of Doom',
-    role: '865711992785731614',
+    role: Item_fistofdoom,
     dupeReject: id => `<a:red_siren:812813923522183208> <@${id}> You have a Fist of Doom already! Now go superfight someone, dumbass.`,
     successfulPurchaseEmbedDescription: (id, amount) => `<@${id}> You bought the Fist of Doom for \`${store_prices["fist of doom"]} keycaps\`! Now go superfight someone!`
   },
@@ -89,7 +90,7 @@ let storeResData = {
   item_flyingfist: {
     store_name: 'flying fist',
     quant_name: 'the Flying Fist',
-    role: '939774831220633600',
+    role: Item_flyingfist,
     dupeReject: id => `<a:red_siren:812813923522183208> <@${id}> You already have a Flying Fist! Dumbass. Save a tumbleweed or something`,
     successfulPurchaseEmbedDescription: (id, amount) => `<@${id}> You bought the Flying Fist for \`${store_prices["flying fist"]} keycaps\`! Go save those tumbleweeds!`
   }
@@ -149,7 +150,7 @@ module.exports = (client) => {
         return await fn(interaction, storeResData[userWantsToBuyItem])
        
         client.channels.cache
-          .get("945055759824207962")
+          .get(log_interactions)
           .send(
             `**[Author]**: ${interaction.user.username} \`(${interaction.user.id})\` executed interaction \`${interaction.commandName}\` \n**[Channel]**: ${interaction.channel} \`(${interaction.channel.id})\` \n**[Interaction ID]**: \`${interaction.id}\``
           );

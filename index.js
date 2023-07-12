@@ -25,16 +25,17 @@ let compatWrap = async (cmd, msg) => {
 /**  Per-Message Effects  **/
 const messageXP = require("./bot/passive/messageXP")
 const handleRoboEvent = require("./bot/passive/handleRoboEvent")
+const { ch_bots, ch_general, dev_bot } = require('./bot/ids')
 client.on("messageCreate", async (msg) => {
   if (msg.author.bot) return
 
   /**  Prefix Commands  **/
   let match = msg.content.toLowerCase().match(matchCmd)
-  if (match && msg.channel.id === "462274708499595266") {
+  if (match && [ch_general, ch_bots, dev_bot].includes(msg.channel.id) ) {
     let [_, cmdName] = match
     if ( ['daily', 'd'].includes(cmdName) ) {
       compatWrap(dailyCMD, msg)
-    } else 
+    } else
     if ( ['pray', 'p'].includes(cmdName) ) {
       compatWrap(prayCMD, msg)
     }

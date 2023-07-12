@@ -5,6 +5,8 @@ const xpBot = require('../utils/xpBot');
 const pyroBar = require('../utils/pyroBar');
 const keycapAPI = require('../utils/keycapAPI');
 
+const { SERVER_ID, ch_general, dev_bot } = require('../ids')
+
 function timeConversion(millisec) {
 	let seconds = Math.round(millisec / 1000);
 	let minutes = Math.round(millisec / (1000 * 60));
@@ -40,7 +42,7 @@ module.exports = {
     method: 'add' or 'remove'
   */
 	removeRole: async (client, params) => {
-		const guildID = params.guild || '462274708499595264'; // default to robolab.io
+		const guildID = params.guild || SERVER_ID; // default to robolab.io
 		const guild = client.guilds.cache.get(guildID);
 		const discordID = params.discordID;
 		const roleID = params.roleID;
@@ -67,11 +69,11 @@ module.exports = {
 	},
 
 	messageFromThePast: async (client, params) => {
-		const guildID = params.guildID || '462274708499595264'; // default to robolab.io
+		const guildID = params.guildID || SERVER_ID; // default to robolab.io
 		const guild = client.guilds.cache.get(guildID);
 		const userID = params.userID;
 		const channelID = params.channelID;
-		const channel = guild.channels.cache.get(channelID) || guild.channels.cache.get('462274708499595266'); // default to main in case channel deleted
+		const channel = guild.channels.cache.get(channelID) || guild.channels.cache.get(ch_general); // default to main in case channel deleted
 		const message = params.message;
 		let request_time = params.request_time || false;
 		request_time = !isNaN(request_time) ? Number(request_time) : request_time;
@@ -90,7 +92,7 @@ module.exports = {
 		await wait(7000);
 		channel.permissionOverwrites.edit(channel.guild.roles.everyone, { SendMessages: null });
 		channel.send('*(channel unlocked)*').then(x => x.delete());
-		pyroBar.fillDatBoost(client, 2, '462274708499595266', 5);
+		pyroBar.fillDatBoost(client, 2, ch_general, 5);
 		// lock channel
 		// send SPACER message to clear chat
 		// ATTENTION --
@@ -100,7 +102,7 @@ module.exports = {
 		// unlock channel
 	},
 	directMessageUser: async (client, params) => {
-		const guildID = params.guildID || '462274708499595264'; // default to robolab.io
+		const guildID = params.guildID || SERVER_ID; // default to robolab.io
 		const guild = client.guilds.cache.get(guildID);
 		const userID = params.userID;
 		const user = guild.members.cache.get(userID);
@@ -292,7 +294,7 @@ module.exports = {
 		}
 	},
 	endGiveaway: async (client, params) => {
-		const guildID = params.guildID || '462274708499595264'; // default to robolab.io
+		const guildID = params.guildID || SERVER_ID; // default to robolab.io
 		const guild = client.guilds.cache.get(guildID);
 		const userID = params.userID;
 		const message = params.message;
@@ -301,11 +303,11 @@ module.exports = {
 		const levelRequirement = params.level;
 		const giveawayID = params.giveawayID;
 		const channelID = params.channelID;
-		const channel = guild.channels.cache.get(channelID) || guild.channels.cache.get('462274708499595266'); // default to main in case channel deleted
+		const channel = guild.channels.cache.get(channelID) || guild.channels.cache.get(ch_general); // default to main in case channel deleted
 		const giveawayMessage = await channel.messages.fetch(giveawayID).catch(e => false);
-		const generalChannel = guild.channels.cache.get('462274708499595266');
+		const generalChannel = guild.channels.cache.get(ch_general);
 		console.log('endGiveaway Received!', params);
-		const devChannel = guild.channels.cache.get('751665008869376010');
+		const devChannel = guild.channels.cache.get(dev_bot);
 		if (!giveawayMessage) {
 
 			devChannel.send(`A giveaway just ended, but I couldn't find the original message. I guess it was canceled!\n user:${userID} winners:${winnerCount} prize:${prizeAmount} level:${levelRequirement} messageID:${giveawayID}`);
@@ -404,10 +406,12 @@ module.exports = {
 	// TODO: make these randomly triggered by /pray @Robo-bot and /fight @Robo-bot along with instant events
 	roboEvent: async (client, params) => {
 		const { channelID, eventType, delay } = params;
-		const guildID = params.guildID || '462274708499595264'; // default to robolab.io
+		const guildID = params.guildID || SERVER_ID; // default to robolab.io
 		const guild = client.guilds.cache.get(guildID);
-		const channel = guild.channels.cache.get(channelID || '462274708499595266');
+
+    const channel = guild.channels.cache.get(channelID || ch_general)
 		console.log('EVENT LOG:', eventType, channelID, channel)
+
 		const eventMappingOverrides = params.eventMappingOverrides || {}; // override specifics here, such as max claimers, or anything in roboEventObject
 		let roboEventObject = {
 			guild, channel, client,

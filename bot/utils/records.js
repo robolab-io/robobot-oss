@@ -7,6 +7,7 @@ const wait = require("../utils/wait");
 const keycapAPI = require("../utils/keycapAPI");
 const isBooster = require("../utils/isBooster");
 
+const { ch_general } = require('../ids')
 const { static, isDev } = require("robo-bot-utils")
 const env = isDev ? 'staging' : 'production'
 
@@ -373,7 +374,7 @@ module.exports = {
         "recordBroken"
       );
 
-      pyroBar.fillDatBoost(msg.client, 60, "462274708499595266", 180);
+      pyroBar.fillDatBoost(msg.client, 60, ch_general, 180);
       // send message to discord
       // give awards
     }

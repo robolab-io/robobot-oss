@@ -1,5 +1,4 @@
 const { SlashCommandBuilder } = require("discord.js");
-
 const { EmbedBuilder } = require("discord.js");
 
 const events = require("../utils/events");
@@ -7,6 +6,7 @@ const createEvent = require("../utils/createEvent");
 const commandAccumulator = require("../utils/commandAccumulator");
 
 const { static } = require("robo-bot-utils");
+const { ch_general, dev_bot, dev_feed } = require('../ids')
 
 function weightedRandom(arr) {
   let sum = 0,
@@ -27,12 +27,7 @@ function roundTimeToMinute(time, roundMin) {
   return rounded;
 }
 
-const general_channels = [
-  "462274708499595266",
-  "778350772835844115",
-  "751665008869376010",
-  "752348032145686599",
-]; // 778350772835844115 751665008869376010 are test channels
+const general_channels = [ ch_general, dev_bot, dev_feed ]
 function getRandomInt(min, max) {
   min = Math.ceil(min);
   max = Math.floor(max);
@@ -51,7 +46,7 @@ module.exports = {
     if (!general_channels.includes(interaction.channel.id)) {
       let notGeneralChannelEmb = new EmbedBuilder()
         .setDescription(
-          `<a:red_siren:812813923522183208> <@${interaction.user.id}>, you need to use pray in a public channel like <#462274708499595266>!`
+          `<a:red_siren:812813923522183208> <@${interaction.user.id}>, you need to use pray in a public channel like <#${ch_general}>!`
         )
         .setColor("2f3136");
       return await interaction.editReply({ embeds: [notGeneralChannelEmb] });
