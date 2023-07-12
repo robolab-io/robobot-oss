@@ -29,9 +29,9 @@ module.exports = async (msg) => {
     const score = Object.values(tumblestreak.streakers).reduce((a,c) => a + c.count, 0)
     const flavor = getFlavor('tumblestreak', 'end_flavor', score)
 
-    let scaleFactor = 0.3475 // 24hrs = 5min * 288times. so, 288 * 0.3475 = 100 keycaps 
+    let scaleFactor = 0.75 //0.3475 // 24hrs = 5min * 288times. so, 288 * 0.3475 = 100 keycaps 
     let rewards = Object.entries(tumblestreak.streakers).reduce(
-      (a,[id, v])=>[...a, [v.count, (1 + v.count * scaleFactor)|0, v.user]],
+      (a,[id, v])=>[...a, [v.count, (2 + v.count * scaleFactor)|0, v.user]],
     []).sort()
     
     const embed = new EmbedBuilder()

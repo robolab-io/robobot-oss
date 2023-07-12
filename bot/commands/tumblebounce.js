@@ -13,6 +13,7 @@ exports.data = new SlashCommandBuilder()
 
 // currentGames
 exports.execute = async (act) => {
+  console.log('tb', 'hit')
   await act.deferReply()
 
   let channelID = act.channelId
@@ -22,8 +23,10 @@ exports.execute = async (act) => {
   if (currentGames[channelID] && currentGames[channelID].tumblebounce) {
     return act.editReply({content: "TumbleBounce already active!" });
   }
-  //const out_of_uses = !(await commandAccumulator(act, 'tumblebounce', false, true))
-  //if (out_of_uses) return
+
+  const out_of_uses = !(await commandAccumulator(act, 'tumblebounce', false, true))
+  if (out_of_uses) return act.editReply({content: "out of uses!" });
+
   currentGames[channelID] = currentGames[channelID] || {}
   let tumblebounce = {
     bouncers: [],
