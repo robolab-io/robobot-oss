@@ -1,6 +1,10 @@
 const { EmbedBuilder, ActionRowBuilder, ButtonBuilder, ButtonStyle } = require("discord.js");
 const { static } = require("robo-bot-utils");
 
+function onlyAlphanumeric(str) {
+  return str.replace(/[^a-zA-Z0-9]/g, "");
+}
+
 module.exports = (client) => {
   client.on("interactionCreate", async (interaction) => {
     if (!interaction.isModalSubmit()) return;
