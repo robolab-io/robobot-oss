@@ -28,7 +28,7 @@ module.exports = {
     const mention = `<@!${member.id}>`
     const keycapAmount = interaction.options.getInteger("amount")
 
-    await devAPI.deductKeycaps(member.id, { amount: keycapAmount })
+    await devAPI.deductKeycaps(member.id, { amount: +keycapAmount })
     let awardEmb = new EmbedBuilder()
       .setDescription(`Removed **${keycapAmount} keycaps** from ${mention}.`)
       .setColor("2f3136")

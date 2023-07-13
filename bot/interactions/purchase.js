@@ -104,7 +104,7 @@ let fn = async (interaction, obj) => {
 
   // Make purchase
   const deductKeycapRes = await devAPI.deductKeycaps( interaction.user.id,
-    { amount: `${store_prices[obj.store_name]}` }
+    { amount: +store_prices[obj.store_name] }
   )
   if ( deductKeycapRes && deductKeycapRes.success ) {
 

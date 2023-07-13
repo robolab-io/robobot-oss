@@ -154,7 +154,7 @@ module.exports = {
     if (out_of_uses) return
 
     const deductKeycapRes = await devAPI.deductKeycaps(interaction.user.id, {
-      amount: `${winners * amountPerWinner}`,
+      amount: +winners * +amountPerWinner
     })
     if (deductKeycapRes && deductKeycapRes.success) {
       // return msg.channel.send(`You bought ${query.toLowerCase()} for \`${store_prices['bodyguards']} keycaps\`! Remember, if you /fight, you lose them and will have to re-buy!`)
