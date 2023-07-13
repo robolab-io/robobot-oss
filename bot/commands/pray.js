@@ -3,8 +3,8 @@ const { SlashCommandBuilder, EmbedBuilder } = require("discord.js");
 const { static } = require("robo-bot-utils");
 
 const { ch_general, dev_bot, dev_feed } = require('../ids')
-const events = require("../utils/events");
-const createEvent = require("../utils/createEvent");
+const events = require("../server/events");
+const createEvent = require("../server/createEvent");
 const commandAccumulator = require("../utils/commandAccumulator");
 
 

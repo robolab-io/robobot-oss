@@ -2,8 +2,8 @@ const { SlashCommandBuilder, EmbedBuilder } = require("discord.js");
 
 const { discordAPI } = require("robo-bot-utils");
 
-const createEvent = require("../utils/createEvent");
-const events = require("../utils/events");
+const createEvent = require("../server/createEvent");
+const events = require("../server/events");
 
 
 function timeConversion(millisec) {

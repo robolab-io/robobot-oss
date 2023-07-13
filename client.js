@@ -73,7 +73,7 @@ interactionHandler(client)
 
 
 /*** SERVER ***/
-let server = require('./server')
+let server = require('./bot/server')
 server(client)
 
 module.exports = {

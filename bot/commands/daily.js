@@ -8,7 +8,7 @@ const xpBot = require("../utils/xpBot");
 const pyroBar = require("../utils/pyroBar");
 const keycapAPI = require("../utils/keycapAPI");
 const isBooster = require("../utils/isBooster");
-const createEvent = require("../utils/createEvent");
+const createEvent = require("../server/createEvent");
 const { isLinked_discordID } = require("../utils/isLinked");
 
 const gifs = {

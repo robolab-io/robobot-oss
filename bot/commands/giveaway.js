@@ -4,7 +4,7 @@ const parseDuration = require("parse-duration")
 const { devAPI, discordAPI } = require("robo-bot-utils")
 
 const { ch_general, ch_giveaways } = require('../ids')
-const createEvent = require("../utils/createEvent")
+const createEvent = require("../server/createEvent")
 const pyroBar = require(".././utils/pyroBar")
 const commandAccumulator = require("../utils/commandAccumulator")
 

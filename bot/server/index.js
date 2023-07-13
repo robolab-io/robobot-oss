@@ -5,7 +5,7 @@ const app = express()
 app.use(bodyParser.json())
 
 module.exports = (client)=>{
-  const { init, logs } = require("./bot/apiLog")(app, client)
+  const { init, logs } = require("./apiLog")(app, client)
   init()
   logs()
 }

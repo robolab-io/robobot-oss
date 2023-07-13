@@ -1,8 +1,8 @@
 const port = process.env.PORT || 3000;
 const { EmbedBuilder } = require('discord.js');
 
-const eventMapper = require('./utils/events');
-const { SERVER_ID, Role_Linked, ch_general, log_api } = require('./ids')
+const eventMapper = require('./events');
+const { SERVER_ID, Role_Linked, ch_general, log_api } = require('../ids')
 
 module.exports = (app, client) => ({
 	init() {

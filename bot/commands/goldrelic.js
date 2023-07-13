@@ -3,7 +3,7 @@ const { SlashCommandBuilder, EmbedBuilder } = require("discord.js")
 const { discordAPI } = require("robo-bot-utils")
 
 const { ch_general } = require('../ids')
-const events = require("../utils/events")
+const events = require("../server/events")
 const xpBot = require("./../utils/xpBot")
 
 const xpRequirement = { xp: 2000, level: 10 }

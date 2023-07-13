@@ -1,4 +1,3 @@
-/* eslint-disable no-mixed-spaces-and-tabs */
 const { EmbedBuilder } = require('discord.js');
 
 const { SERVER_ID, ch_general, dev_bot } = require('../ids')
@@ -6,7 +5,11 @@ const xpBot = require('../utils/xpBot');
 const pyroBar = require('../utils/pyroBar');
 const keycapAPI = require('../utils/keycapAPI');
 
-const wait = require('./wait');
+const wait = require('../utils/wait');
+
+// you can make anything happen in this config
+const roboEventMap = require('./roboEventMap');
+
 
 
 function timeConversion(millisec) {
@@ -31,9 +34,6 @@ function timeConversion(millisec) {
 async function awardAll(winners, reward, reason) {
 	return Promise.all(winners.map((user, i) => keycapAPI.giveKeycaps(user, reward, reason || 'gift')));
 }
-
-// you can make anything happen in this config
-const roboEventMap = require('../static/roboEventMap');
 
 module.exports = {
 	/*
