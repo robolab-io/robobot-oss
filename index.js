@@ -1,6 +1,7 @@
 /***   Client   ***/
 let { client } = require('./client') 
 const { TOKEN } = require("robo-bot-utils")
+const { ch_bots, ch_general, dev_bot } = require('./bot/ids')
 
 
 /**  Prefix Commands  **/
@@ -26,7 +27,6 @@ let compatWrap = async (cmd, msg) => {
 const messageXP = require("./bot/passive/messageXP")
 const handleRoboEvent = require("./bot/passive/handleRoboEvent")
 const gameHandler = require('./bot/games/gameHandler')
-const { ch_bots, ch_general, dev_bot } = require('./bot/ids')
 client.on("messageCreate", async (msg) => {
   if (msg.author.bot) return
 
@@ -50,6 +50,13 @@ client.on("messageCreate", async (msg) => {
     handleRoboEvent(client, msg)
   }
 });
+
+
+/**  Pyro-Bar  **/
+const pyroBar = require("./bot/utils/pyroBar")
+setInterval(() => {
+  pyroBar.onMinute(client, ch_general)
+}, 1e3 * 60 ); // every mins
 
 
 /**  Per-Join Effects  **/
