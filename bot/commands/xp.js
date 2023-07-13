@@ -3,44 +3,28 @@ const { EmbedBuilder } = require('discord.js');
 const xpBot = require('./../utils/xpBot');
 const { HALU } = require('../ids')
 
-module.exports = {
-	alias: ['lvl', 'level'],
-	data: new SlashCommandBuilder()
-		.setName('xp')
-		.setDescription('View someone\'s Discord XP and level')
-		.addUserOption((option) =>
-			option
-				.setName('user')
-				.setDescription('The person you want to view')
-				.setRequired(false),
-		),
+const { getTargetUser } = require("../utils/getTargetUser");
 
-	async execute(interaction) {
-		await interaction.deferReply();
 
-		let userArgument = interaction.options.getUser('user');
-		let userID;
-		let userUsername;
-		let userAvatar;
 
-		if (userArgument) {
-			userID = userArgument.id;
-		}
-		else {
-			userID = interaction.user.id;
-		}
+let fn = (options={ ephemeral: false, menu: false }) => {
+  return async (interaction) => { 
+		await interaction.deferReply({ephemeral: options?.ephemeral})
 
-		const userXP = await xpBot.getXP(userID);
-		console.log('userXP' + JSON.stringify(userXP));
-		const userLevel = userXP.level;
+		let user = getTargetUser(interaction, options?.menu)
+		let [ userID, userUsername, userAvatar ] = [user.id, user.username, user.avatarURL()]
+
+		const userXP = await xpBot.getXP(userID)
+		console.log('userXP' + JSON.stringify(userXP))
+		const userLevel = userXP.level
 
 		if (!userXP.data) {
 			let noXPEmbed = new EmbedBuilder()
 				.setDescription(
 					`<a:red_siren:812813923522183208> <@${userID}> has no XP.\n**To get XP, you need to be linked and send a couple messages!**`,
 				)
-				.setColor('2f3136');
-			return interaction.editReply({ embeds: [noXPEmbed] });
+				.setColor('2f3136')
+			return interaction.editReply({ embeds: [noXPEmbed] })
 		}
 
 		const prev_xp = userXP.levelInfo.xp;
@@ -105,15 +89,6 @@ module.exports = {
 			}
 		}
 
-		if (userArgument) {
-			userUsername = userArgument.username;
-			userAvatar = userArgument.avatarURL();
-		}
-		else {
-			userUsername = interaction.user.username;
-			userAvatar = interaction.user.avatarURL();
-		}
-
 		const xpEmbed = new EmbedBuilder()
 			.setAuthor({ name: userUsername, iconURL: userAvatar })
 			.setColor('2f3136')
@@ -124,8 +99,26 @@ module.exports = {
 					so_close_threshold || ''
 				}`,
 			)
-			.setThumbnail(userXP.levelInfo.thumbnail);
+			.setThumbnail(userXP.levelInfo.thumbnail)
 
-		await interaction.editReply({ embeds: [xpEmbed] });
-	},
-};
+		await interaction.editReply({ embeds: [xpEmbed] })
+	}
+}
+
+
+
+module.exports = {
+	alias: ['lvl', 'level'],
+	data: new SlashCommandBuilder()
+		.setName('xp')
+		.setDescription('View someone\'s Discord XP and level')
+		.addUserOption((option) =>
+			option
+				.setName('user')
+				.setDescription('The person you want to view')
+				.setRequired(false),
+		),
+
+	execute: fn({ ephemeral: false, menu: false }),
+	fn
+}

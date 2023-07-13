@@ -4,26 +4,20 @@ const { devAPI } = require("robo-bot-utils");
 const xpBot = require("../utils/xpBot");
 const xpRequirement = { xp: 10 };
 
-module.exports = {
-  alias: ['ks', 'keystrokes'],
-  data: new SlashCommandBuilder()
-    .setName("profile")
-    .setDescription("View someone's MechaKeys keystrokes")
-    .addUserOption((option) =>
-      option
-        .setName("user")
-        .setDescription("The person you want to view")
-        .setRequired(false)
-    ),
+const { getTargetUser } = require("../utils/getTargetUser");
 
-  async execute(interaction) {
-    await interaction.deferReply();
+
+
+let fn = (options={ ephemeral: false, menu: false }) => {
+  return async (interaction) => {
+    await interaction.deferReply({ephemeral: options?.ephemeral});
 
     const currentXP = await xpBot.getXP(interaction.user.id);
 
     const neededXP = Math.round(xpRequirement.xp - currentXP)
       .toString()
       .replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+
     if (!currentXP || currentXP < xpRequirement.xp) {
       let notEnoughXPEmbed = new EmbedBuilder()
         .setTitle("Not enough XP!")
@@ -38,24 +32,17 @@ module.exports = {
       });
     }
 
-    let userArgument = interaction.options.getUser("user");
-    let user;
-
-    if (userArgument) {
-      user = userArgument.id;
-    } else {
-      user = interaction.user.id;
-    }
+    let userID = getTargetUser(interaction, options?.menu).id
 
     let query;
-    const discordIdData = await devAPI.getUserByDiscordID(user);
+    const discordIdData = await devAPI.getUserByDiscordID(userID);
     query = discordIdData.data.username;
 
     if (!discordIdData || !discordIdData.success) {
       let doesntExistEmbed = new EmbedBuilder()
         .setColor("2f3136")
         .setDescription(
-          `<a:red_siren:812813923522183208> <@${user}> needs to link their account to view keystrokes!`
+          `<a:red_siren:812813923522183208> <@${userID}> needs to link their account to view keystrokes!`
         );
       return interaction.editReply({ embeds: [doesntExistEmbed] });
     }
@@ -64,7 +51,7 @@ module.exports = {
 
     let profileEmbed = new EmbedBuilder()
       .setDescription(
-        `**${query}** (<@${user}>) has **${
+        `**${query}** (<@${userID}>) has **${
           mechakeysUserData &&
           mechakeysUserData.data &&
           mechakeysUserData.data.keystrokes &&
@@ -78,5 +65,23 @@ module.exports = {
       .setColor("2f3136");
 
     await interaction.editReply({ embeds: [profileEmbed] });
-  },
-};
+  }
+}
+
+
+
+module.exports = {
+  alias: ['ks', 'keystrokes'],
+  data: new SlashCommandBuilder()
+    .setName("profile")
+    .setDescription("View someone's MechaKeys keystrokes")
+    .addUserOption((option) =>
+      option
+        .setName("user")
+        .setDescription("The person you want to view")
+        .setRequired(false)
+    ),
+
+  execute: fn({ ephemeral: false, menu: false }),
+  fn
+}

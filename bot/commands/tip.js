@@ -3,16 +3,111 @@ const { EmbedBuilder } = require("discord.js");
 const xpBot = require("./../utils/xpBot");
 const pyroBar = require("./../utils/pyroBar");
 
+const { getTargetUser } = require("../utils/getTargetUser");
 const commandAccumulator = require("../utils/commandAccumulator");
 const { devAPI } = require("robo-bot-utils");
 const { ch_general } = require('../ids')
+
+
+
+let fn = (options={ ephemeral: false, menu: false }) => {
+  return async (interaction) => {
+    await interaction.deferReply({ephemeral: options?.ephemeral})
+
+    const currentXP = await xpBot.getXP(interaction.user.id);
+
+    const neededXP = Math.round(xpRequirement.xp - currentXP)
+      .toString()
+      .replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+    if (!currentXP || currentXP < xpRequirement.xp) {
+      let notEnoughXPEmbed = new EmbedBuilder()
+        .setTitle("Not enough XP!")
+        .setDescription(
+          `<a:red_siren:812813923522183208> You do not have enough XP to perform this action. You need ${neededXP} more XP.`
+        )
+        .setColor("2f3136");
+
+      return interaction.editReply({
+        embeds: [notEnoughXPEmbed],
+        ephemeral: true,
+      });
+    }
+
+    const out_of_uses = !(await commandAccumulator(
+      interaction,
+      "tip",
+      false,
+      true
+    ));
+    if (out_of_uses) return;
+
+    let userID = getTargetUser(interaction, options?.menu).id
+
+    let query;
+    const discordIdData = await devAPI.getUserByDiscordID(userID);
+    query = discordIdData.data.username;
+
+    if (!discordIdData || !discordIdData.success) {
+      let doesntExistEmbed = new EmbedBuilder()
+        .setColor("2f3136")
+        .setDescription(
+          `<a:red_siren:812813923522183208> <@${userID}> needs to link their account to be tipped!`
+        )
+      return interaction.editReply({ embeds: [doesntExistEmbed] });
+    }
+
+    const tipper = await devAPI.getXP(interaction.user.id);
+    const tipData = await devAPI.tip(tipper.data.username, query);
+
+    if (!tipData || !tipData.success) {
+      interaction.editReply(tipData.message || "Something went wrong!");
+      return;
+    }
+
+    let emb = new EmbedBuilder()
+      .setDescription(generateTipMessage(interaction.user.id, userID))
+      .setAuthor({
+        name: interaction.user.username + " tipped!",
+        iconURL: interaction.user.avatarURL(),
+      })
+      .setThumbnail(
+        `https://mechakeys.robolab.io/discord/media/tip/${
+          tipThumbs[Math.floor(Math.random() * tipThumbs.length)]
+        }.gif`
+      )
+      .setColor("2f3136");
+
+    pyroBar.fillDatBoost(interaction.client, 1, ch_general, 5);
+
+    await interaction.editReply({ embeds: [emb] })
+  }
+}
+
+
+
+module.exports = {
+  data: new SlashCommandBuilder()
+    .setName("tip")
+    .setDescription("Give a friend one keycap!")
+    .addUserOption((option) =>
+      option
+        .setName("user")
+        .setDescription("Who do you want to tip?")
+        .setRequired(true)
+    ),
+
+  execute: fn({ ephemeral: false, menu: false }),
+  fn
+}
+
+
 
 const xpRequirement = { xp: 50 };
 
 const tipThumbs = ["tip1", "tip2", "tip3", "tip4", "tip5"];
 const generateTipMessage = (tipper, tippee) => {
   const tipFrom = `<@${tipper}>`;
-  const tipTo = `${tippee}`;
+  const tipTo = `<@${tippee}>`;
   const tipMessages = [
     `With a cool flick of a keycap, ${tipFrom} tipped ${tipTo} 1 keycap!`,
     `${tipFrom} tipped ${tipTo} 1 keycap!`,
@@ -44,88 +139,4 @@ const generateTipMessage = (tipper, tippee) => {
     `${tipFrom} is LOVIN' ${tipTo} rn, because he just gave him 1 keycap!`,
   ];
   return tipMessages[Math.floor(Math.random() * tipMessages.length)];
-};
-
-module.exports = {
-  data: new SlashCommandBuilder()
-    .setName("tip")
-    .setDescription("Give a friend one keycap!")
-    .addUserOption((option) =>
-      option
-        .setName("user")
-        .setDescription("Who do you want to tip?")
-        .setRequired(true)
-    ),
-
-  async execute(interaction) {
-    await interaction.deferReply();
-
-    const currentXP = await xpBot.getXP(interaction.user.id);
-
-    const neededXP = Math.round(xpRequirement.xp - currentXP)
-      .toString()
-      .replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-    if (!currentXP || currentXP < xpRequirement.xp) {
-      let notEnoughXPEmbed = new EmbedBuilder()
-        .setTitle("Not enough XP!")
-        .setDescription(
-          `<a:red_siren:812813923522183208> You do not have enough XP to perform this action. You need ${neededXP} more XP.`
-        )
-        .setColor("2f3136");
-
-      return interaction.editReply({
-        embeds: [notEnoughXPEmbed],
-        ephemeral: true,
-      });
-    }
-
-    const out_of_uses = !(await commandAccumulator(
-      interaction,
-      "tip",
-      false,
-      true
-    ));
-    if (out_of_uses) return;
-
-    let userArgument = interaction.options.getUser("user");
-    let userID = userArgument.id;
-
-    let query;
-    const discordIdData = await devAPI.getUserByDiscordID(userID);
-    query = discordIdData.data.username;
-
-    if (!discordIdData || !discordIdData.success) {
-      let doesntExistEmbed = new EmbedBuilder()
-        .setColor("2f3136")
-        .setDescription(
-          `<a:red_siren:812813923522183208> <@${userID}> needs to link their account to be tipped!`
-        )
-      return interaction.editReply({ embeds: [doesntExistEmbed] });
-    }
-
-    const tipper = await devAPI.getXP(interaction.user.id);
-    const tipData = await devAPI.tip(tipper.data.username, query);
-
-    if (!tipData || !tipData.success) {
-      interaction.editReply(tipData.message || "Something went wrong!");
-      return;
-    }
-
-    let emb = new EmbedBuilder()
-      .setDescription(generateTipMessage(interaction.user.id, userArgument))
-      .setAuthor({
-        name: interaction.user.username + " tipped!",
-        iconURL: interaction.user.avatarURL(),
-      })
-      .setThumbnail(
-        `https://mechakeys.robolab.io/discord/media/tip/${
-          tipThumbs[Math.floor(Math.random() * tipThumbs.length)]
-        }.gif`
-      )
-      .setColor("2f3136");
-
-    pyroBar.fillDatBoost(interaction.client, 1, ch_general, 5);
-
-    await interaction.editReply({ embeds: [emb] });
-  },
 };

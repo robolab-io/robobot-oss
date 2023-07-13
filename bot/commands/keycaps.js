@@ -4,6 +4,10 @@ const { devAPI } = require("robo-bot-utils");
 const xpBot = require("../utils/xpBot");
 const xpRequirement = { xp: 10 };
 
+const { getTargetUser } = require("../utils/getTargetUser");
+
+
+
 let fn = (options={ephemeral:false}) => {
   return async (interaction) => {
     await interaction.deferReply({ephemeral: options.ephemeral});
@@ -27,24 +31,17 @@ let fn = (options={ephemeral:false}) => {
       });
     }
 
-    let userArgument = interaction.options.getUser("user");
-    let user;
-
-    if (userArgument) {
-      user = userArgument.id;
-    } else {
-      user = interaction.user.id;
-    }
+    let userID = getTargetUser(interaction).id
 
     let query;
-    const discordIdData = await devAPI.getUserByDiscordID(user);
+    const discordIdData = await devAPI.getUserByDiscordID(userID);
     query = discordIdData.data.username;
 
     if (!discordIdData || !discordIdData.success) {
       let doesntExistEmbed = new EmbedBuilder()
         .setColor("2f3136")
         .setDescription(
-          `<a:red_siren:812813923522183208> <@${user}> needs to link their account to view keycap balance!`
+          `<a:red_siren:812813923522183208> <@${userID}> needs to link their account to view keycap balance!`
         );
       return interaction.editReply({ embeds: [doesntExistEmbed] });
     }
@@ -53,7 +50,7 @@ let fn = (options={ephemeral:false}) => {
 
     let profileEmbed = new EmbedBuilder()
       .setDescription(
-        `**${query}** (<@${user}>) has **${
+        `**${query}** (<@${userID}>) has **${
           mechakeysUserData &&
           mechakeysUserData.data &&
           mechakeysUserData.data.coins &&
@@ -70,6 +67,8 @@ let fn = (options={ephemeral:false}) => {
   }
 }
 
+
+
 module.exports = {
   alias: ['kc'],
   data: new SlashCommandBuilder()
@@ -81,6 +80,6 @@ module.exports = {
         .setDescription("The person you want to view")
         .setRequired(false)
     ),
-  execute: fn(),
+  execute: fn({ ephemeral: false, menu: false }),
   fn
-};
+}
