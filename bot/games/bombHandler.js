@@ -1,12 +1,13 @@
 const { EmbedBuilder } = require('discord.js');
 
+const { discordAPI } = require("robo-bot-utils")
+
 const records = require('../utils/records')
 const xpBot = require('../utils/xpBot')
 const pyroBar = require('../utils/pyroBar')
 
 const { useGames } = require('./gameState')
 const { awardAll } = require("./helpers");
-const { discordAPI } = require("robo-bot-utils")
 
 
 // A BOMB HAS BEEN PLANTED!!!

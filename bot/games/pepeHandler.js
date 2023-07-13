@@ -1,16 +1,16 @@
-const { EmbedBuilder } = require('discord.js');
-const { getFlavor, pepeGifs } = require("./helpers");
+const { EmbedBuilder } = require('discord.js')
 
 const { discordAPI, isDev } = require("robo-bot-utils");
 const env = isDev ? 'staging' : 'production'
-
-const { useGames } = require('./gameState')
 
 const xpBot = require('../utils/xpBot')
 const pyroBar = require('../utils/pyroBar')
 const keycapAPI = require('../utils/keycapAPI')
 const isBooster = require('../utils/isBooster')
 const records = require('../utils/records')
+
+const { getFlavor, pepeGifs } = require("./helpers");
+const { useGames } = require('./gameState')
 
 
 var save_remote_secretpepe = async (guildID, key, value) => {

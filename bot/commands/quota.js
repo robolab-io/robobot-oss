@@ -1,4 +1,5 @@
 const { SlashCommandBuilder } = require('discord.js');
+
 const commandAccumulator = require('../utils/commandAccumulator');
 
 module.exports = {

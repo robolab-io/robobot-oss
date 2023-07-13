@@ -1,9 +1,11 @@
-const { SlashCommandBuilder } = require("discord.js");
-const { EmbedBuilder } = require("discord.js");
-const xpBot = require("./../utils/xpBot");
-const xpRequirement = { xp: 2000 };
+const { SlashCommandBuilder, EmbedBuilder } = require("discord.js");
 
 const { discordAPI } = require("robo-bot-utils");
+
+const xpBot = require("./../utils/xpBot");
+
+const xpRequirement = { xp: 2000 };
+
 
 module.exports = {
   data: new SlashCommandBuilder()

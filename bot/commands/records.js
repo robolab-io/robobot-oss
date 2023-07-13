@@ -1,11 +1,12 @@
-const { SlashCommandBuilder } = require("discord.js");
-const { EmbedBuilder } = require("discord.js");
+const { SlashCommandBuilder, EmbedBuilder } = require("discord.js");
 const axios = require("axios");
-const xpRequirement = { xp: 850, level: 6 };
+
+const { static } = require("robo-bot-utils");
+
 const xpBot = require("../utils/xpBot");
 const recordUtil = require("../utils/records");
 
-const { static } = require("robo-bot-utils");
+const xpRequirement = { xp: 850, level: 6 };
 
 function timeConversion(millisec) {
   let seconds = Math.round(millisec / 1000);

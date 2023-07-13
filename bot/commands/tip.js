@@ -1,12 +1,12 @@
-const { SlashCommandBuilder } = require("discord.js");
-const { EmbedBuilder } = require("discord.js");
-const xpBot = require("./../utils/xpBot");
-const pyroBar = require("./../utils/pyroBar");
+const { SlashCommandBuilder, EmbedBuilder } = require("discord.js");
 
+const { devAPI } = require("robo-bot-utils");
+
+const { ch_general } = require('../ids')
+const xpBot = require("../utils/xpBot");
+const pyroBar = require("../utils/pyroBar");
 const { getTargetUser } = require("../utils/getTargetUser");
 const commandAccumulator = require("../utils/commandAccumulator");
-const { devAPI } = require("robo-bot-utils");
-const { ch_general } = require('../ids')
 
 
 

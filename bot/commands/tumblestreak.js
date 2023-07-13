@@ -1,5 +1,5 @@
-const { SlashCommandBuilder } = require("discord.js")
-const { EmbedBuilder } = require('discord.js')
+const { SlashCommandBuilder, EmbedBuilder } = require("discord.js")
+
 const { useGames } = require('../games/gameState')
 
 exports.alias = ['ts']

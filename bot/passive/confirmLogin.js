@@ -1,4 +1,5 @@
-const { EmbedBuilder } = require('discord.js');
+const { EmbedBuilder } = require('discord.js')
+
 const { SERVER_ID, dev_bot } = require('../ids')
 
 module.exports = async (client) => {

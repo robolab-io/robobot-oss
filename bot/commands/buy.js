@@ -1,7 +1,9 @@
-const { SlashCommandBuilder } = require('discord.js');
-const { ActionRowBuilder, SelectMenuBuilder } = require('discord.js');
-const { EmbedBuilder } = require('discord.js');
+const { 
+	SlashCommandBuilder, ActionRowBuilder, SelectMenuBuilder, EmbedBuilder 
+} = require('discord.js');
+
 const xpBot = require('../utils/xpBot');
+
 const xpRequirement = { xp: 2000 };
 
 module.exports = {

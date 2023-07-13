@@ -1,10 +1,10 @@
-const { SlashCommandBuilder } = require("discord.js");
-const { EmbedBuilder } = require("discord.js");
+const { SlashCommandBuilder, EmbedBuilder } = require("discord.js");
+
+const { discordAPI } = require("robo-bot-utils");
 
 const xpRequirement = { xp: 2000 };
 const xpBot = require("../utils/xpBot");
 
-const { discordAPI } = require("robo-bot-utils");
 
 let pokeTypes = {
   water: {

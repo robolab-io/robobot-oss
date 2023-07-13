@@ -3,6 +3,7 @@ const { REST } = require('@discordjs/rest')
 const { Routes } = require('discord-api-types/v9')
 
 const { TOKEN } = require('robo-bot-utils')
+
 const { SERVER_ID, CLIENT_ID } = require('./bot/ids')
 
 const commands = []

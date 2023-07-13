@@ -1,11 +1,13 @@
 /* eslint-disable no-mixed-spaces-and-tabs */
 const { EmbedBuilder } = require('discord.js');
-const wait = require('./wait');
+
+const { SERVER_ID, ch_general, dev_bot } = require('../ids')
 const xpBot = require('../utils/xpBot');
 const pyroBar = require('../utils/pyroBar');
 const keycapAPI = require('../utils/keycapAPI');
 
-const { SERVER_ID, ch_general, dev_bot } = require('../ids')
+const wait = require('./wait');
+
 
 function timeConversion(millisec) {
 	let seconds = Math.round(millisec / 1000);

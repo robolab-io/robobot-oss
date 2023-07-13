@@ -1,5 +1,6 @@
-const { SlashCommandBuilder } = require("discord.js");
-const { EmbedBuilder } = require("discord.js");
+const { SlashCommandBuilder, EmbedBuilder } = require("discord.js")
+
+const { discordAPI } = require("robo-bot-utils");
 
 const { Role_Linked, ch_general, ch_linkChannel, dev_feed } = require('../ids')
 
@@ -9,7 +10,7 @@ const keycapAPI = require("../utils/keycapAPI");
 const isBooster = require("../utils/isBooster");
 const createEvent = require("../utils/createEvent");
 const { isLinked_discordID } = require("../utils/isLinked");
-const { discordAPI } = require("robo-bot-utils");
+
 const gifs = {
   keycaps: [
     "https://mechakeys.robolab.io/discord/media/daily/daily_keycap_1.gif",

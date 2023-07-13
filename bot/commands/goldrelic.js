@@ -1,11 +1,14 @@
-const { SlashCommandBuilder } = require("discord.js");
-const { EmbedBuilder } = require("discord.js");
-const events = require("../utils/events");
-const xpBot = require("./../utils/xpBot");
-const xpRequirement = { xp: 2000, level: 10 };
+const { SlashCommandBuilder, EmbedBuilder } = require("discord.js")
 
-const { discordAPI } = require("robo-bot-utils");
+const { discordAPI } = require("robo-bot-utils")
+
 const { ch_general } = require('../ids')
+const events = require("../utils/events")
+const xpBot = require("./../utils/xpBot")
+
+const xpRequirement = { xp: 2000, level: 10 }
+
+
 
 module.exports = {
   alias: ['superpray'],

@@ -1,8 +1,9 @@
+const { internal } = require("robo-bot-utils")
+
+const { ch_general } = require('../ids')
 const xpBot = require("../utils/xpBot")
 const pyroBar = require("../utils/pyroBar")
 
-const { internal } = require("robo-bot-utils")
-const { ch_general } = require('../ids')
 
 module.exports = async (msg) => {
   if (await internal.filterMessage(msg)) return

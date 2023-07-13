@@ -1,6 +1,5 @@
 /* eslint-disable no-mixed-spaces-and-tabs */
-const { SlashCommandBuilder } = require("discord.js")
-const { EmbedBuilder } = require("discord.js")
+const { SlashCommandBuilder, EmbedBuilder } = require("discord.js")
 
 const { devAPI } = require("robo-bot-utils")
 

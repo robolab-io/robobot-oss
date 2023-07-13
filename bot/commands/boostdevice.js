@@ -1,11 +1,12 @@
-const { SlashCommandBuilder } = require("discord.js");
-const { EmbedBuilder } = require("discord.js");
-const xpRequirement = { xp: 2000, level: 10 };
+const { SlashCommandBuilder, EmbedBuilder } = require("discord.js");
+
+const { discordAPI } = require("robo-bot-utils");
+
+const { ch_general } = require('../ids')
 const pyroBar = require("../utils/pyroBar");
 const xpBot = require("../utils/xpBot");
 
-const { discordAPI } = require("robo-bot-utils");
-const { ch_general } = require('../ids')
+const xpRequirement = { xp: 2000, level: 10 };
 
 module.exports = {
   alias: ['boost'],

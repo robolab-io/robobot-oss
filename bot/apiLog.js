@@ -4,8 +4,6 @@ const { EmbedBuilder } = require('discord.js');
 const eventMapper = require('./utils/events');
 const { SERVER_ID, Role_Linked, ch_general, log_api } = require('./ids')
 
-// let { client } = require('./client') 
-
 module.exports = (app, client) => ({
 	init() {
 		app.listen(port, () => {

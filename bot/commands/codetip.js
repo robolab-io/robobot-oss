@@ -1,8 +1,7 @@
-const { SlashCommandBuilder } = require('discord.js');
-const { EmbedBuilder } = require('discord.js');
-const { cat_staff } = require('../ids')
+const { SlashCommandBuilder, EmbedBuilder } = require('discord.js')
 
-const codeTips = require('../static/codeTips');
+const { cat_staff } = require('../ids')
+const codeTips = require('../static/codeTips')
 
 module.exports = {
 	alias: ['ct'],

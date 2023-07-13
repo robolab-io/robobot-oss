@@ -1,6 +1,6 @@
-const { EmbedBuilder } = require('discord.js');
-const { getFlavor, awardAll } = require("./helpers");
+const { EmbedBuilder } = require('discord.js')
 
+const { getFlavor, awardAll } = require("./helpers")
 const { useGames } = require('./gameState')
 
 module.exports = async (msg) => {

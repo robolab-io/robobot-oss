@@ -1,9 +1,10 @@
-const { SlashCommandBuilder } = require("discord.js");
-const { EmbedBuilder } = require("discord.js");
+const { SlashCommandBuilder, EmbedBuilder } = require("discord.js");
+
+const { discordAPI } = require("robo-bot-utils");
+
 const createEvent = require("../utils/createEvent");
 const events = require("../utils/events");
 
-const { discordAPI } = require("robo-bot-utils");
 
 function timeConversion(millisec) {
   let seconds = Math.round(millisec / 1000);

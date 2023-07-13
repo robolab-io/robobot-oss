@@ -1,9 +1,8 @@
-const { SlashCommandBuilder } = require('discord.js');
-const { EmbedBuilder } = require('discord.js');
-const xpBot = require('./../utils/xpBot');
-const { HALU } = require('../ids')
+const { SlashCommandBuilder, EmbedBuilder } = require('discord.js')
 
-const { getTargetUser } = require("../utils/getTargetUser");
+const { HALU } = require('../ids')
+const xpBot = require('./../utils/xpBot')
+const { getTargetUser } = require("../utils/getTargetUser")
 
 
 

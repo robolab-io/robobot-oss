@@ -1,8 +1,8 @@
-const { SlashCommandBuilder } = require("discord.js");
-const { EmbedBuilder } = require('discord.js');
-const commandAccumulator = require("../utils/commandAccumulator")
+const { SlashCommandBuilder, EmbedBuilder } = require("discord.js");
 
 const { useGames } = require('../games/gameState')
+const commandAccumulator = require("../utils/commandAccumulator")
+
 
 
 exports.alias = ['tb']

@@ -1,13 +1,17 @@
+const { EmbedBuilder } = require("discord.js")
+
 const { devAPI, isDev } = require("robo-bot-utils")
+
 const { 
   Role_Linked, ch_general, Item_bodyguards,
   Level_3, Level_10, Level_15, Level_20, Level_30, Level_40
 } = require('../ids')
-
-const { EmbedBuilder } = require("discord.js")
 const levels = require("../static/xpLevels")
-const isBooster = require("./isBooster")
 const pyroBar = require("../utils/pyroBar")
+
+const isBooster = require("./isBooster")
+
+
 
 // NOTE: non-inclusive of min value
 function between(x, min, max) {

@@ -1,6 +1,10 @@
-const { EmbedBuilder } = require("discord.js");
-const { discordAPI } = require("robo-bot-utils");
-const { Staff_Admin_CMDS, Role_Donator, Staff_Helper, Role_Linked, Staff_Mod } = require('../ids')
+const { EmbedBuilder } = require("discord.js")
+
+const { discordAPI } = require("robo-bot-utils")
+
+const { 
+  Staff_Admin_CMDS, Role_Donator, Staff_Helper, Role_Linked, Staff_Mod 
+} = require('../ids')
 
 
 const role_map = {

@@ -1,5 +1,7 @@
 const { EmbedBuilder } = require("discord.js")
+
 const { devAPI, discordAPI } = require("robo-bot-utils")
+
 const { log_interactions, Item_bodyguards, Item_flyingfist, Item_fistofdoom } = require('../ids')
 
 const store_prices = {

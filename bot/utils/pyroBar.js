@@ -1,5 +1,6 @@
 const { isDev } = require("robo-bot-utils")
 const env = isDev ? 'staging' : 'production'
+
 const { SERVER_ID } = require('../ids')
 
 const min_xp = 0;

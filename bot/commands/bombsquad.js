@@ -1,12 +1,11 @@
-const { SlashCommandBuilder } = require("discord.js")
-const { EmbedBuilder } = require('discord.js')
-const { useGames } = require('../games/gameState')
-const commandAccumulator = require("../utils/commandAccumulator")
+const { SlashCommandBuilder, EmbedBuilder } = require("discord.js")
 
 const { static } = require("robo-bot-utils");
 const { panelOpenings, riddles } = static.flavors.bombsquad
 
-const {Status_Dead, ch_graveyard} = require('../ids')
+const { Status_Dead, ch_graveyard } = require('../ids')
+const { useGames } = require('../games/gameState')
+const commandAccumulator = require("../utils/commandAccumulator")
 const wait = require('../utils/wait')
 
 exports.alias = ['bs']

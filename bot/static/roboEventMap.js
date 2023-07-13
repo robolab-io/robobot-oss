@@ -1,11 +1,13 @@
-const { EmbedBuilder } = require("discord.js");
-const wait = require("../utils/wait");
-const pyroBar = require("../utils/pyroBar");
+const { EmbedBuilder } = require("discord.js")
 
 const { discordAPI } = require("robo-bot-utils");
-const { ch_general } = require('../ids')
 
+const { ch_general } = require('../ids')
+const wait = require("../utils/wait");
+const pyroBar = require("../utils/pyroBar");
 const records = require("../utils/records");
+
+
 
 const unidentified_falling_object = [
   "A ray of light breaks through the clouds, and you can see something falling down towards your stupid Earth!",

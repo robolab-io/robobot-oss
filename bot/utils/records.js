@@ -1,15 +1,17 @@
+const { EmbedBuilder } = require("discord.js");
 const axios = require("axios");
 
-const { EmbedBuilder } = require("discord.js");
+const { static, isDev } = require("robo-bot-utils")
+const env = isDev ? 'staging' : 'production'
+
+const { ch_general } = require('../ids')
 const xpBot = require("../utils/xpBot");
 const pyroBar = require("../utils/pyroBar");
 const wait = require("../utils/wait");
 const keycapAPI = require("../utils/keycapAPI");
 const isBooster = require("../utils/isBooster");
 
-const { ch_general } = require('../ids')
-const { static, isDev } = require("robo-bot-utils")
-const env = isDev ? 'staging' : 'production'
+
 
 function timeConversion(millisec) {
   let seconds = Math.round(millisec / 1000);

@@ -1,12 +1,12 @@
-const { SlashCommandBuilder } = require("discord.js");
-const { EmbedBuilder } = require("discord.js");
+const { SlashCommandBuilder, EmbedBuilder } = require("discord.js");
 
+const { static } = require("robo-bot-utils");
+
+const { ch_general, dev_bot, dev_feed } = require('../ids')
 const events = require("../utils/events");
 const createEvent = require("../utils/createEvent");
 const commandAccumulator = require("../utils/commandAccumulator");
 
-const { static } = require("robo-bot-utils");
-const { ch_general, dev_bot, dev_feed } = require('../ids')
 
 function weightedRandom(arr) {
   let sum = 0,

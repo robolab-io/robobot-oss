@@ -1,9 +1,13 @@
-const { EmbedBuilder, ActionRowBuilder, ButtonBuilder, ButtonStyle } = require("discord.js");
-const axios = require("axios");
-const { static } = require("robo-bot-utils");
-const { SERVER_ID, log_api } = require('../ids')
+const { 
+  EmbedBuilder, ActionRowBuilder, ButtonBuilder, ButtonStyle 
+} = require("discord.js")
+const axios = require("axios")
 
+const { static } = require("robo-bot-utils")
+
+const { SERVER_ID, log_api } = require('../ids')
 const { isLinked_username } = require('../utils/isLinked')
+
 function onlyAlphanumeric(str) {
   return str.replace(/[^a-zA-Z0-9]/g, "");
 }

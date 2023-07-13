@@ -1,16 +1,16 @@
 const { EmbedBuilder } = require('discord.js')
-const { awardAll, getRandom, getFlavor } = require("./helpers");
+
+const { discordAPI, isDev } = require("robo-bot-utils");
+const env = isDev ? 'staging' : 'production'
+
 const xpBot = require('../utils/xpBot')
 const pyroBar = require('../utils/pyroBar')
 const wait = require('../utils/wait')
 const isBooster = require('../utils/isBooster');
 const records = require('../utils/records');
 
-
-const { discordAPI, isDev } = require("robo-bot-utils");
+const { awardAll, getRandom, getFlavor } = require("./helpers");
 const { useGames } = require('./gameState')
-//const env = process.argv.includes('dev') ? 'staging' : 'production'
-const env = isDev ? 'staging' : 'production'
 
 const validTumbles = [
   "<:tumbleDio:732069094961971212>",

@@ -1,10 +1,11 @@
-const { SlashCommandBuilder } = require("discord.js");
-const { EmbedBuilder } = require("discord.js");
-const { devAPI } = require("robo-bot-utils");
-const xpBot = require("../utils/xpBot");
-const xpRequirement = { xp: 10 };
+const { SlashCommandBuilder, EmbedBuilder } = require("discord.js");
 
+const { devAPI } = require("robo-bot-utils");
+
+const xpBot = require("../utils/xpBot");
 const { getTargetUser } = require("../utils/getTargetUser");
+
+const xpRequirement = { xp: 10 };
 
 
 
