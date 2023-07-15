@@ -2,8 +2,13 @@ let moduleExport;
 
 try {
 
-  moduleExport = require('private-utils')
-  console.info(`Successfully imported private-utils`)
+  if ( process.argv.includes('meta') ) {
+    moduleExport = require('private-utils')
+    console.info(`Successfully imported meta-utils`)
+  } else {
+    moduleExport = require('private-utils')
+    console.info(`Successfully imported private-utils`)
+  }
 
 } catch (err) {
   console.warn(`Fail to import private-utils:\n${err.message}`)

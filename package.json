@@ -3,6 +3,7 @@
     "cmds": "node deploy-commands.js",
     "bot": "node index.js",
     "dev": "concurrently \"npm:cmds -- dev\" \"npm:bot -- dev\"",
+    "meta": "concurrently \"npm:cmds -- dev meta\" \"npm:bot -- dev meta\"",
     "start": "concurrently \"npm:cmds\" \"npm:bot\""
   },
   "dependencies": {
