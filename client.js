@@ -50,20 +50,15 @@ client.on("ready", async () => {
 
 /***   CLIENT COMMANDS   ***/
 const { Collection } = require("discord.js");
-const fs = require("fs");
-
 client.commands = new Collection();
-const commandFiles = fs
-  .readdirSync("./bot/commands")
-  .filter((file) => file.endsWith(".js"));
-
-for (const file of commandFiles) {
-  const command = require(`./bot/commands/${file}`)
+const { traverse } = require('./traverse')
+traverse(['./bot/commands'], (path)=>{
+  const command = require(path)
   client.commands.set(command.data.name, command)
   for (let a of command?.alias ?? []) {
     client.commands.set(a, command)
   }
-}
+})
 
 
 /***   CLIENT INTERACTIONS   ***/
