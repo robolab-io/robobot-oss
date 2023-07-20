@@ -36,6 +36,7 @@ let client = new Client({
 /***   CLIENT READY   ***/
 const { ActivityType } = require("discord.js");
 const { initCache } = require("./bot/utils/getCache");
+let server = require('./bot/server')
 client.on("ready", async () => {
   console.log("Robo-bot ready");
 
@@ -44,6 +45,9 @@ client.on("ready", async () => {
     status: "online",
   });
   await initCache(client);
+
+  /** SERVER **/
+  server(client) // caches must be ready
 })
 
 
@@ -71,10 +75,6 @@ const { interactionHandler } = require('./bot/interactions')
 interactionHandler(client)
 
 
-
-/*** SERVER ***/
-let server = require('./bot/server')
-server(client)
 
 module.exports = {
   client

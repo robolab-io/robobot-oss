@@ -338,9 +338,9 @@ module.exports = {
 			if (!updatedUserPool.length) { return currentWinners; }
 			let updatedCurrentWinners = [...currentWinners];
 			const randomIndex = Math.floor(Math.random() * updatedUserPool.length);
-			devChannel.send(updatedUserPool); // NOTE: idk maybe make it a dev-mode only msg...
+			// devChannel.send(updatedUserPool); // NOTE: idk maybe make it a dev-mode only msg...
 			const candidate = updatedUserPool.splice(randomIndex, 1)[0][0];
-			devChannel.send(candidate);
+			// devChannel.send(candidate);
 			console.log('candidate', candidate);
 			const candidateXP = await xpBot.getXP(candidate);
 
@@ -393,15 +393,14 @@ module.exports = {
 		const messageEmbed = new EmbedBuilder()
 			.setDescription(`🎉 **<@${userID}>'s giveaway has ended!**
 
-    **Winners**: ${winnerString}
-    **Prize**: <:minikeycap:811257663194660876>${prizeAmount}
-    ${endText}
-    `)
+				**Winners**: ${winnerString}
+				**Prize**: <:minikeycap:811257663194660876>${prizeAmount}
+				${endText}
+      `)
 			.setThumbnail('https://mechakeys.robolab.io/discord/media/tip/gift1.gif')
 			.setColor('3dffb1');
-		generalChannel.send(messageEmbed);
-		return channel.send(messageEmbed);
-
+		generalChannel.send({ embeds: [messageEmbed] })
+		return channel.send({ embeds: [messageEmbed] })
 	},
 
 	/* fully dynamic config based events */
