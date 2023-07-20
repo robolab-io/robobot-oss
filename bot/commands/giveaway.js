@@ -82,7 +82,7 @@ module.exports = {
     .addIntegerOption((option) =>
       option
         .setName("amount")
-        .setDescription("How many keycaps should each winner receive?")
+        .setDescription("How many keycaps should each winner receive? (min = 100)")
         .setMinValue(100)
         .setRequired(true)
     )

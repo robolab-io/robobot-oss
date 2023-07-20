@@ -1,12 +1,13 @@
 const { SlashCommandBuilder, EmbedBuilder } = require("discord.js")
 
-const { static } = require("robo-bot-utils");
-const { panelOpenings, riddles } = static.flavors.bombsquad
+const { Status_Dead, ch_graveyard } = require('../../ids')
+const { useGames } = require('../../games/gameState')
+const commandAccumulator = require("../../utils/commandAccumulator")
+const wait = require('../../utils/wait')
 
-const { Status_Dead, ch_graveyard } = require('../ids')
-const { useGames } = require('../games/gameState')
-const commandAccumulator = require("../utils/commandAccumulator")
-const wait = require('../utils/wait')
+const { 
+  generateRiddle, wires, generatePanel, generateKeycode
+} = require('./helpers')
 
 exports.alias = ['bs']
 exports.data = new SlashCommandBuilder()
@@ -178,20 +179,3 @@ exports.execute = async (act) => {
 }
 
 
-const generateRiddle = () => {
-  let riddle = riddles[Math.floor(Math.random() * riddles.length)]
-  return {question: riddle.question.length > 1 ? riddle.question[Math.floor(Math.random() * riddle.question.length)] : riddle.question, answer: riddle.answer}
-}
-const wires = [ '🟩','🟥','🟦' ]
-
-const generatePanel = () => {
-  let panel = panelOpenings[Math.floor(Math.random() * panelOpenings.length)]
-  return {question: panel.question[Math.floor(Math.random() * panel.question.length)], answer: panel.answer}
-}
-const generateKeycode = () => {
-  const code = `${Math.floor(1000 + Math.random() * 9000)}`
-  const codeHint = [...new Set(code.split('').sort())]
-  return {
-    code, codeHint
-  }
-}
