@@ -138,8 +138,7 @@ module.exports = {
       	{
       		title: 'Your daily reward is ready!',
       		text: `Here's your reminder to do /daily! We're all waiting for you!
-			Link to **#general**: https://discord.com/channels/462274708499595264/462274708499595266
-			Also, check out **merch** and *t-shirts* at: https://shop.robolab.io`,
+			Link to **#general**: https://discord.com/channels/462274708499595264/462274708499595266`,
       		color: '2f3136',
       		icon: 'https://mechakeys.robolab.io/discord/media/daily/daily_keycap_1.gif',
       		footer: 'I wonder how big the Jackpot is now!',
@@ -171,8 +170,7 @@ module.exports = {
       	{
       		title: 'Your daily reward is ready!',
       		text: `Ay it's a-me! Robo-bot! /daily is ready!
-			Link to **#general**: https://discord.com/channels/462274708499595264/462274708499595266
-			Also, check out **merch** and *t-shirts* at: https://shop.robolab.io`,
+			Link to **#general**: https://discord.com/channels/462274708499595264/462274708499595266`,
       		color: '2f3136',
       		icon: 'https://mechakeys.robolab.io/discord/media/daily/daily_keycap_1.gif',
       		footer: 'Pro-tip: I love you.',
