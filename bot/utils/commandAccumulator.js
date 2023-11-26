@@ -104,7 +104,7 @@ const role_map = {
       cap: 3,
     },
     pray: {
-      rate: 1,
+      rate: 0.5,
       cap: 1,
     },
     tip: {
@@ -174,7 +174,7 @@ const role_map = {
       cap: 2,
     },
     pray: {
-      rate: 2,
+      rate: 1,
       cap: 1,
     },
     tip: {
