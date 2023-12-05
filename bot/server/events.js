@@ -287,7 +287,7 @@ module.exports = {
 			.setFooter({ text: `${footer || 'Love, Robo-bot'}`, iconURL: `${icon || serverIcon}` });
 
 		try {
-			user.send({ embeds: [msgEmbed] });
+			await user.send({ embeds: [msgEmbed] }); // cant catch err hidden in promise. alt, could try .catch()
 		}
 		catch (e) {
 			console.log(e + 'We cannot send a direct message');
