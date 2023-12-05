@@ -286,12 +286,11 @@ module.exports = {
 			.setDescription(`${text || 'That\'s all.'}`)
 			.setFooter({ text: `${footer || 'Love, Robo-bot'}`, iconURL: `${icon || serverIcon}` });
 
-		try {
-			await user.send({ embeds: [msgEmbed] }); // cant catch err hidden in promise. alt, could try .catch()
-		}
-		catch (e) {
-			console.log(e + 'We cannot send a direct message');
-		}
+		user.send({ embeds: [msgEmbed] })
+		  .catch( e => {
+				console.log('We cannot send a direct message')
+				console.log(e) 
+			})
 	},
 	endGiveaway: async (client, params) => {
 		const guildID = params.guildID || SERVER_ID; // default to robolab.io
