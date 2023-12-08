@@ -355,8 +355,8 @@ module.exports = {
       const newRecord = data.data.newRecord;
       const userBoost = isBooster(msg.guild, userID);
       await wait(2000);
-      msg.channel.send(
-        generate_embed(
+      msg.channel.send({
+        embeds: [generate_embed(
           `${key}_${field}`,
           newRecord.fieldValue,
           newRecord.userID,
@@ -364,8 +364,8 @@ module.exports = {
           oldRecord.userID,
           oldRecord.record_time,
           userBoost
-        )
-      );
+        )]
+      });
       xpBot.giveXP(
         userID,
         rec_master[`${key}_${field}`].reward.xp,
