@@ -44,7 +44,10 @@ const generate_embed = (
     .setTitle(`A ${rec_master[record_key].category} record has been broken!`)
     .setThumbnail(recordGif)
     .setColor("#ffc948")
-    .setFooter("When you break a record, you get XP and Keycaps!", recordGif)
+    .setFooter({
+      text: "When you break a record, you get XP and Keycaps!",
+      iconURL: recordGif,
+    })
     .setDescription(`═══════ ∘◦ ${
     rec_master[record_key].accent_emoji
   } ◦∘ ════════
