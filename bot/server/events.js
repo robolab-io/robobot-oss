@@ -319,7 +319,9 @@ module.exports = {
 		//   botOnly: false, // Only return bots that have reacted to the message
 		// });
 
-		const reaction = giveawayMessage.reactions.cache.get('796922161847468043'); // robo_ascended emoji
+		//const reaction = giveawayMessage.reactions.cache.get('796922161847468043'); // robo_ascended emoji
+    const reaction = giveawayMessage.reactions.cache.get('842796636174549011')
+		
 		console.log(reaction);
 		console.log('reaction');
 		// let userPool = await getReactedUsers(giveawayMessage, channelID, giveawayMessage.id, '842796636174549011')

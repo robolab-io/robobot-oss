@@ -202,8 +202,8 @@ module.exports = {
     pinger.delete()
     const giveawayMsg = await giveawayChannel.send({ embeds: [emb] })
 
-    // giveawayMsg.react(':robo_ascend:842796636174549011')
-    giveawayMsg.react(":robo_ppHands:796922161847468043")
+    giveawayMsg.react('842796636174549011') // :robo_ascend:
+    //giveawayMsg.react(":robo_ppHands:796922161847468043")
 
     createEvent.giveaway(
       interaction.guild.id,
