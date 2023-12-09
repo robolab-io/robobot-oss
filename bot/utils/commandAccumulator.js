@@ -22,8 +22,8 @@ const role_map = {
       cap: 99,
     },
     tumblebounce: {
-      rate: 1, // every 24 hours
-      cap: 1,
+      rate: 0.002,
+      cap: 200,
     },
     fight: {
       rate: 0.02, // every 0.5 hours
