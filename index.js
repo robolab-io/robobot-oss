@@ -23,6 +23,12 @@ let compatWrap = async (cmd, msg) => {
 }
 
 
+const {initGameState} = require('./bot/games/gameState')
+client.on('ready', async ()=>{
+  await initGameState()
+})
+
+
 /**  Per-Message Effects  **/
 const messageXP = require("./bot/passive/messageXP")
 const handleRoboEvent = require("./bot/passive/handleRoboEvent")
