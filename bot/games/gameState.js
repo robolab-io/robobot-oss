@@ -32,7 +32,9 @@ let initGameState = async (guildID = '462274708499595264') => {
     const [ _, gameEnv, channelID, gameTitle] = x.split('_') // args
     const gameObject = guildStates[x]
 
-    if (gameEnv !== env) return 
+    if (gameEnv !== env || (!gameEnv || !channelID || !gameTitle) ) { 
+      return console.log('Failed to init game state on key:', x)
+    }
     
     gameObject.need_remote_start = true
 
