@@ -1,7 +1,7 @@
 const { SlashCommandBuilder, EmbedBuilder } = require("discord.js");
 const axios = require("axios");
 
-const { static } = require("robo-bot-utils");
+const { static, discordAPI } = require("robo-bot-utils");
 
 const xpBot = require("../utils/xpBot");
 const recordUtil = require("../utils/records");
@@ -70,12 +70,8 @@ module.exports = {
       ...new Set(record_objs.map((x) => x.record_info.category)),
     ];
 
-    // NOTE: Why isn't this in the utils?
-    const all_records_res = await axios.post(
-      `${static.endpoints.discord}/?action=getAllRecords`,
-      { record_ids }
-    );
-    const all_records = all_records_res.data.data.records;
+    const all_records_res = await discordAPI.getAllRecords(record_ids)
+    const all_records = all_records_res.data.records;
     all_records.map((x) => {
       record_map[x.discordID].current_record = x;
     });

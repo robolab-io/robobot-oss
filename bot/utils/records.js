@@ -1,7 +1,7 @@
 const { EmbedBuilder } = require("discord.js");
 const axios = require("axios");
 
-const { static, isDev } = require("robo-bot-utils")
+const { static, isDev, discordAPI } = require("robo-bot-utils")
 const env = isDev ? 'staging' : 'production'
 
 const { ch_general } = require('../ids')
@@ -314,12 +314,6 @@ module.exports = {
   // key is guildID_recordLocation_recordName
   // 462274708499595264_tumblebounce
   checkRecord: async (guildID, key, field, fieldValue, goal, userID, msg) => {
-    const body = {
-      id: `g_${env}_${guildID}_${key}_${field}`,
-      fieldValue,
-      goal,
-      userID,
-    };
     console.log(key, field, fieldValue);
     if (
       rec_master[`${key}_${field}`].minimum_value &&
@@ -343,17 +337,13 @@ module.exports = {
       );
       return false;
     }
-    //  g_staging_462274708499595264_tumblebounce_hardestHit
-    // NOTE: Why isn't this in the utils?
-    const { data } = await axios.post(
-      `${static.endpoints.discord}/?action=checkRecord`,
-      body,
-      { "Content-Type": "application/json" }
-    );
 
-    if (data.data.recordBroken) {
-      const oldRecord = data.data.oldRecord || {};
-      const newRecord = data.data.newRecord;
+    //  g_staging_462274708499595264_tumblebounce_hardestHit
+    const { data } = await discordAPI.checkRecord(userID, `g_${env}_${guildID}_${key}_${field}`, fieldValue, goal)
+
+    if (data.recordBroken) {
+      const oldRecord = data.oldRecord || {};
+      const newRecord = data.newRecord;
       const userBoost = isBooster(msg.guild, userID);
       await wait(2000);
       msg.channel.send({
