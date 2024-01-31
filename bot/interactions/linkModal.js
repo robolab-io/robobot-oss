@@ -3,7 +3,7 @@ const {
 } = require("discord.js")
 const axios = require("axios")
 
-const { static } = require("robo-bot-utils")
+const { static, devAPI } = require("robo-bot-utils")
 
 const { SERVER_ID, log_api } = require('../ids')
 const { isLinked_username } = require('../utils/isLinked')
@@ -37,9 +37,7 @@ module.exports = (client) => {
       );
     apiLogChannel.send({ embeds: [embed] });
 
-    // NOTE: Why isn't this in the utils?
-    const link = `${static.endpoints.developer}/?action=linkUserDiscord&discordID=${userID}&discordUsername=${discordUsername}&mechakeysUsername=${cleanedValue}`;
-    const res = await axios.get(link);
+    const res = await devAPI.link(userID, discordUsername, cleanedValue);
 
     let notFound = new EmbedBuilder()
       .setColor("ff0000")
@@ -57,7 +55,7 @@ module.exports = (client) => {
       new ButtonBuilder()
         .setLabel("Check MechaKeys Username via devAPI")
         .setURL(
-           // NOTE: Why isn't this in the utils?
+          // Only sent to api-log so its not leaked
           `${static.endpoints.developer}/?action=getUser&username=${cleanedValue}`
         )
         .setStyle(ButtonStyle.Link)
@@ -89,7 +87,7 @@ module.exports = (client) => {
       return interaction.reply({ embeds: [alreadyLinked], ephemeral: true });
     }
 
-    if (!res || !res.data || !res.data.success) {
+    if (!res || !res.success) {
       console.log("[linking]");
       console.log({ mechakeysUsernameInputValue });
       console.log(
