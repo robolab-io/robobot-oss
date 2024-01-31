@@ -61,6 +61,7 @@ module.exports = {
     const avatarName = data.avatar || "icon";
     // if user has avatar, save it, or go to default
 
+    // NOTE: discordLink_1 may need to be fixed for unlink
     let description = `**${query} Keystrokes**: \`${
       data && data.keystrokes && !!Number(data.keystrokes)
         ? data.keystrokes.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")

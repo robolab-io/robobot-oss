@@ -7,7 +7,7 @@ module.exports.isLinked_username = async (username) => {
     const { data } = await devAPI.getUser(encodeURIComponent(username))
     if (!data) return (linked = false)
 
-    return (linked = data ? "discordLink_1" in data : false)
+    return (linked = data ? "discordLink_1" in data : false) // NOTE: this may need to be fixed for unlink
   } catch {
     return (linked = false)
   }

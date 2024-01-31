@@ -37,6 +37,7 @@ module.exports = (client) => {
       );
     apiLogChannel.send({ embeds: [embed] });
 
+    // NOTE: Why isn't this in the utils?
     const link = `${static.endpoints.developer}/?action=linkUserDiscord&discordID=${userID}&discordUsername=${discordUsername}&mechakeysUsername=${cleanedValue}`;
     const res = await axios.get(link);
 
@@ -56,6 +57,7 @@ module.exports = (client) => {
       new ButtonBuilder()
         .setLabel("Check MechaKeys Username via devAPI")
         .setURL(
+           // NOTE: Why isn't this in the utils?
           `${static.endpoints.developer}/?action=getUser&username=${cleanedValue}`
         )
         .setStyle(ButtonStyle.Link)
