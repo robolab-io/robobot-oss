@@ -14,6 +14,7 @@ module.exports = (app, client) => ({
 	logs() {
 		app.get('/log', genericLog(client));
 		app.get('/linked', linkLog(client));
+		app.get('/unlinked', unlinkLog(client));
 		app.post('/event', handleEvent(client));
 	}
 })
@@ -66,6 +67,41 @@ const linkLog = client => (req, res) => {
 	res.send('User notified on discord!');
 };
 
+const unlinkLog = client => (req, res) => {
+	if (!req || !req.query || !req.query.id) {
+		res.send('Invalid route!');
+		return false;
+	}
+	const userID = req.query.id || false;
+	const silent = !!req.query.silent;
+	
+	const guild = client.guilds.cache.get(SERVER_ID);
+	const user = guild.members.cache.get(userID);
+	if (!silent) {
+		let general = guild.channels.cache.get(ch_general);
+		let apiLogChannel = guild.channels.cache.get(log_api);
+
+
+		const embed = new EmbedBuilder()
+			.setTitle('Account UnLinked')
+			.setColor('#2f3136')
+			.setDescription(`<@${userID}>, your account has been successfully unlinked.`);
+
+		general.send({ content: `<@${userID}>`, embeds: [embed] }).then(x => setTimeout(() => x.delete(), 20000));
+
+
+		const apiLogEmbed = new EmbedBuilder()
+			.setTitle('User unlinked account')
+			.setColor('#2f3136')
+			.setDescription(`<@${userID}> unlinked their Discord account from MechaKeys.`);
+		
+		apiLogChannel.send({ embeds: [apiLogEmbed] });
+	}
+
+	let role = guild.roles.cache.get(Role_Linked);
+	user.roles.remove(role);
+	res.send('Unlinked user notified on discord!');
+};
 
 const genericLog = client => (req, res) => {
 	if (!req || !req.query || !req.query.user || !req.query.amount) {

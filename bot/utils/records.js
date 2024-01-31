@@ -344,6 +344,7 @@ module.exports = {
       return false;
     }
     //  g_staging_462274708499595264_tumblebounce_hardestHit
+    // NOTE: Why isn't this in the utils?
     const { data } = await axios.post(
       `${static.endpoints.discord}/?action=checkRecord`,
       body,

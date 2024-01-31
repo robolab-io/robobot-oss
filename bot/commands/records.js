@@ -69,6 +69,8 @@ module.exports = {
     const category_array = [
       ...new Set(record_objs.map((x) => x.record_info.category)),
     ];
+
+    // NOTE: Why isn't this in the utils?
     const all_records_res = await axios.post(
       `${static.endpoints.discord}/?action=getAllRecords`,
       { record_ids }
