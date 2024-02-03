@@ -34,7 +34,7 @@ const calcWin = (victimXP, fighterXP) => {
   }
 }
 
-const tryForGhost = async (msg, loserId, amount) => {
+const tryForGhost = async (interaction, loserId, amount) => {
   const deductKeycapRes = await devAPI.deductKeycaps(loserId, {
     amount: ghost_keycap_cost
   })
@@ -51,7 +51,7 @@ const tryForGhost = async (msg, loserId, amount) => {
     let ghostedEmbed = new EmbedBuilder()
         .setColor("2f3136")
         .setDescription(`👻 <@${loserId}> **is now a ghost!** 👻`)
-    return msg.channel.send({ embeds: [ghostedEmbed] })
+    return interaction.channel.send({ embeds: [ghostedEmbed] })
   } else {
     // tell user in graveyard it didn't work and he's still a stupid, dead idiot
     graveyard.send(`<@${loserId}>, you were unable to come back as a ghost, and are still a dumb, dead idiot.`)
@@ -71,85 +71,85 @@ module.exports = {
         .setRequired(true)
     ),
 
-  async execute(msg) {
-    // if (commandLimiter(msg)) return // NOTE: not ported yet
+  async execute(interaction) {
+    // if (commandLimiter(interaction)) return // NOTE: not ported yet
   
-    await msg.deferReply();
+    await interaction.deferReply();
   
-    const userID = msg.user.id;
-    const guild = msg.client.guilds.cache.get(msg.guild.id);
+    const userID = interaction.user.id;
+    const guild = interaction.client.guilds.cache.get(interaction.guild.id);
     let currentGames = useGames()
   
   
     if (lastUserFight[userID] && (Date.now() - lastUserFight[userID].time) < 5000) {
-      return await msg.editReply({ embeds: [recentFightsEmbed(userID)] })
+      return await interaction.editReply({ embeds: [recentFightsEmbed(userID)] })
       // too soon since last message
     }
   
-    if (currentGames[msg.channel.id]) {
-      if (!!currentGames[msg.channel.id].bombsquad) {
-        return await msg.editReply(`<@${userID}> gets on his knees and waits for the bomb to take his life in a blaze of fire. <:robo_gotee:799130209450197023>`)
+    if (currentGames[interaction.channel.id]) {
+      if (!!currentGames[interaction.channel.id].bombsquad) {
+        return await interaction.editReply(`<@${userID}> gets on his knees and waits for the bomb to take his life in a blaze of fire. <:robo_gotee:799130209450197023>`)
         // fight during bombsquad
       }
     }
   
-    if (msg.channel.id === ch_graveyard) {
-      return await msg.editReply({ embeds: [graveyardFightEmbed(msg)] } )
+    if (interaction.channel.id === ch_graveyard) {
+      return await interaction.editReply({ embeds: [graveyardFightEmbed(interaction)] } )
     }
   
     // check xp requirement
     const userXP = await xpBot.getXP(userID)
     if (!userXP || userXP.discordXP < xpRequirement.xp) {
-      return await msg.editReply({ embeds: [xpReqEmbed(msg, userID)] })
+      return await interaction.editReply({ embeds: [xpReqEmbed(interaction, userID)] })
     }
   
     const authorUser = guild.members.cache.get(userID)
     if (authorUser.roles.cache.get(Status_Ghost)) {
-      return await msg.editReply({ embeds: [ghostFightEmbed(msg, userID)] })
+      return await interaction.editReply({ embeds: [ghostFightEmbed(interaction, userID)] })
     }
     //Fallback in case user can talk in other channels
     if (authorUser.roles.cache.get(Status_Dead)) {
-      return await msg.editReply(`<@${userID}>, you're dead!`)
+      return await interaction.editReply(`<@${userID}>, you're dead!`)
     }
     // No user provided
     // if (!args.length) {
-    //   return await msg.editReply({ embeds: [noArgsEmb(msg)] });
+    //   return await interaction.editReply({ embeds: [noArgsEmb(interaction)] });
     // }
   
     // Fighter has bodyguards and will now lose them.
     if (authorUser.roles.cache.get(Item_bodyguards)) { authorUser.roles.remove(Item_bodyguards)}
   
     
-    let prepVictimId = getTargetUser(msg).id
+    let prepVictimId = getTargetUser(interaction).id
     let mention = `<@!${prepVictimId}>`
   
     if (userConsecutiveDeathCount[prepVictimId] >= 4) {
-      return await msg.editReply({ embeds: [momEmbed(msg, mention)] })
+      return await interaction.editReply({ embeds: [momEmbed(interaction, mention)] })
     }
   
     const wouldBeVictim = guild.members.cache.get(prepVictimId)
     if (!wouldBeVictim) {
-      return await msg.editReply({ embeds: [noArgsEmb(msg)] })
+      return await interaction.editReply({ embeds: [noArgsEmb(interaction)] })
     }
   
     // if victim has bodyguards
     if (wouldBeVictim.roles.cache.get(Item_bodyguards)) {
-      return await msg.editReply({ embeds: [bodyguardsEmbed(msg, mention)] })
+      return await interaction.editReply({ embeds: [bodyguardsEmbed(interaction, mention)] })
     }
     if (wouldBeVictim.roles.cache.get(Status_Dead)) {
-      return await msg.editReply({ embeds: [alreadyDeadEmbed(msg, mention)] })
+      return await interaction.editReply({ embeds: [alreadyDeadEmbed(interaction, mention)] })
     }
     if (wouldBeVictim.roles.cache.get(Status_Ghost)) {
-      return await msg.editReply({ embeds: [fightGhostEmbed(msg, mention)] })
+      return await interaction.editReply({ embeds: [fightGhostEmbed(interaction, mention)] })
     }
   
     let wouldBeVictimXP = await xpBot.getXP(prepVictimId)
     if (!wouldBeVictimXP || wouldBeVictimXP.discordXP < 1700) {
-      return await msg.editReply({ embeds: [xpVictimEmbed(msg, userID)] })
+      return await interaction.editReply({ embeds: [xpVictimEmbed(interaction, userID)] })
     }
   
-    const out_of_uses = !(await commandAccumulator(msg, 'fight'))
-    if (out_of_uses) return await msg.deleteReply() // prob say something i guess
+    const out_of_uses = !(await commandAccumulator(interaction, 'fight'))
+    if (out_of_uses) return await interaction.deleteReply() // prob say something i guess
   
     userConsecutiveDeathCount[userID] = 0 // user just fought, reset their cons death count
     let victim = { discordXP: 0 }
@@ -157,7 +157,7 @@ module.exports = {
     if (prepVictimId) {
       victim = (await xpBot.getXP(prepVictimId)) || { discordXP: 0 }
     } else {
-      return await msg.editReply({ embeds: [noArgsEmb(msg)] })
+      return await interaction.editReply({ embeds: [noArgsEmb(interaction)] })
     }
   
     const fighterXP = userXP.discordXP || 1
@@ -173,13 +173,13 @@ module.exports = {
   
     if (win) {
       prize = xp_function(chanceToWinPretty)
-      records.checkRecord(msg.guild.id, `fight`, 'mostUnlikelyWin', chanceToWinPretty, 'less', winnerId, msg)
+      records.checkRecord(interaction.guild.id, `fight`, 'mostUnlikelyWin', chanceToWinPretty, 'less', winnerId, interaction)
       if (prepVictimId === '747491742214783117') {
-        records.checkRecord(msg.guild.id, `fight`, 'killedRobobot', Date.now(), 'greater', winnerId, msg)      
+        records.checkRecord(interaction.guild.id, `fight`, 'killedRobobot', Date.now(), 'greater', winnerId, interaction)      
       }
-      pyroBar.fillDatBoost(msg.client, Math.min(100, Math.max(1, prize/20)), '462274708499595266', 10)
+      pyroBar.fillDatBoost(interaction.client, Math.min(100, Math.max(1, prize/20)), '462274708499595266', 10)
     } else {
-      records.checkRecord(msg.guild.id, `fight`, 'mostUnlikelyWin', 100-chanceToWinPretty, 'less', winnerId, msg)
+      records.checkRecord(interaction.guild.id, `fight`, 'mostUnlikelyWin', 100-chanceToWinPretty, 'less', winnerId, interaction)
       if (prepVictimId === '747491742214783117') {
         prize = xp_function(100-chanceToWinPretty) + 100      
       } else {
@@ -190,8 +190,8 @@ module.exports = {
     await discordAPI.incrementField(winnerId, { field: 'fightsWon' })
     await discordAPI.incrementField(loserId, { field: 'fightsLost' })
   
-    const boosterMult = isBooster(msg.guild, winnerId) ? 2 : 1
-    let footer = winnerId === loserId ? 'You killed yourself!' : `${win ? msg.user.username : wouldBeVictim.user.username} +${prize*boosterMult} XP / ` + (`${msg.user.username} had ${chanceToWinPretty}% chance to win!`)
+    const boosterMult = isBooster(interaction.guild, winnerId) ? 2 : 1
+    let footer = winnerId === loserId ? 'You killed yourself!' : `${win ? interaction.user.username : wouldBeVictim.user.username} +${prize*boosterMult} XP / ` + (`${interaction.user.username} had ${chanceToWinPretty}% chance to win!`)
   
     let emb = new EmbedBuilder()
       .setDescription(`${generateFightMessage(userID, prepVictimId, win)} \n \n <@${loserId}> **is now dead, and the dead can't speak.**
@@ -201,11 +201,11 @@ module.exports = {
       .setFooter({text: footer})
       .setColor(win ? '3eaf7c' : 'da3b3b')
       .setAuthor({
-        name: msg.user.username + ' attacked ' + wouldBeVictim.user.username,
-        iconURL: msg.user.avatarURL(),
+        name: interaction.user.username + ' attacked ' + wouldBeVictim.user.username,
+        iconURL: interaction.user.avatarURL(),
       })
     if (wouldBeVictim.user.id === '747491742214783117') { emb.setThumbnail('https://mechakeys.robolab.io/discord/media/events/falling/angry_robo03.gif') }
-    const sent = await msg.editReply({ embeds: [emb] })
+    const sent = await interaction.editReply({ embeds: [emb] })
     sent.react('💀').then(() => sent.react('🙏'));
     const sentId = sent.id
   
@@ -222,8 +222,8 @@ module.exports = {
     const ghost_keycap_cost = Math.max(Math.round(Math.random()*5), 1) // 5-10 random keycap cost
     let ghost_option_offered = userConsecutiveDeathCount[loserId] >= 2 // Only offer to slightly bullied users
     const graveyard = guild.channels.cache.get(ch_graveyard) // Graveyard channel
-    const ghost_offer_msg = ghost_option_offered ? ` \n 👻 - \`Spend ${ghost_keycap_cost} Keycaps to come back as a ghost and continue chatting.\``: ''
-    const graveyardMessage = await graveyard.send(`<@${loserId}>, you died! You can now only talk in this channel until you are resurrected.` + ghost_offer_msg)
+    const ghost_offer_interaction = ghost_option_offered ? ` \n 👻 - \`Spend ${ghost_keycap_cost} Keycaps to come back as a ghost and continue chatting.\``: ''
+    const graveyardMessage = await graveyard.send(`<@${loserId}>, you died! You can now only talk in this channel until you are resurrected.` + ghost_offer_interaction)
     ghost_option_offered ? graveyardMessage.react('👻') : false
   
     let ghostDeathExtend = 0 // Milliseconds to extend death timer (extra based on ghost stuff)
@@ -249,7 +249,7 @@ module.exports = {
         let revivedEmbed = new EmbedBuilder()
             .setColor("2f3136")
             .setDescription(`<:bodyguards:816114055030767638> <@${loserId}> **has been resurrected!** <:bodyguards:816114055030767638>`)
-        return msg.channel.send(`revived! <@${loserId}>`).then(m => { m.delete(); }) && msg.channel.send({ embeds: [revivedEmbed] })
+        return interaction.channel.send(`revived! <@${loserId}>`).then(m => { m.delete(); }) && interaction.channel.send({ embeds: [revivedEmbed] })
       }
     }, 4506);
   
@@ -262,7 +262,7 @@ module.exports = {
       }
       if (userExists) {
         ghostDeathExtend += 20000
-        tryForGhost(msg, loserId, ghost_keycap_cost)
+        tryForGhost(interaction, loserId, ghost_keycap_cost)
         return clearInterval(graveChecker)
       }
     }, 1597);
@@ -277,9 +277,9 @@ module.exports = {
     setTimeout(() => {
       if (prepVictimId === userID) { return }
       if (win) {
-        xpBot.giveXP(msg.user, prize, msg.channel, client)
+        xpBot.giveXP(interaction.user, prize, interaction.channel, client)
       } else {
-        xpBot.giveXP(guild.members.cache.get(prepVictimId), prize, msg.channel, client)
+        xpBot.giveXP(guild.members.cache.get(prepVictimId), prize, interaction.channel, client)
       }
     }, 3000);
   }
@@ -294,79 +294,79 @@ let recentFightsEmbed = (userID) => new EmbedBuilder()
   .setDescription(recentFights[Math.floor(Math.random() * recentFights.length)] + `\n ${lastUserFight[userID] ? (5000 - (Date.now() - lastUserFight[userID].time))/1000 : 'Many'} seconds left!`)
   .setAuthor({
     name: `Fight Cooldown`,
-    iconURL: msg.user.avatarURL(),
+    iconURL: interaction.user.avatarURL(),
   })
 
-let ghostFightEmbed = (msg, userID) => new EmbedBuilder()
+let ghostFightEmbed = (interaction, userID) => new EmbedBuilder()
   .setColor("2f3136")
   .setDescription(`<@${userID}>, you can't fight as a ghost! Your hands would phase through everything!`)
   .setAuthor({
     name: `Fighting as a Ghost`,
-    iconURL: msg.user.avatarURL(),
+    iconURL: interaction.user.avatarURL(),
   })
 
-let graveyardFightEmbed = (msg) => new EmbedBuilder()
+let graveyardFightEmbed = (interaction) => new EmbedBuilder()
   .setColor("2f3136")
   .setDescription("You can't fight while you're dead! You can't even move your body!")
   .setAuthor({
     name: `Fighting in the Graveyard`,
-    iconURL: msg.user.avatarURL(),
+    iconURL: interaction.user.avatarURL(),
   })
 
-let xpReqEmbed = (msg, userID) => new EmbedBuilder()
+let xpReqEmbed = (interaction, userID) => new EmbedBuilder()
   .setColor("2f3136")
   .setDescription(`<@${userID}>, you need to be \`level ${xpRequirement.level}\` to fight!`)
   .setAuthor({
     name: `Under Level 9`,
-    iconURL: msg.user.avatarURL(),
+    iconURL: interaction.user.avatarURL(),
   })
 
-let xpVictimEmbed = (msg, userID) => new EmbedBuilder()
+let xpVictimEmbed = (interaction, userID) => new EmbedBuilder()
   .setColor("2f3136")
   .setDescription(`<@${userID}>, you can't fight anyone under \`level 9\`! That's like punching a stupid, useless baby!`)
   .setAuthor({
     name: `Victim Under Level 9`,
-    iconURL: msg.user.avatarURL(),
+    iconURL: interaction.user.avatarURL(),
   })
 
-let noArgsEmb = (msg) => new EmbedBuilder()
+let noArgsEmb = (interaction) => new EmbedBuilder()
   .setColor("2f3136")
   .setDescription("You can't fight nobody! You need to @mention someone in this Discord!")
   .setAuthor({
     name: `Mention Someone!`,
-    iconURL: msg.user.avatarURL(),
+    iconURL: interaction.user.avatarURL(),
   })
 
-  let momEmbed =  (msg, mention) => new EmbedBuilder()
+  let momEmbed =  (interaction, mention) => new EmbedBuilder()
   .setColor("2f3136")
   .setDescription(`${mention}'s mom called YOUR mom and got you in trouble! You can't fight them until they fight back, or DAD will come and spank you!`)
   .setAuthor({
     name: `MOOOOOMMMM!`,
-    iconURL: msg.user.avatarURL(),
+    iconURL: interaction.user.avatarURL(),
   })
 
-let bodyguardsEmbed = (msg, mention) => new EmbedBuilder()
+let bodyguardsEmbed = (interaction, mention) => new EmbedBuilder()
   .setColor("2f3136")
   .setDescription(`${mention}'s hired bodyguards pushed you away!\nHe must have hired them at the **>store**!`)
   .setAuthor({
     name: `Bodyguards`,
-    iconURL: msg.user.avatarURL(),
+    iconURL: interaction.user.avatarURL(),
   })
 
-let alreadyDeadEmbed = (msg, mention) => new EmbedBuilder()
+let alreadyDeadEmbed = (interaction, mention) => new EmbedBuilder()
   .setColor("2f3136")
   .setDescription(`${mention} is already dead!`)
   .setAuthor({
     name: `Can't Fight Dead People!`,
-    iconURL: msg.user.avatarURL(),
+    iconURL: interaction.user.avatarURL(),
   })
 
-let fightGhostEmbed = (msg, mention) => new EmbedBuilder()
+let fightGhostEmbed = (interaction, mention) => new EmbedBuilder()
   .setColor("2f3136")
   .setDescription(`${mention} is a ghost! You can't hurt ghosts!`)
   .setAuthor({
     name: `Can't Fight Ghosts!`,
-    iconURL: msg.user.avatarURL(),
+    iconURL: interaction.user.avatarURL(),
   })
 
 
