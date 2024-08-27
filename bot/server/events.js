@@ -10,7 +10,7 @@ const wait = require('../utils/wait');
 // you can make anything happen in this config
 const roboEventMap = require('./roboEventMap');
 
-
+let EventQueue = new Map()
 
 function timeConversion(millisec) {
 	let seconds = Math.round(millisec / 1000);
@@ -35,7 +35,7 @@ async function awardAll(winners, reward, reason) {
 	return Promise.all(winners.map((user, i) => keycapAPI.giveKeycaps(user, reward, reason || 'gift')));
 }
 
-module.exports = {
+let event_methods = {
 	/*
     REQUIRED FIELDS
     guild: guild ID
@@ -405,6 +405,15 @@ module.exports = {
 	/* fully dynamic config based events */
 	// TODO: make these randomly triggered by /pray @Robo-bot and /fight @Robo-bot along with instant events
 	roboEvent: async (client, params) => {
+
+		// If an event is active, defer to queue
+		if (!(!client.robo_events[channel.id] || !client.robo_events[channel.id].active)) {
+			// get or create queue
+			let ch_queue = EventQueue.get(channel.id) || EventQueue.set(channel.id, []).get(channel.id)
+      ch_queue.push([client, params])
+			return
+		}
+
 		const { channelID, eventType, delay } = params;
 		const guildID = params.guildID || SERVER_ID; // default to robolab.io
 		const guild = client.guilds.cache.get(guildID);
@@ -443,7 +452,17 @@ module.exports = {
 				if (evO.eventEndTrigger) { evO.eventEndTrigger(evO); }
 				evO.active = false;
 				console.log('ENDED!');
-			},
+
+				// Check queued event:
+				let queue = EventQueue.get(channel.id)
+				if (queue && queue.length) {
+					let event_call = ch_queue.shift() // take first in queue
+					event_methods.roboEvent(...event_call) // call event again
+					// Slim chance at recursive stack overflow. Fixes:
+					//  - could use emit
+					//  - track recursion depth and prevent queueing if too deep
+				}
+			}
 		};
 		let freshMapping = {}; // welcome
 		Object.assign(freshMapping, roboEventMap[eventType]); // to
@@ -454,14 +473,6 @@ module.exports = {
 			roboEventObject.preWatchTime = roboEventObject.preWatchTime + roboEventObject.addPrewatchTime;
 		}
 
-		if (!(!client.robo_events[channel.id] || !client.robo_events[channel.id].active)) {
-			// TODO: make event queue so we don't just throw out events like cavemen
-			// client.robo_events[channel.id].promptChannelQueue = client.robo_events[channel.id].promptChannelQueue || []
-			// client.robo_events[channel.id].promptChannelQueue.push(roboEventObject)
-			return;
-		}
-
-		// TODO: if from remote event, delay randomly from 10-30 seconds to avoid clashing with other remote events
 		client.robo_events[channel.id] = roboEventObject;
 
 		// don't accept claimers in preWatch time (to gather active users)
@@ -484,3 +495,5 @@ module.exports = {
 		// Done, set active to false
 	},
 };
+
+module.exports = event_methods
