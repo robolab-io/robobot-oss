@@ -2,7 +2,9 @@
   "scripts": {
     "cmds": "node deploy-commands.js",
     "bot": "node index.js",
-    "dev": "concurrently \"npm:cmds -- dev\" \"npm:bot -- dev\"",
+    "dev": "node index.js dev",
+    "dev:cmd": "node deploy-commands.js dev",
+    "dev:full": "concurrently \"npm:cmds -- dev\" \"npm:bot -- dev\"",
     "meta": "concurrently \"npm:cmds -- dev meta\" \"npm:bot -- dev meta\"",
     "start": "concurrently \"npm:cmds\" \"npm:bot\""
   },

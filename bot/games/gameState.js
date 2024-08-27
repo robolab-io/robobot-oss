@@ -21,18 +21,20 @@ const gameState = {}
 
 // populate from db on startup 
 let initGameState = async (guildID = '462274708499595264') => {
+  console.log('initializing GameState')
   const guildStatesRes = await discordAPI.getGuildState(guildID)
   if (!guildStatesRes.success) return console.log('NOTE: Failed to get server state')
 
   const guildStates = guildStatesRes?.data || {}
 
-  Object.keys(guildStates).map(x => {
-    if (x === 'discordID') { return false }
+  Object.keys(guildStates).forEach(x => {
+    if (x === 'discordID') { return }
 
     const [ _, gameEnv, channelID, gameTitle] = x.split('_') // args
     const gameObject = guildStates[x]
 
-    if (gameEnv !== env || (!gameEnv || !channelID || !gameTitle) ) { 
+    if (gameEnv !== env) return // ignore silently 
+    if (!gameEnv || !channelID || !gameTitle) { 
       return console.log('Failed to init game state on key:', x)
     }
     

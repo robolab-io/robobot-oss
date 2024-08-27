@@ -98,7 +98,7 @@ module.exports = {
     }
   
     // check xp requirement
-    const userXP = await xpBot.getXP(userID)
+    const userXP = (await xpBot.getXP(userID))?.data
     if (!userXP || userXP.discordXP < xpRequirement.xp) {
       return await interaction.editReply({ embeds: [xpReqEmbed(interaction, userID)] })
     }
@@ -143,19 +143,19 @@ module.exports = {
       return await interaction.editReply({ embeds: [fightGhostEmbed(interaction, mention)] })
     }
   
-    let wouldBeVictimXP = await xpBot.getXP(prepVictimId)
-    if (!wouldBeVictimXP || wouldBeVictimXP.discordXP < 1700) {
+    let wouldBeVictimXP = (await xpBot.getXP(prepVictimId))?.data
+    if (!wouldBeVictimXP || wouldBeVictimXP?.discordXP < 1700) {
       return await interaction.editReply({ embeds: [xpVictimEmbed(interaction, userID)] })
     }
   
-    const out_of_uses = !(await commandAccumulator(interaction, 'fight'))
-    if (out_of_uses) return await interaction.deleteReply() // prob say something i guess
+    const out_of_uses = !(await commandAccumulator(interaction, 'fight', false, true))
+    if (out_of_uses) return
   
     userConsecutiveDeathCount[userID] = 0 // user just fought, reset their cons death count
     let victim = { discordXP: 0 }
   
     if (prepVictimId) {
-      victim = (await xpBot.getXP(prepVictimId)) || { discordXP: 0 }
+      victim = wouldBeVictimXP || { discordXP: 0 }
     } else {
       return await interaction.editReply({ embeds: [noArgsEmb(interaction)] })
     }
@@ -277,9 +277,9 @@ module.exports = {
     setTimeout(() => {
       if (prepVictimId === userID) { return }
       if (win) {
-        xpBot.giveXP(interaction.user, prize, interaction.channel, client)
+        xpBot.giveXP(interaction.user, prize, interaction.channel, interaction.client)
       } else {
-        xpBot.giveXP(guild.members.cache.get(prepVictimId), prize, interaction.channel, client)
+        xpBot.giveXP(guild.members.cache.get(prepVictimId), prize, interaction.channel, interaction.client)
       }
     }, 3000);
   }
