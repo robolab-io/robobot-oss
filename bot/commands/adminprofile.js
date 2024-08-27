@@ -61,7 +61,6 @@ module.exports = {
     const avatarName = data.avatar || "icon";
     // if user has avatar, save it, or go to default
 
-    // NOTE: discordLink_1 may need to be fixed for unlink
     let description = `**${query} Keystrokes**: \`${
       data && data.keystrokes && !!Number(data.keystrokes)
         ? data.keystrokes.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")
@@ -74,7 +73,7 @@ module.exports = {
         **${query} Keycaps**: \`${data.coins}\`
         **${query} Keycaps Bought**: \`${data.coinsBought || 0}\`
         **${query} Gottee**: \`${data.crackCount || 0}\`
-        **${query} Linked**: \`${data.discordLink_1 ? "Yes" : "No"}\`
+        **${query} Linked**: \`${data.is_linked ? "Yes" : "No"}\`
         **${query} Achievements JSON**: \`\`\`${data.achievements}\`\`\``;
     if (data.registered_at) {
       description += `**Registered:** ${new Date(data.registered_at)}`;
