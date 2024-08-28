@@ -455,8 +455,8 @@ let event_methods = {
 				console.log('ENDED!');
 
 				// Check queued event:
-				let queue = EventQueue.get(channel.id)
-				if (queue && queue.length) {
+				let ch_queue = EventQueue.get(channel.id)
+				if (ch_queue && ch_queue.length) {
 					let event_call = ch_queue.shift() // take first in queue
 					event_methods.roboEvent(...event_call) // call event again
 					// Slim chance at recursive stack overflow. Fixes:
