@@ -133,7 +133,8 @@ const xpCommands = {
         "https://mechakeys.robolab.io/discord/media/xpbot/levelup1.gif",
     };
 
-    const payload = currentXP;
+    // this used to be `const payload = currentXP.data.data`
+    const payload = currentXP; // might still want 1 data?
     payload.levelInfo = userLevelInfo;
     payload.level = userLevelInfo.level;
     payload.next_level = levels.find(
@@ -142,7 +143,7 @@ const xpCommands = {
     payload.xp_to_next_level =
       levels.find((x) => x.level === userLevelInfo.level + 1).xp -
       currentXP.data.discordXP;
-    return payload;
+    return payload;  // this might be wrong... ?
   },
 };
 

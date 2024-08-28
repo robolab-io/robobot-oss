@@ -58,6 +58,13 @@ client.on("messageCreate", async (msg) => {
   }
 });
 
+/* const { kill } = require('./bot/passive/mcDeath/minecraftDeaths')
+client.on("guildMemberRemove", async (member)=> {
+  //if (process.env.env === "production") {
+    await kill(member, 'member', 'img')  
+  //}
+})
+ */
 
 /**  Pyro-Bar  **/
 const pyroBar = require("./bot/utils/pyroBar")
