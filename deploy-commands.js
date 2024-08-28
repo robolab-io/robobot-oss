@@ -25,12 +25,13 @@ for (const file of commandFiles) {
   }
 }
 
-
 const rest = new REST({ version: '9' }).setToken(TOKEN)
 
-// we should only update new/changed cmds
 
-async function registerCommands() {
+
+
+/***   CHUNK REGISTRATION   ***/
+/* async function registerCommands() {
   try {
     console.log('Started refreshing application (/) commands.')
 
@@ -50,5 +51,62 @@ async function registerCommands() {
     console.error('Error refreshing commands:', error)
   }
 }
+registerCommands() 
+*/
 
-registerCommands()
+
+
+
+/***   DIFF REGISTRATION   ***/
+const getExistingCommands = () => rest.get(Routes.applicationGuildCommands(CLIENT_ID, SERVER_ID)).catch(() => []);
+const commandsEqual = (cmd1, cmd2) => JSON.stringify(cmd1) === JSON.stringify(cmd2);
+
+async function updateCommands() {
+  try {
+    const existingCommands = await getExistingCommands();
+    console.log(`Existing Total: ${existingCommands.length}, New Total: ${commands.length}`);
+
+    const [toUpdate, toCreate] = commands.reduce((acc, newCmd) => {
+      const existingCmd = existingCommands.find(cmd => cmd.name === newCmd.name);
+      if (existingCmd && !commandsEqual(newCmd, existingCmd)) {
+        // Update Existing
+        acc[0].push({ ...newCmd, id: existingCmd.id });
+      } else if (!existingCmd) {
+        // Create New
+        acc[1].push(newCmd);
+      }
+      return acc;
+    }, [[], []]);
+
+    console.log(`To update: ${toUpdate.length}, To create: ${toCreate.length}`);
+
+    if (toCreate.length) {
+      console.log('Creating New CMDs.');
+      try {
+        rest.put(Routes.applicationGuildCommands(CLIENT_ID, SERVER_ID), { body: toCreate })
+          .then(() => console.log('slash commands registered'))
+          .catch(console.error);
+      } catch (err) {
+        console.error(err)
+      }
+      
+      console.log('New CMDs created successfully.');
+    }
+
+    if (toUpdate.length) {
+      console.log('Updating Old CMDs.');
+      await Promise.all(toUpdate.map(cmd =>{
+        return rest.patch(Routes.applicationGuildCommand(CLIENT_ID, SERVER_ID, cmd.id), { body: cmd })
+      }));
+      console.log('Old CMDs updated successfully.');
+    }
+
+    console.log('Command update completed.');
+  } catch (error) {
+    console.error('Error updating commands:', error);
+  }
+}
+
+
+// Use this if you're running this script directly
+updateCommands().then(() => console.log('All operations completed.'));
