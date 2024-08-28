@@ -22,10 +22,11 @@ let compatWrap = async (cmd, msg) => {
   if (reply) msg.reply(reply)
 }
 
-
+const {executeBotCommand} = require('./bot/utils/botExec')
 const {initGameState} = require('./bot/games/gameState')
 client.on('ready', async ()=>{
   await initGameState()
+  //await executeBotCommand(client, 'bs', '462274708499595266')
 })
 
 

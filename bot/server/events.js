@@ -406,6 +406,12 @@ let event_methods = {
 	// TODO: make these randomly triggered by /pray @Robo-bot and /fight @Robo-bot along with instant events
 	roboEvent: async (client, params) => {
 
+		const { channelID, eventType, delay } = params;
+		const guildID = params.guildID || SERVER_ID; // default to robolab.io
+		const guild = client.guilds.cache.get(guildID);
+
+    const channel = guild.channels.cache.get(channelID || ch_general)
+		
 		// If an event is active, defer to queue
 		if (!(!client.robo_events[channel.id] || !client.robo_events[channel.id].active)) {
 			// get or create queue
@@ -413,12 +419,7 @@ let event_methods = {
       ch_queue.push([client, params])
 			return
 		}
-
-		const { channelID, eventType, delay } = params;
-		const guildID = params.guildID || SERVER_ID; // default to robolab.io
-		const guild = client.guilds.cache.get(guildID);
-
-    const channel = guild.channels.cache.get(channelID || ch_general)
+		
 		console.log('EVENT LOG:', eventType, channelID, channel)
 
 		const eventMappingOverrides = params.eventMappingOverrides || {}; // override specifics here, such as max claimers, or anything in roboEventObject

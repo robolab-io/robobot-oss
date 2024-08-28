@@ -60,7 +60,7 @@ module.exports = {
     ));
     if (out_of_uses) return;
 
-    const eventTimeType = weightedRandom(static.mappings.pray_mappings);
+    let eventTimeType = weightedRandom(static.mappings.pray_mappings);
     if (eventTimeType.event === "nothing") {
       return interaction.editReply(
         static.flavors.pray.nothing_flavors[
@@ -68,10 +68,15 @@ module.exports = {
         ]
       );
     }
-    const eventScriptType = weightedRandom(
+    let eventScriptType = weightedRandom(
       static.mappings.pray_chances[eventTimeType.event]
     );
-    console.log(eventScriptType);
+    //console.log(eventScriptType);
+
+    DEV_Override : {/* 
+      eventTimeType = { event: 'instant', chance: 5 }
+      eventScriptType = { event: 'minigame_event', chance: 5 }
+     */}
 
     if (eventTimeType.event === "instant") {
       interaction.editReply(
@@ -79,6 +84,7 @@ module.exports = {
           Math.floor(Math.random() * static.flavors.pray.instant_flavors.length)
         ]
       );
+      console.log('instant:', eventScriptType);
       events.roboEvent(interaction.client, {
         guildID: interaction.guild.id,
         channelID: interaction.channel.id,
@@ -98,6 +104,7 @@ module.exports = {
         6
       );
 
+      console.log(`Delayed(${futureTime}):`, eventScriptType);
       createEvent.roboEventInFuture(
         interaction.guild.id,
         interaction.channel.id,

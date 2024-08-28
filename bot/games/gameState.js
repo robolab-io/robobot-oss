@@ -14,7 +14,7 @@ const gameState = {}
         return_time: 1614986110121,
         bounce_uuid: '1614982347342',
         needTouch: false
-      }
+      } | false | undefined
     } 
   }
 */
@@ -50,5 +50,6 @@ let initGameState = async (guildID = '462274708499595264') => {
 
 module.exports = {
   useGames: ()=>gameState,
-  initGameState
+  initGameState,
+  gameKeys: ['tumblebounce', 'bombsquad', 'secretpepe', 'tumblestreak']
 }

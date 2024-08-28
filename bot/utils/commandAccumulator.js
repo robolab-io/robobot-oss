@@ -218,6 +218,8 @@ function timeConversion(millisec) {
   }
 }
 module.exports = async (interaction, type, readonly, isInteraction) => {
+  if (interaction?.__INTERNAL_CMD__) return true
+
   let commandNotFoundEmbed = new EmbedBuilder()
     .setColor("2f3136")
     .setDescription(

@@ -219,6 +219,8 @@ module.exports = {
       xp: {
         amount: rewardBase * 10,
       },
+      // could add games here, but takes away from user rewards...
+      // game: true
     };
 
     const rewardToGive =
@@ -284,6 +286,11 @@ module.exports = {
         interaction.channel,
         interaction.client
       );
+    } else if(rewardToGive === "game") {
+      // not sure we need to await
+      let games = ['bs', 'tb', 'sp', 'ts']
+      let rand_game = games[(Math.random()*games.length)|0]
+      executeBotCommand(client, rand_game, interaction.channelID)
     }
     pyroBar.fillDatBoost(interaction.client, 1, ch_general, 10);
     lock[interaction.user.id] = false;

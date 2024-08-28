@@ -7,7 +7,9 @@ const wait = require("../utils/wait");
 const pyroBar = require("../utils/pyroBar");
 const records = require("../utils/records");
 
+const { executeBotCommand } = require('../utils/botExec')
 
+const { useGames, gameKeys } = require('../games/gameState')
 
 const unidentified_falling_object = [
   "A ray of light breaks through the clouds, and you can see something falling down towards your stupid Earth!",
@@ -645,4 +647,30 @@ module.exports = {
 
     eventEndTrigger: function (evO) {},
   },
+
+  minigame_event: {
+    maxClaimers: 0,
+    acceptedResponses: [],
+    ...{ maxTime: 0, preWatchTime: 0, prePromptTime: 0, prePromptRandomMS: 0 },
+    eventStartTrigger: async function (evO) {},
+    eventMsgTrigger: function (msg, evO) {},
+    eventEndTrigger: function (evO) {
+      
+      let channelID = evO.channel.id
+
+      let gameState = useGames()
+      let channel_games = gameState[channelID]
+
+      // Ensure we only trigger inactive games
+      let falsey_keys = gameKeys.filter(k => !channel_games[k])
+      if (!falsey_keys.length) {
+        evO.channel.send('Seems the channel is already blessed with activity!')
+        return
+      }
+      let rand_game = falsey_keys[(Math.random()*falsey_keys.length)|0]
+      if (rand_game==='tumblebounce') rand_game='tb' //idk why 'tumblebounce' fails to register...
+
+      executeBotCommand(evO.client, rand_game, channelID) // await?
+    }
+  }
 };
