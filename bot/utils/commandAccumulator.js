@@ -218,6 +218,8 @@ function timeConversion(millisec) {
   }
 }
 module.exports = async (interaction, type, readonly, isInteraction) => {
+  if (interaction?.__INTERNAL_CMD__) return true
+
   let commandNotFoundEmbed = new EmbedBuilder()
     .setColor("2f3136")
     .setDescription(
@@ -241,6 +243,9 @@ module.exports = async (interaction, type, readonly, isInteraction) => {
       return false;
     }
   }
+
+  // Could prob do:
+  // Object.getPrototypeOf(interaction).constructor instance of CommandInteraction
   const id = isInteraction ? interaction.user.id : interaction.author.id;
   
   const authorUser = interaction.guild.members.cache.get(id);
@@ -284,18 +289,17 @@ module.exports = async (interaction, type, readonly, isInteraction) => {
     Math.min(type_amount + accumulated, role_map[highestRole][type].cap) - 1; // minus 1 because we just used it
   if (!readonly && type_amount < 0) {
     if (isInteraction) {
-      interaction.editReply(
-        wait_flavor(
+      interaction.editReply({
+        content: wait_flavor(
           `<@${interaction.user.id}>`,
           timeConversion(
             (1 - accumulated_raw) *
-              role_map[highestRole][type].rate *
-              60 *
-              60 *
-              1000
+            role_map[highestRole][type].rate *
+            60 * 60 * 1000
           )
-        )
-      );
+        ),
+        ephemeral: true,
+      });
       return false;
     } else {
       interaction.reply(
