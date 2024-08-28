@@ -28,6 +28,24 @@ for (const file of commandFiles) {
 const rest = new REST({ version: '9' }).setToken(TOKEN)
 
 
+/***   Vanilla CMD Update   ***/
+(async () => {
+	try {
+		console.log(`Started refreshing ${commands.length} application (/) commands.`);
+
+		// The put method is used to fully refresh all commands in the guild with the current set
+		const data = await rest.put(
+			Routes.applicationGuildCommands(clientId, guildId),
+			{ body: commands },
+		);
+
+		console.log(`Successfully reloaded ${data.length} application (/) commands.`);
+	} catch (error) {
+		// And of course, make sure you catch and log any errors!
+		console.error(error);
+	}
+})();
+
 
 
 /***   CHUNK REGISTRATION   ***/
@@ -58,7 +76,7 @@ registerCommands()
 
 
 /***   DIFF REGISTRATION   ***/
-const getExistingCommands = () => rest.get(Routes.applicationGuildCommands(CLIENT_ID, SERVER_ID)).catch(() => []);
+/* const getExistingCommands = () => rest.get(Routes.applicationGuildCommands(CLIENT_ID, SERVER_ID)).catch(() => []);
 const commandsEqual = (cmd1, cmd2) => JSON.stringify(cmd1) === JSON.stringify(cmd2);
 
 async function updateCommands() {
@@ -110,3 +128,4 @@ async function updateCommands() {
 
 // Use this if you're running this script directly
 updateCommands().then(() => console.log('All operations completed.'));
+ */
