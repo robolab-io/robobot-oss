@@ -25,7 +25,7 @@ for (const file of commandFiles) {
   }
 }
 
-const rest = new REST({ version: '9' }).setToken(TOKEN)
+const rest = new REST({ version: '9' }).setToken(TOKEN);
 
 
 /***   Vanilla CMD Update   ***/
