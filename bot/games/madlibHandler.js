@@ -1,7 +1,6 @@
-const { MessageEmbed } = require("discord.js");
-
-const WordPOS = require('wordpos'),
-    wordpos = new WordPOS();
+const { EmbedBuilder } = require("discord.js");
+const WordPOS = require('wordpos');
+const wordpos = new WordPOS();
 
 let POS = {
   firstName: {
@@ -275,151 +274,138 @@ let POS = {
   
 }
 
-let firstResponse = true
-let responseTime = 1e4
-let voteTime = 1e4
+let firstResponse = true;
+let responseTime = 1e4;
+let voteTime = 1e4;
 
 function getNextBlank(adlib) {
   if (adlib.currentIndex >= adlib.blankIndexes.length) {
-    return false
+    return false;
   }
-  const index = adlib['blankIndexes'][adlib.currentIndex]
-  const blankType = adlib['textArr'][index]
+  const index = adlib['blankIndexes'][adlib.currentIndex];
+  const blankType = adlib['textArr'][index];
   if ('ref' in blankType) { // catch variables
-    adlib['textArr'][index] = adlib['textArr'][blankType.ref]
-    adlib.currentIndex += 1
-    return getNextBlank(adlib)
+    adlib['textArr'][index] = adlib['textArr'][blankType.ref];
+    adlib.currentIndex += 1;
+    return getNextBlank(adlib);
   } else {
-    return blankType
+    return blankType;
   }
 }
 
-const prompt = (msg, blankType, i, max, adlib) => {
+const prompt = (interaction, blankType, i, max, adlib) => {
   let title;
- if (blankType.key in POS) {
-    title = POS[blankType.key]
+  if (blankType.key in POS) {
+    title = POS[blankType.key];
     if (typeof title === 'function') title = title(blankType.arg);
   } else {
-    console.log('bad key:', blankType.key)
+    console.log('bad key:', blankType.key);
   }
-  
-  return new MessageEmbed()
+
+  return new EmbedBuilder()
     .setColor('#800080')
-    .setFooter(`prompt: ${i}/${max}`, 'https://images.squarespace-cdn.com/content/v1/54c45370e4b060a8975bb8f0/1590536096770-GF5P82UMMQ5WDCQRO75T/how-to-hashtags-instagram-tiktok2.jpg?format=2500w')
-    .setTitle(title.prompt)
-}
+    .setFooter({ 
+      text: `prompt: ${i}/${max}`, 
+      iconURL: 'https://images.squarespace-cdn.com/content/v1/54c45370e4b060a8975bb8f0/1590536096770-GF5P82UMMQ5WDCQRO75T/how-to-hashtags-instagram-tiktok2.jpg?format=2500w' 
+    })
+    .setTitle(title.prompt);
+};
 
 async function handleVote(aggregate) {
-  return new Promise((resolve, reject) => { // await for winner
+  return new Promise((resolve, reject) => {
     let mostVoted = {id:'', count: 0, content: ''};
     setTimeout(() => {
       for(let m of aggregate) {
-        let count = 0
-        try { count = m[1].reactions.cache.get('✅').count } catch(e) { console.log('MadLib Vote: message was deleted...') } // message probably deleted
+        let count = 0;
+        try { 
+          count = m[1].reactions.cache.get('✅').count;
+        } catch(e) { 
+          console.log('MadLib Vote: message was deleted...');
+        }
         if (count > mostVoted.count) {
-          mostVoted = {id: m[1].id, count, content: m[1].content, author: m[1].author.id}
+          mostVoted = {id: m[1].id, count, content: m[1].content, author: m[1].author.id};
         }
       }
-      resolve([mostVoted.content, mostVoted.author])
-    }, voteTime, aggregate)
-  })
+      resolve([mostVoted.content, mostVoted.author]);
+    }, voteTime, aggregate);
+  });
 }
 
-function endGame(msg, adlib, currentGames) {
-  // If all blanks are filled, end game
-  msg.channel.send('game over')
-  msg.channel.send('> ' + adlib.textArr.join(' **'))
-  firstResponse = true
-  currentGames[msg.channel.id].adlib = false //end game
+function endGame(interaction, adlib, currentGames) {
+  interaction.channel.send('game over');
+  interaction.channel.send('> ' + adlib.textArr.join(' **'));
+  firstResponse = true;
+  currentGames[interaction.channel.id].adlib = false; //end game
 }
 
-//const collector = channel.createMessageCollector(filter, { time: 10000 })
-const adlibHandler = async (msg, adlib, currentGames, developerAPI, next=false) => {
-
+const adlibHandler = async (interaction, adlib, currentGames, next = false) => {
   if (next) {
-    // If next is passed, Init next step
     if (adlib.currentIndex === adlib.blankIndexes.length) {
-      endGame(msg, adlib, currentGames)
-      return false // return, so we dont send adlib back
+      endGame(interaction, adlib, currentGames);
+      return false;
     }
 
-    // else, prompt next blank
-    blankType = getNextBlank(adlib)
-    if (blankType === false) { // catch if variable was last blank
-      endGame(msg, adlib, currentGames)
-      return false // return, so we dont send adlib back
+    blankType = getNextBlank(adlib);
+    if (blankType === false) {
+      endGame(interaction, adlib, currentGames);
+      return false;
     }
-    msg.channel.send(prompt(msg, blankType, adlib['currentIndex']+1, adlib['blankIndexes'].length, adlib))
-    // prep per-round constants
-    firstResponse = true
-    adlib.currentIndex += 1
-    return adlib //continue game
+    await interaction.channel.send({ embeds: [prompt(interaction, blankType, adlib['currentIndex'] + 1, adlib['blankIndexes'].length, adlib)] });
+    firstResponse = true;
+    adlib.currentIndex += 1;
+    return adlib;
   }
 
   if (firstResponse) {
-    firstResponse=false
-    msg.channel
-      .awaitMessages(()=>true, {time: responseTime })
-      .then(async collected => {
-        const blankIndex = adlib['currentIndex']-1 
-        const textIndex = adlib.blankIndexes[blankIndex]
+    firstResponse = false;
+    const filter = () => true;
+    const collected = await interaction.channel.awaitMessages({ filter, time: responseTime, max: 1 });
 
-        if (collected.size === 0) {
-          // Single submission
+    const blankIndex = adlib['currentIndex'] - 1;
+    const textIndex = adlib.blankIndexes[blankIndex];
 
-          // Check existence
-          try {
-            await msg.channel.messages.fetch(msg.id)
-          } catch(e) {
-            // was deleted
-            msg.channel.send('message deleted? try again...')
-            firstResponse=true
-            return 
-          }
+    if (collected.size === 0) {
+      try {
+        await interaction.channel.messages.fetch(interaction.id);
+      } catch(e) {
+        await interaction.channel.send('message deleted? try again...');
+        firstResponse = true;
+        return;
+      }
 
-          // msg exists
-          if (adlib.lastUser === msg.author.id) {
-            msg.channel.send('Unless voted for, no back to back responses. sorry!')
-            firstResponse = true
-            return
-          } else {
-            adlib.textArr[textIndex] = msg.content
-            adlib.lastUser = msg.author.id
-          }
-        } else {
-          // multiple submissions: Vote
-          msg.channel.send('VOTE! VOTE!! VOTE!!!')
-          let aggregate = [[msg.id, msg], ...collected]
-          for(let [i, m] of aggregate.entries()) {
-            try {
-              if(BigInt(m[0])>=BigInt(msg.id)) await m[1].react('✅'); // try to ensure we dont vote for our own message etc.
-            } catch(e) {
-              aggregate.splice(i, 1)
-              console.log('MadLib React: message was deleted...')
-            }
-          }
-          let [winningMsg, user] = await handleVote(aggregate) // await for winner
-          if (winningMsg === '') {  // if messages were deleted
-            firstResponse = true // restart
-            msg.channel.send('submissions reset, try again!')
-            return 
-          }
-          adlib.textArr[textIndex] = winningMsg // submit winner
-          adlib.lastUser = user
+      if (adlib.lastUser === interaction.user.id) {
+        await interaction.channel.send('Unless voted for, no back to back responses. sorry!');
+        firstResponse = true;
+        return;
+      } else {
+        adlib.textArr[textIndex] = collected.first().content;
+        adlib.lastUser = interaction.user.id;
+      }
+    } else {
+      await interaction.channel.send('VOTE! VOTE!! VOTE!!!');
+      let aggregate = [[interaction.id, interaction], ...collected];
+      for(let [i, m] of aggregate.entries()) {
+        try {
+          if(BigInt(m[0]) >= BigInt(interaction.id)) await m[1].react('✅');
+        } catch(e) {
+          aggregate.splice(i, 1);
+          console.log('MadLib React: message was deleted...');
         }
+      }
+      let [winningMsg, user] = await handleVote(aggregate);
+      if (winningMsg === '') {
+        firstResponse = true;
+        await interaction.channel.send('submissions reset, try again!');
+        return;
+      }
+      adlib.textArr[textIndex] = winningMsg;
+      adlib.lastUser = user;
+    }
 
-        // next step
-        return adlibHandler(msg, adlib, currentGames, developerAPI, true)
-      })
+    return adlibHandler(interaction, adlib, currentGames, true);
   }
 
-  return adlib //continue game
-  
-}
-  
-  
-  /* wordpos.getAdjectives(msg.content, result=>{
-    msg.channel.send(result)
-  }); */
+  return adlib;
+};
 
-module.exports = madlibHandler
+module.exports = madlibHandler;

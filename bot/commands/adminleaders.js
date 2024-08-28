@@ -1,6 +1,5 @@
-const { MessageEmbed } = require("discord.js");
-const axios = require('axios');
-const commandLimiter = require('./../utils/commandLimiter');
+const { EmbedBuilder } = require("discord.js");
+const { devAPI } = require("robo-bot-utils");
 const objectHash = require("object-hash");
 
 function timeConversion(millisec) {
@@ -20,26 +19,37 @@ function timeConversion(millisec) {
   }
 }
 
-module.exports.adminLeaders = async (msg, { developerAPI }) => {
-  if (commandLimiter(msg)) return
+module.exports = {
+  //alias: ['al'],
+  data: new SlashCommandBuilder()
+    .setName('adminleaders')
+    .setDescription('Displays the admin leaderboard'),
+  async execute(interaction) {
+    /* const out_of_uses = !(await commandAccumulator(interaction, 'adminleaders', false, true));
+    if (out_of_uses) return; */
 
-  const { data } = await axios.get(`${developerAPI}?action=getWeeklyLeaders`)
-  // Build Field Arrays
-  var [ranks, users, keystrokes] = [[], [], []]
-  data.data.leaders.slice(0, 10).forEach((obj, i) => {
-    //ranks.push(i < 3 ? [':first_place:', ':second_place:', ':third_place:'][i] : i + 1 + 'ᵀᴴ')
-    users.push(
-      (i + 1) + " - " +
-      obj.username + " - " +
-      "**\`" +
-      obj.keystrokes.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") +
-      "\`**" + " - " + obj.keystrokeTimestamp + ` **(${timeConversion(Date.now() - obj.keystrokeTimestamp) + ' ago'})**` + " - " + (obj.cheatAmount || "0") + " - " + (obj.cheatCount || "0"))
-  })
-  let emb = new MessageEmbed()
-    .setTitle(`[Admin] Leaderboard of ${new Date(+data.data.leaders[0].weekID).toLocaleDateString()}`)
-    .addField("Format", "place - username - filteredKeystrokes - lastSynced - cheatAmount - cheatCount")
-    .setDescription(users.join('\n'))
-    .setColor("2f3136")
-    .setThumbnail(`https://mechakeys.robolab.io/discord/media/records/record_multi.gif`)
-  msg.channel.send(emb)
+    const { data } = await devAPI.getWeeklyLeaders();
+    
+    // Build Field Arrays
+    var users = [];
+    data.leaders.slice(0, 10).forEach((obj, i) => {
+      users.push(
+        (i + 1) + " - " +
+        obj.username + " - " +
+        "**`" +
+        obj.keystrokes.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") +
+        "`**" + " - " + obj.keystrokeTimestamp + ` **(${timeConversion(Date.now() - obj.keystrokeTimestamp) + ' ago'})**` + " - " + (obj.cheatAmount || "0") + " - " + (obj.cheatCount || "0")
+      );
+    });
+
+    let emb = new EmbedBuilder()
+      .setTitle(`[Admin] Leaderboard of ${new Date(+data.leaders[0].weekID).toLocaleDateString()}`)
+      .addFields({ name: "Format", value: "place - username - filteredKeystrokes - lastSynced - cheatAmount - cheatCount" })
+      .setDescription(users.join('\n'))
+      .setColor("2f3136")
+      .setThumbnail(`https://mechakeys.robolab.io/discord/media/records/record_multi.gif`);
+
+    await interaction.deferReply();
+    return interaction.editReply({ embeds: [emb] });
+  }
 }

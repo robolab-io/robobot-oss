@@ -1,6 +1,7 @@
 const parseDuration = require('parse-duration')
 const createEvent = require('.././utils/createEvent')
-const { MessageEmbed } = require("discord.js");
+const { EmbedBuilder, SlashCommandBuilder } = require("discord.js");
+
 function timeConversion(millisec) {
   let seconds = Math.round(millisec / 1000);
   let minutes = Math.round(millisec / (1000 * 60));
@@ -27,30 +28,55 @@ const roleMap = {
   'bestmemberoftheday': '810662733791100968'
 }
 
-module.exports.tempRole = async (msg, { args, getMember }) => {
-  let commandFormatReminderEmbed = new MessageEmbed()
-  .setColor("2f3136")
-  .setDescription("<a:red_siren:812813923522183208> `>tempRole [roleID] @user [duration]`")
-  if (!args || !args[0] || !args[1]) return msg.channel.send(commandFormatReminderEmbed)  
-  let userID = getMember(args[1])                     // get user discord ID
-  const userObj = msg.guild.members.cache.get(userID) // get user discord Object
-  let roleID = args[0] // DID TO: make dynamic
-  if (isNaN(roleID) ) { roleID = roleMap[roleID] }
-  let notARoleEmbed = new MessageEmbed()
-  .setColor("2f3136")
-  .setDescription("<a:red_siren:812813923522183208> Role name not supported. Use the ID instead.")
-  if (!roleID) return msg.channel.send(notARoleEmbed)
-  userObj.roles.add(roleID) // add the role
+module.exports = {
+  alias: ['temprole'],
+  data: new SlashCommandBuilder()
+    .setName("temprole")
+    .setDescription("Give a user a temporary role")
+    .addStringOption(option => 
+      option.setName("role")
+        .setDescription("The role to give (ID or name)")
+        .setRequired(true)
+    )
+    .addUserOption(option => 
+      option.setName("user")
+        .setDescription("The user to give the role to")
+        .setRequired(true)
+    )
+    .addStringOption(option => 
+      option.setName("duration")
+        .setDescription("The duration of the temporary role")
+        .setRequired(true)
+    ),
 
-  const duration = parseDuration(args[2])
+  async execute(interaction) {
+    let roleInput = interaction.options.getString("role");
+    let userObj = interaction.options.getMember("user");
+    let durationInput = interaction.options.getString("duration");
 
-  createEvent.removeRole(msg.guild.id, userID, roleID, duration)
-  return msg.reply({
-    "content": `<@${userID}> given \`<@&${roleID}>\` for ${timeConversion(duration)}!`,
-    "allowed_mentions": {
-      "parse": []
+    let roleID = isNaN(roleInput) ? roleMap[roleInput.toLowerCase()] : roleInput;
+
+    if (!roleID) {
+      let notARoleEmbed = new EmbedBuilder()
+        .setColor("2f3136")
+        .setDescription(" Role name not supported. Use the ID instead.");
+      return interaction.reply({ embeds: [notARoleEmbed] });
     }
-  })
-  
+
+    try {
+      await userObj.roles.add(roleID);
+    } catch (error) {
+      console.error(error);
+      return interaction.reply("Failed to add the role. Make sure the role exists and the bot has the necessary permissions.");
+    }
+
+    const duration = parseDuration(durationInput);
+
+    createEvent.removeRole(interaction.guild.id, userObj.id, roleID, duration);
+    
+    return interaction.reply({
+      content: `<@${userObj.id}> given \`<@&${roleID}>\` for ${timeConversion(duration)}!`,
+      allowedMentions: { parse: [] }
+    });
+  }
 }
- 
